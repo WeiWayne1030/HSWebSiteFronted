@@ -3,12 +3,15 @@
   import LayoutNav from '@/views/Layout/components/LayoutNav.vue';
   import LayoutHeader from '@/views/Layout/components/LayoutHeader.vue';
 </script>
+
 <template>
   <div>
-    <!-- header,footer,nav -->
     <LayoutNav />
     <LayoutHeader />
-    <h1>我是首頁</h1>
+     <div class="row">
+      最新活動
+    </div>
+
     <LayoutFooter />
   </div>
 </template>

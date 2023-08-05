@@ -11,16 +11,16 @@
     path: '/items',
     index: "2"
   },
-  // {
-  //   title: '最新活動',
-  //   path: '/news',
-  //   index: "3"
-  // },
-  // {
-  //   title: '關於我們',
-  //   path: '/about',
-  //   index: "4"
-  // },  
+  {
+    title: '最新活動',
+    path: '/news',
+    index: "3"
+  },
+  {
+    title: '關於我們',
+    path: '/about',
+    index: "4"
+  },  
 ];
 </script>
  

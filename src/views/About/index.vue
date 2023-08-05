@@ -2,13 +2,19 @@
   import LayoutFooter from '@/views/Layout/components/LayoutFooter.vue';
   import LayoutNav from '@/views/Layout/components/LayoutNav.vue';
   import LayoutHeader from '@/views/Layout/components/LayoutHeader.vue';
+
+
 </script>
+
 <template>
-  <div>
-    <!-- header,footer,nav -->
     <LayoutNav />
     <LayoutHeader />
-    <h1>我是首頁</h1>
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <h1>關於我們</h1>
+        </div>
+      </div>
+    </div>
     <LayoutFooter />
-  </div>
 </template>
