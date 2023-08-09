@@ -20,7 +20,23 @@
     title: '關於我們',
     path: '/about',
     index: "4"
-  },  
+  },
+  {
+    title: '商品管理',
+    path: '/admin/stock',
+    index: "5"
+  },
+  {
+
+    title: '商家訂單管理',
+    path: '/admin/orders',
+    index: "6"
+  },
+  {
+    title: '商品新增',
+    path: '/admin/coupons',
+    index: "7"
+  }
 ];
 </script>
  

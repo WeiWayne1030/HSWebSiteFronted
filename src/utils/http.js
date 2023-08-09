@@ -3,7 +3,7 @@ import axios from 'axios'
 
 
 const httpInstance = axios.create({
-    baseURL: 'http://localhost:3000/api',
+    baseURL: 'https://herstoryweb-b60819a85d94.herokuapp.com/api/',
     timeout: 5000,
 })
 

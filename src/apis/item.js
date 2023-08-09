@@ -1,8 +1,11 @@
 import httpInstance from '@/utils/http';
 
-export function getItemsApi(categoryId) {
+function getItemsApi(categoryId) {
+  const searchParams = new URLSearchParams(categoryId);
   return httpInstance({
-    url: `/items?categoryId=${categoryId}`,
+    url: `/items?${searchParams.toString()}`,  
     method: 'get'
   })
 }
+
+export default getItemsApi
