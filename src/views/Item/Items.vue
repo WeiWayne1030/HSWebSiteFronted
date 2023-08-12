@@ -1,8 +1,8 @@
 <script setup>
   import { ref, onMounted } from 'vue';
-  import LayoutFooter from '@/views/Layout/components/LayoutFooter.vue';
-  import LayoutNav from '@/views/Layout/components/LayoutNav.vue';
-  import LayoutHeader from '@/views/Layout/components/LayoutHeader.vue';
+  import LayoutFooter from '@/components/LayoutFooter.vue';
+  import LayoutNav from '@/components/LayoutNav.vue';
+  import LayoutHeader from '@/components/LayoutHeader.vue';
   import ItemsNavPills from '@/components/ItemsNavPills.vue';
   import ItemCard from '@/components/ItemCard.vue';
   import getItemsApi from '@/apis/item.js';
@@ -24,6 +24,8 @@
   onMounted(() => {
     fetchItems(/* Provide categoryId if needed */);
   });
+
+  
 </script>
 <template>
   <div>
@@ -33,7 +35,7 @@
      <div class="row">
       <ItemCard v-for="item in items" 
       :key="item.id"
-      :initial-item = "item"
+      :item = "item"
       />
     </div>
     <LayoutFooter />

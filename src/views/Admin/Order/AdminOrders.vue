@@ -1,13 +1,15 @@
 <script setup>
-  import LayoutFooter from '@/views/Layout/components/LayoutFooter.vue';
-  import LayoutNav from '@/views/Layout/components/LayoutNav.vue';
-  import LayoutHeader from '@/views/Layout/components/LayoutHeader.vue';
+  import LayoutFooter from '@/components/LayoutFooter.vue';
+  import LayoutNav from '@/components/LayoutNav.vue';
+  import LayoutHeader from '@/components/LayoutHeader.vue';
+  import AdminSearchBar from '@/views/Admin/Order/Layout/AdminSearchBar.vue';
 </script>
 <template>
   <div>
     <!-- header,footer,nav -->
     <LayoutNav />
     <LayoutHeader />
+    <AdminSearchBar />
     </div>
     <div class="parent">
       <div class="div2">訂單編號</div>

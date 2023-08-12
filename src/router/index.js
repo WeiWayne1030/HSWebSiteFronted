@@ -3,7 +3,7 @@
 
 import { createRouter, createWebHistory } from 'vue-router'
 import Login from '@/views/Login/Login.vue'
-import Layout from '@/views/Layout/index.vue'
+import Home from '@/views/Home/index.vue'
 import Items from '@/views/Item/Items.vue'
 import About from '@/views/About/About.vue'
 import News from '@/views/News/News.vue'
@@ -15,7 +15,7 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      component: Layout,
+      component: Home,
     },
     {
       path: '/items',

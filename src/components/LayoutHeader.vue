@@ -49,7 +49,7 @@
         </el-menu-item>
       </el-menu>
       <div class="search">
-        <SearchIcon class="icon" />
+          <SearchIcon class="icon" />
         <el-input
           placeholder="搜一搜"
           v-model="input"
@@ -67,12 +67,13 @@
   .container {
     width: 100%;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between; /* Updated */
+    align-items: flex-end; /* Center vertically */
   }
   .el-menu-demo {
     width: 100%;
     padding-left: 10px;
-    padding-top:50px
+    padding-top: 50px;
   }
   .logo {
     width: 200px;
@@ -86,19 +87,17 @@
     }
   }
   .search {
-    width: 170px;
-    height: 32px;
+    display: flex;
     position: relative;
     margin-top: 5px;
     margin-right: 10px;
-    display: flex;
-    align-items: center;
-    line-height: 32px;
+    align-items: center; /* Center vertically */
   }
   .icon {
+    position: relative;
     height: 20px;
     width: 20px;
-    margin-right: 0px;
+    margin-right: 10px;
     margin-top: 0px;
     color: #666;
   }
@@ -112,10 +111,11 @@
       text-align: center;
       position: relative;
       display: block;
- 
-      .icon-cart {
-        font-size: 22px;
-      }
+
+    .icon-cart {
+      font-size: 22px;
+    }
+      
  
       em {
         font-style: normal;

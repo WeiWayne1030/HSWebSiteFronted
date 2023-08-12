@@ -47,10 +47,9 @@ import LineIcon from '@/components/icons/LineIcon.vue';
                 </div>
             </div>
             <hr>
-
             <!-- footer-->
-            <div class="row">
-                <div class="text-copy col-md-4">
+            <div class="rows">
+                <div class="text-copy">
                     <p>&copy; 2023 Your Website. All rights reserved.</p>
                 </div>
             </div>
@@ -59,23 +58,24 @@ import LineIcon from '@/components/icons/LineIcon.vue';
 </template>
 
  <style>
-  .fat-footer {
-    background-color: #800000;
-    width:100vw;
-    display: flex;
-    align-content: center;
-  }
-  .container {
-    display: grid;
-    width: 100%;
-  }
+.fat-footer {
+  background-color: #800000;
+  display: flex;
+  flex-direction: column; /* 垂直方向的列布局 */
+  justify-content: space-between; /* 在列的两端分配额外的空间，将内容推到底部 */
+  align-items: center; /* 居中垂直对齐 */
+}
+.container {
+  display: flex; /* 使用 flex 布局 */
+  flex-direction: column; /* 垂直方向的列布局 */
+  flex-grow: 1; /* 占据剩余空间，将 rows 推到底部 */
+}
 
   .text {
   color: white;
   font-size: 15px;
   padding-top: 3vw;
   display: inline-block;
-  text-align: left; 
   }
 
   .info {
@@ -98,9 +98,6 @@ import LineIcon from '@/components/icons/LineIcon.vue';
   }
   .text-copy {
     color: white;
-    font-size: 15px;
-    padding: 20px;
-    text-align: center;
   }
   .link {
     list-style: none;
