@@ -1,26 +1,44 @@
-<script setup>
-</script>
- 
 <template>
   <nav class="app-topnav">
     <div class="container"> 
       <el-image class="logo" src="https://i.imgur.com/VVLoUqg.png"></el-image>
     </div>
     <ul class="app-menu">
-      <li><a href="javascript:;"><i class=" iconfont icon-user"></i>234</a></li>
+      <li class="user"><i class=" iconfont icon-user">hi my friend!</i></li>
       <li>
         <el-popconfirm @confirm="confirm" title="確認退出?" confirm-button-text="確認" cancel-button-text="取消">
           <template #reference>
-            <a href="javascript:;">登出</a>
+            <el-tooltip content="登出" placement="top">
+              <LogOutIcon />
+            </el-tooltip> 
           </template>
         </el-popconfirm>
       </li>
-      <li><a href="javascript:;">我的訂單</a></li>
-      <li><a href="javascript:;">會員中心</a></li>
+      <li>
+        <el-tooltip content="我的購物車" placement="top">
+          <cart />
+        </el-tooltip>   
+      </li>
+      <li>
+        <el-tooltip content="我的訂單" placement="top">
+          <Order />
+        </el-tooltip>   
+      </li>
+      <li>
+        <el-tooltip content="個人資料" placement="top">
+          <Person />
+        </el-tooltip>
+      </li>
     </ul>
-    
   </nav>
 </template>
+
+<script setup>
+import Person from '@/components/icons/Person.vue';
+import Cart from '@/components/icons/Cart.vue';
+import Order from '@/components/icons/Order.vue';
+import LogOutIcon from '@/components/icons/LogOutIcon.vue';
+</script>
  
  
 <style scoped lang="scss">
@@ -29,34 +47,14 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-
   ul {
     display: flex;
     align-items: center;
 
     li {
-      a {
-        padding: 0 15px;
-        color: #cdcdcd;
-        line-height: 1;
-        display: inline-flex;
-        align-items: center;
-        
-        i {
-          font-size: 14px;
-          margin-right: 5px;
-        }
-
         &:hover {
           color: #ffffff;
         }
-      }
-
-      ~li {
-        a {
-          border-left: 2px solid #666;
-        }
-      }
 
       &.horizontal-menu {
         display: flex;
@@ -88,4 +86,17 @@
 .logo {
   width: 200px;
 }
+.user {
+  i {
+    margin-right: 5px; /* 调整图标与文本之间的间距 */
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    color: #eae1e1;
+    text-decoration: none;
+    text-overflow: ellipsis;
+    max-width: 120px; /* 调整合适的宽度以容纳图标和文本 */
+  }
+}
+
 </style>

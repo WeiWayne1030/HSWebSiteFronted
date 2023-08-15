@@ -1,3 +1,23 @@
+<template>
+  <header class='app-header'>
+    <div class="container">
+      <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal">
+        <el-menu-item v-for="tab in tabs" :key="tab.index">
+          <router-link :to="tab.path">{{ tab.title }}</router-link>
+        </el-menu-item>
+      </el-menu>
+      <div class="search">
+          <SearchIcon class="icon" />
+        <el-input
+          placeholder="搜一搜"
+          v-model="input"
+          clearable>
+        </el-input>
+      </div>
+    </div>
+  </header>
+</template>
+
 <script setup>
   import SearchIcon from '@/components/icons/SearchIcon.vue';
   const tabs = [
@@ -12,8 +32,8 @@
     index: "2"
   },
   {
-    title: '最新活動',
-    path: '/news',
+    title: '穿搭專區',
+    path: '/wears',
     index: "3"
   },
   {
@@ -34,31 +54,11 @@
   },
   {
     title: '商品新增',
-    path: '/admin/coupons',
+    path: '/admin/item',
     index: "7"
   }
 ];
 </script>
- 
-<template>
-  <header class='app-header'>
-    <div class="container">
-      <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal">
-        <el-menu-item v-for="tab in tabs" :key="tab.index">
-          <router-link :to="tab.path">{{ tab.title }}</router-link>
-        </el-menu-item>
-      </el-menu>
-      <div class="search">
-          <SearchIcon class="icon" />
-        <el-input
-          placeholder="搜一搜"
-          v-model="input"
-          clearable>
-        </el-input>
-      </div>
-    </div>
-  </header>
-</template>
  
 <style scoped lang='scss'>
 .app-header {

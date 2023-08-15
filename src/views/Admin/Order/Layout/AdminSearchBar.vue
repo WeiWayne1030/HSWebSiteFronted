@@ -1,8 +1,38 @@
+<template>
+  <div class="container">
+    <div class="row">
+      <p class="name">狀態</p>
+      <el-select class="selectBar" v-model="statusValue" placeholder="請選擇">
+        <el-option
+          v-for="item in statusOptions"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value">
+        </el-option>
+      </el-select>
+      <div class="verticalBar">|</div>
+      <p class="name">類別</p>
+      <el-select class="selectBar" v-model="categoryValue" placeholder="請選擇">
+        <el-option
+          v-for="item in categoryOptions"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value">
+        </el-option>
+      </el-select>
+    </div>
+  </div>
+</template>
+
 <script>
   export default {
     data() {
       return {
         statusOptions: [
+        {
+          value: 'option0',
+          label: '全部商品'
+        },
         {
           value: 'option1',
           label: '全部上架商品'
@@ -46,31 +76,6 @@
     }
   }
 </script>
-<template>
-  <div class="container">
-    <div class="row">
-      <p class="name">狀態</p>
-      <el-select class="selectBar" v-model="statusValue" placeholder="請選擇">
-        <el-option
-          v-for="item in statusOptions"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value">
-        </el-option>
-      </el-select>
-      <div class="verticalBar">|</div>
-      <p class="name">類別</p>
-      <el-select class="selectBar" v-model="categoryValue" placeholder="請選擇">
-        <el-option
-          v-for="item in categoryOptions"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value">
-        </el-option>
-      </el-select>
-    </div>
-  </div>
-</template>
 
 <style>
 .container {

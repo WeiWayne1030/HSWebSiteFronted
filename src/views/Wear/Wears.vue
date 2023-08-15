@@ -1,14 +1,12 @@
 <template>
+  <div>
     <LayoutNav />
     <LayoutHeader />
-    <div class="container">
-      <div class="row">
-        <div class="col-12">
-          <h1>關於我們</h1>
-        </div>
-      </div>
+     <div class="row">
+      最新活動
     </div>
     <LayoutFooter />
+  </div>
 </template>
 
 <script setup>

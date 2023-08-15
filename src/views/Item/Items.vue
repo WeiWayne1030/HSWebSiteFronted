@@ -1,3 +1,18 @@
+<template>
+  <div>
+    <LayoutNav />
+    <LayoutHeader />
+    <ItemsNavPills :categories="categories" />
+     <div class="row">
+      <ItemCard v-for="item in items" 
+      :key="item.id"
+      :item = "item"
+      />
+    </div>
+    <LayoutFooter />
+  </div>
+</template>
+
 <script setup>
   import { ref, onMounted } from 'vue';
   import LayoutFooter from '@/components/LayoutFooter.vue';
@@ -27,17 +42,3 @@
 
   
 </script>
-<template>
-  <div>
-    <LayoutNav />
-    <LayoutHeader />
-    <ItemsNavPills :categories="categories" />
-     <div class="row">
-      <ItemCard v-for="item in items" 
-      :key="item.id"
-      :item = "item"
-      />
-    </div>
-    <LayoutFooter />
-  </div>
-</template>

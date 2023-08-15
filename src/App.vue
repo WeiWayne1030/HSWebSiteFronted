@@ -1,10 +1,10 @@
-<script setup>
-</script>
-
 <template>
   <!-- 一級路由 -->
   <RouterView />
 </template>
+
+<script setup>
+</script>
 
 <style scoped>
 header {

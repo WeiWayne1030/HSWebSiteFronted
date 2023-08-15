@@ -1,8 +1,3 @@
-<script setup>
-import FBIcon from '@/components/icons/FBIcon.vue';
-import IGIcon from '@/components/icons/IGIcon.vue';
-import LineIcon from '@/components/icons/LineIcon.vue';
-</script>
 <template>
     <footer class="fat-footer" >
         <div class="container">
@@ -57,6 +52,12 @@ import LineIcon from '@/components/icons/LineIcon.vue';
     </footer>
 </template>
 
+<script setup>
+import FBIcon from '@/components/icons/FBIcon.vue';
+import IGIcon from '@/components/icons/IGIcon.vue';
+import LineIcon from '@/components/icons/LineIcon.vue';
+</script>
+
  <style>
 .fat-footer {
   background-color: #800000;
@@ -65,12 +66,6 @@ import LineIcon from '@/components/icons/LineIcon.vue';
   justify-content: space-between; /* 在列的两端分配额外的空间，将内容推到底部 */
   align-items: center; /* 居中垂直对齐 */
 }
-.container {
-  display: flex; /* 使用 flex 布局 */
-  flex-direction: column; /* 垂直方向的列布局 */
-  flex-grow: 1; /* 占据剩余空间，将 rows 推到底部 */
-}
-
   .text {
   color: white;
   font-size: 15px;
@@ -98,6 +93,8 @@ import LineIcon from '@/components/icons/LineIcon.vue';
   }
   .text-copy {
     color: white;
+    display: flex;
+    justify-content: center;
   }
   .link {
     list-style: none;

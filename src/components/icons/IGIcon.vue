@@ -1,7 +1,3 @@
-<script setup>
-import { NIcon } from 'naive-ui'
-</script>
-
 <template>
   <a
     href="https://www.facebook.com/" 
@@ -14,3 +10,7 @@ import { NIcon } from 'naive-ui'
     </n-icon>
   </a>
 </template>
+
+<script setup>
+import { NIcon } from 'naive-ui'
+</script>

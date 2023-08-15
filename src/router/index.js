@@ -6,8 +6,10 @@ import Login from '@/views/Login/Login.vue'
 import Home from '@/views/Home/index.vue'
 import Items from '@/views/Item/Items.vue'
 import About from '@/views/About/About.vue'
-import News from '@/views/News/News.vue'
-import AdminOrders from '@/views/Admin/Order/AdminOrders.vue'
+import Wears from '@/views/Wear/Wears.vue'
+import CheckOrders from '@/views/Admin/Order/CheckOrders.vue'
+import AddItem from '@/views/Admin/Item/AddItem.vue'
+import ItemPage from '@/views/Item/ItemPage.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -21,7 +23,11 @@ const router = createRouter({
       path: '/items',
       component: Items
     },
-        {
+    {
+      path: '/items/1',
+      component: ItemPage
+    },
+    {
       path: '/about',
       component: About
     },
@@ -30,12 +36,16 @@ const router = createRouter({
       component: Login
     },
         {
-      path: '/news',
-      component: News
+      path: '/wears',
+      component: Wears
     },
     {
       path: '/admin/orders',
-      component: AdminOrders
+      component: CheckOrders
+    },
+    {
+      path: '/admin/item',
+      component: AddItem
     }
 
   ]
