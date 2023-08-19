@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="row">
-      <p class="name">狀態</p>
+      <p class="name" >狀態</p>
       <el-select class="selectBar" v-model="statusValue" placeholder="請選擇">
         <el-option
           v-for="item in statusOptions"
@@ -11,15 +11,11 @@
         </el-option>
       </el-select>
       <div class="verticalBar">|</div>
-      <p class="name">類別</p>
-      <el-select class="selectBar" v-model="categoryValue" placeholder="請選擇">
-        <el-option
-          v-for="item in categoryOptions"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value">
-        </el-option>
-      </el-select>
+     <el-form :model="formData" label-width="50px" class="input">
+      <el-form-item label="查詢" >
+        <el-input placeholder="請輸入訂單編號"></el-input>
+      </el-form-item>
+      </el-form>
     </div>
   </div>
 </template>
@@ -31,47 +27,19 @@
         statusOptions: [
         {
           value: 'option0',
-          label: '全部商品'
+          label: '全部'
         },
         {
           value: 'option1',
-          label: '全部上架商品'
+          label: '運送中'
         },
         {
           value: 'option2',
-          label: '已下架商品'
+          label: '待出貨'
         }
       ],
-       categoryOptions: [{
-          value: 'option3',
-          label: '全部'
-        }, {
-          value: 'option4',
-          label: 'Brotop'
-        }, {
-          value: 'option5',
-          label: '上衣'
-        }, {
-          value: 'option6',
-          label: '下身'
-        }, {
-          value: 'option7',
-          label: '洋裝'
-        }, {
-          value: 'option8',
-          label: '套裝＆連身褲'
-        }, {
-          value: 'option9',
-          label: '外套＆罩衫'
-        }, {
-          value: 'option10',
-          label: '配件'
-        }, {
-          value: 'option11',
-          label: '鞋子'
-        }],
-        statusValue: '', // 为狀態值創建新的data属性
-        categoryValue: '' // 为類別值創建新的data属性
+        statusValue: '', // 創建新的data属性
+        input: ''
       }
     }
   }
@@ -88,15 +56,22 @@
 }
 
 .name {
-  margin: 0; /* 移除段落的默认外边距 */
-  margin-right: 10px; /* 在名字和选择框之间添加间距 */
+  position: relative;
+    display: flex;
+    width: 40px;
+    height: 20px;
 }
 
 .selectBar {
-  margin-right: 10px; /* 在选择框之间添加间距 */
+  margin-right: 10px; /* 選擇框之間加邊距 */
 }
 
 .verticalBar {
   margin: 0 10px;
 }
+
+.input {
+  padding-top: 15px;
+}
+
 </style>

@@ -5,7 +5,6 @@
       <div class="main-banner">
       <div class="img-container">
         <img src="https://i.imgur.com/WOkip54.jpg" alt="">
-        <el-button type="primary" round>點我進入商品頁</el-button>
       </div>
       </div>
     </div>
@@ -19,6 +18,9 @@
           <img class="small-picture" src="https://i.imgur.com/IfxgyFI.jpg" alt="">
         </div>
       </div>
+      <router-link to="/items">
+            <el-button class="img-button" type="primary">點我進入商品頁</el-button>
+          </router-link>
       <div class="buttom">
         <div class="img-container">
           <img class="small-picture" src="https://i.imgur.com/HhnKscI.jpg" alt="">
@@ -42,6 +44,7 @@
   justify-content: center; /* 垂直居中 */
   align-items: center; /* 水平居中 */
   min-height: 90vh;
+  min-width: 90vh;
   background-color: #ffffff;
   padding-left:50px;
 }
@@ -59,8 +62,8 @@
 
 .banner-content {
   display: flex;
-  flex-direction: column; /* Stack the sections vertically */
-  justify-content: space-between; /* Space between main-banner and category-banner */
+  flex-direction: column; /* 垂直堆叠子元素 */
+  justify-content: space-between; /* 垂直居中 */
   height: calc(100vh - 92px);
 }
 .img-container {
@@ -72,7 +75,7 @@
 .img-container img {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* Adjust this property as needed (cover, contain, etc.) */
+  object-fit: cover; 
 }
 .top {
   display: flex;
@@ -89,14 +92,21 @@
 .small-picture {
   width: 100%;
   height: 200px;
-  object-fit: cover; /* Adjust this property as needed (cover, contain, etc.) */
+  object-fit: cover; /* 主要用於解決當圖像或视频的尺寸與其容器不匹配時，如何處理元素的缩放和剪裁問题。*/
 }
-.el-button {
-  width: 300px;
-  height: 40px;
-  font-size: 20px;
-  margin-top: 95%;
-  margin-left: 40%;
+
+.img-button {
+  position: absolute;
+  bottom: 10%; 
+  left: 45%;
+  transform: translateX(-50%);
+  width: 40%;
+  height: 6%;
+  max-width: 300px; 
+  font-size: 16px; 
+}
+.span {
+  color:#ffffff
 }
 
 </style>

@@ -45,7 +45,7 @@
             <!-- footer-->
             <div class="rows">
                 <div class="text-copy">
-                    <p>&copy; 2023 Your Website. All rights reserved.</p>
+                    <p>&copy; The website is for herstory0227 store. All rights reserved.</p>
                 </div>
             </div>
         </div>

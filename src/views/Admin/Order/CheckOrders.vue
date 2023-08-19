@@ -5,33 +5,35 @@
     <LayoutHeader />
     <AdminSearchBar />
     </div>
-    <div class="parent">
-      <div class="div2">訂單編號</div>
-      <div class="div3">買家名稱</div>
-      <div class="div4">訂單地址</div>
-      <div class="div5">訂單電話</div>
-      <div class="div6">訂單金額</div>
-      <div class="div7">訂單建立時間</div>
-      <div class="div8">訂單狀態</div>
-    </div>
-    <div class="line"></div>
-    <div class="or1100000-parent">
-      <div class="or1100000">OR1100000</div>
-      <div class="div9">王小明</div>
-      <div class="div10">台北市文山區木柵路三段96號B1</div>
-      <div class="div11">09111111111</div>
-      <div class="div12">$400</div>
-      <div class="div13">2023/7/12</div>
-      <div class="div14">待出貨</div>
-    </div>
-    <div class="or1100001-parent">
-      <div class="or1100000">OR1100001</div>
-      <div class="div9">王小華</div>
-      <div class="div10">台北市文山區木柵路三段96號B1</div>
-      <div class="div11">092222222</div>
-      <div class="div12">$150</div>
-      <div class="div19">2023/7/12</div>
-      <div class="div14">待出貨</div>
+    <div class="container">
+      <div class="parent">
+        <div class="div2">訂單編號</div>
+        <div class="div3">買家名稱</div>
+        <div class="div4">訂單地址</div>
+        <div class="div5">訂單電話</div>
+        <div class="div6">訂單金額</div>
+        <div class="div7">訂單建立時間</div>
+        <div class="div8">訂單狀態</div>
+      </div>
+      <div class="line"></div>
+      <div class="or1100000-parent">
+        <div class="or1100000">OR1100000</div>
+        <div class="div9">王小明</div>
+        <div class="div10">台北市文山區木柵路三段96號B1</div>
+        <div class="div11">09111111111</div>
+        <div class="div12">$400</div>
+        <div class="div13">2023/7/12</div>
+        <div class="div14">待出貨</div>
+      </div>
+      <div class="or1100001-parent">
+        <div class="or1100000">OR1100001</div>
+        <div class="div9">王小華</div>
+        <div class="div10">台北市文山區木柵路三段96號B1</div>
+        <div class="div11">092222222</div>
+        <div class="div12">$150</div>
+        <div class="div19">2023/7/12</div>
+        <div class="div14">待出貨</div>
+      </div>
     </div>
   <LayoutFooter />
 </template>

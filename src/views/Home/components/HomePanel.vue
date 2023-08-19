@@ -18,12 +18,12 @@ defineProps({
   <div class="home-panel">
     <div class="container">
       <div class="head">
-        <!-- 主标题和副标题 -->
+        <!-- 主標題和副標題 -->
         <h3>
           {{ title }}<small>{{ subTitle }}</small>
         </h3>
       </div>
-      <!-- 主体内容区域 -->
+      <!-- 主內容 -->
       <slot />
     </div>
   </div>

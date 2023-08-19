@@ -67,8 +67,8 @@
   .container {
     width: 100%;
     display: flex;
-    justify-content: space-between; /* Updated */
-    align-items: flex-end; /* Center vertically */
+    justify-content: space-between; 
+    align-items: flex-end; 
   }
   .el-menu-demo {
     width: 100%;
@@ -91,7 +91,7 @@
     position: relative;
     margin-top: 5px;
     margin-right: 10px;
-    align-items: center; /* Center vertically */
+    align-items: center; 
   }
   .icon {
     position: relative;

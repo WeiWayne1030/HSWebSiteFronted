@@ -7,8 +7,11 @@
           <h3 class="name">花洋裝</h3>
           <p class="price">$123</p>
         <div class="bottom clearfix">
-            <el-button type="text" class="button" :loading="loading" @click="handleButtonClick">
-              <a href="/items/1">操作按钮</a>
+            <el-button type="text" class="button details-button" :loading="loading" @click="handleButtonClick">
+              <a href="/items/1" class="link">詳細資訊</a>
+            </el-button>
+            <el-button type="text" class="button cart-button" :loading="loading" @click="handleButtonClick">
+              <a href="/items/1" class="link">加入購物車</a>
             </el-button>
         </div>
       </div>
@@ -67,5 +70,20 @@ export default {
 .button {
   padding: 7px 0;
   width: 84px;
+  background-color: #800000;
+  transition: background-color 0.3s; /* Transition property */
 }
+
+.button:hover {
+  background-color: rgba(128, 0, 0, 0.6); /* Hover color with reduced opacity */
+}
+.name {
+  width: 200px;
+}
+
+.link {
+  color: #ffffff
+}
+
+
 </style>
