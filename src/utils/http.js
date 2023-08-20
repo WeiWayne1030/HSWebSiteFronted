@@ -7,6 +7,8 @@ const httpInstance = axios.create({
     timeout: 5000,
 })
 
+
+
 // 請求攔截器
 httpInstance.interceptors.request.use(config => {
     // 在發送請求之前做些什麼

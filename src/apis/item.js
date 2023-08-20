@@ -1,7 +1,7 @@
 import httpInstance from '@/utils/http';
 
-function getItemsApi(categoryId) {
-  const searchParams = new URLSearchParams(categoryId);
+function getItemsApi() {
+  const searchParams = new URLSearchParams();
   return httpInstance({
     url: `/items?${searchParams.toString()}`,  
     method: 'get'

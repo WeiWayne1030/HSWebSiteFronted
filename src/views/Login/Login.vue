@@ -2,7 +2,7 @@
   <LayoutNav />
   <LayoutHeader />
   <div class="sigin-form">
-    <el-form ref="signinForm" :model="formData" :rules="rules" label-width="100px">
+    <el-form ref="formRef" :model="formData" :rules="rules" label-width="100px">
       <el-form-item label="帳號" prop="account">
         <el-input v-model="formData.account"></el-input>
       </el-form-item>
@@ -10,89 +10,51 @@
         <el-input type="password" v-model="formData.password"></el-input>
       </el-form-item>
       <el-form-item class="button">
-        <el-button type="primary" @click="login">登入</el-button>
+        <el-button type="primary" @click="doLogin">登入</el-button>
         <router-link to="/signup" class="router-link-button">註冊</router-link>
       </el-form-item>
     </el-form>
-
-    <el-dialog :visible.sync="successDialogVisible" title="Registration Successful">
-      <p>Congratulations! Your account has been successfully registered.</p>
-      <el-button type="primary" @click="directToSignUp">OK</el-button>
-    </el-dialog>
   </div>
     <LayoutFooter />
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { ElForm, ElFormItem, ElInput, ElButton, ElDialog } from 'element-plus';
+import { signinAPI } from '@/apis/user';
+import { ElMessage } from 'element-plus'
+import 'element-plus/theme-chalk/el-message.css'
 
+const router = useRouter();
 
-export default {
-  components: {
-    ElForm,
-    ElFormItem,
-    ElInput,
-    ElButton,
-    ElDialog,
-  },
-  setup() {
-    const router = useRouter();
+const formData = ref({
+  account: '',
+  password: '',
+});
 
-    const formData = ref({
-      name: '',
-      account: '',
-      email: '',
-      password: '',
-      checkPassword: '',
-    });
+const rules = {
+  account: [{ required: true, message: '請輸入帳號', trigger: 'blur' }],
+  password: [
+    { required: true, message: '請輸入密碼', trigger: 'blur' },
+    { min: 6, max: 14, message: '密碼長度為6-14個字符', trigger: 'blur' }
+],
+};
 
-    const successDialogVisible = ref(false);
+const formRef = ref(null)
+const doLogin = async () => {
+  const { account, password } = formData.value;
+  // Access the form ref using $refs
+  const valid = formRef.value.validate()
 
-    const rules = {
-      account: [
-        { required: true, message: 'Please enter your account', trigger: 'blur' },
-      ],
-      password: [
-        { required: true, message: 'Please enter your password', trigger: 'blur' },
-      ]
-    };
-
-    const signin = () => {
-      const formRef = ref('signinForm');
-      formRef.value.validate(async valid => {
-        if (valid) {
-          // Simulate API call to check for existing account and email
-          const accountExists = await checkAccountExists(formData.account);
-          if (accountExists) {
-            formRef.value.validateField('account', 'Account already exists');
-            return;
-          }
-
-          // Simulate successful registration
-          showSuccessDialog();
-        }
-      });
-    };
-
-    const showSuccessDialog = () => {
-      successDialogVisible.value = true;
-    };
-
-    const directToSignUp = () => {
-      successDialogVisible.value = false;
-      router.push('/login');
-    };
-
-    return {
-      formData,
-      rules,
-      signin,
-      successDialogVisible,
-      directToSignUp,
-    };
-  },
+  if (valid) {
+    try {
+      await signinAPI({ account, password });
+      ElMessage({ type: 'success', message: '登录成功' });
+      router.replace({ path: '/' });
+    } catch (error) {
+      ElMessage({ type: 'error', message: '登录失败' });
+    }
+  }
 };
 </script>
 

@@ -20,6 +20,7 @@
 
 <script setup>
   import SearchIcon from '@/components/icons/SearchIcon.vue';
+
   const tabs = [
   {
     title: '首頁',
