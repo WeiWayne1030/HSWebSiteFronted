@@ -28,7 +28,7 @@ const router = createRouter({
       component: Items
     },
     {
-      path: '/items/1',
+      path: '/items/4',
       component: ItemPage
     },
     {

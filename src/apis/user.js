@@ -9,3 +9,16 @@ export const signinAPI = ( { account, password } ) => {
     }
   })
 }
+
+export const signupAPI = ( { account, password, email, checkPassword } ) => {
+  return request({
+    url:'/users/signup',
+    method:'POST',
+    data: {
+      account,
+      password,
+      email,
+      checkPassword
+    }
+  })
+}

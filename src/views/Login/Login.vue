@@ -21,11 +21,12 @@
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { signinAPI } from '@/apis/user';
+import { useUserStore } from '@/stores/user'
 import { ElMessage } from 'element-plus'
 import 'element-plus/theme-chalk/el-message.css'
 
 const router = useRouter();
+const userStore = useUserStore
 
 const formData = ref({
   account: '',
@@ -43,18 +44,17 @@ const rules = {
 const formRef = ref(null)
 const doLogin = async () => {
   const { account, password } = formData.value;
-  // Access the form ref using $refs
   const valid = formRef.value.validate()
 
   if (valid) {
     try {
-      await signinAPI({ account, password });
-      ElMessage({ type: 'success', message: '登录成功' });
+      await userStore.getUserInfo({ account, password });
+      ElMessage({ type: 'success', message: '登入成功' });
       router.replace({ path: '/' });
     } catch (error) {
-      ElMessage({ type: 'error', message: '登录失败' });
+      ElMessage({ type: 'error', message: '登入失敗' });
     }
-  }
+  } 
 };
 </script>
 

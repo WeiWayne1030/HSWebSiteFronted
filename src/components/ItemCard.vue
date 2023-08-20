@@ -1,17 +1,18 @@
 <template>
 <el-row>
-  <el-col :span="15" v-for="(o, index) in 2" :key="o" :offset="index > 0 ? -1 : 0">
+  <el-col :span="15" v-for="(o, index) in 1" :key="o" :offset="index > 0 ? -1 : 0">
     <el-card :body-style="{ padding: '0px' }">
       <img src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png" class="image">
-      <div style="padding: 14px;">
-          <h3 class="name">花洋裝</h3>
-          <p class="price">$123</p>
+      <div>
+          <h4 class="name">{{ item.name }}</h4>
+          <p class="price">${{ item.price }}</p>
+          <span class="badge badge-secondary">{{ item.Category.name }}</span>
         <div class="bottom clearfix">
             <el-button type="text" class="button details-button" :loading="loading" @click="handleButtonClick">
-              <a href="/items/1" class="link">詳細資訊</a>
+              <a href="/items/4" class="link">詳細資訊</a>
             </el-button>
             <el-button type="text" class="button cart-button" :loading="loading" @click="handleButtonClick">
-              <a href="/items/1" class="link">加入購物車</a>
+              <a href="/items/4" class="link">加入購物車</a>
             </el-button>
         </div>
       </div>
@@ -20,29 +21,26 @@
 </el-row>
 </template>
 
-<script>
-export default {
-  props: {
-    item: {
-      type: Object,
-      required: true,
-    },
-  },
+<script setup>
+import { ref, defineProps } from 'vue';
+import { useRouter } from 'vue-router';
 
-  data() {
-    return {
-      loading: false,
-    };
+const props = defineProps({
+  item: {
+    type: Object,
+    required: true,
   },
-  methods: {
-    handleButtonClick() {
-      this.loading = true; // 设置 loading 为 true
-      // 模拟延时操作，您可以替换成实际的导航逻辑
-      setTimeout(() => {
-        this.$router.push('/items/1'); // 导航到路由
-      }, 1000); // 模拟延时 1 秒
-    },
-  },
+});
+console.log(props)
+
+const loading = ref(false);
+const router = useRouter();
+
+const handleButtonClick = () => {
+  loading.value = true;
+  setTimeout(() => {
+    router.push('/items/1');
+  }, 1000);
 };
 </script>
 
@@ -78,11 +76,24 @@ export default {
   background-color: rgba(128, 0, 0, 0.6); /* Hover color with reduced opacity */
 }
 .name {
-  width: 200px;
+  padding-top:10px;
+  width: 100%; /* 确保宽度占满父容器 */
+  white-space: normal; /* 允许文本换行 */
+}
+
+.price {
+  padding:40px 0px 5px 0px
 }
 
 .link {
   color: #ffffff
+}
+
+.badge {
+  background-color: gray;
+  color: #ffffff;
+  padding: 2px 6px 2px 6px;
+  border-radius: 8px;
 }
 
 
