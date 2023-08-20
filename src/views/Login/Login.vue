@@ -26,7 +26,7 @@ import { ElMessage } from 'element-plus'
 import 'element-plus/theme-chalk/el-message.css'
 
 const router = useRouter();
-const userStore = useUserStore
+const userStore = useUserStore()
 
 const formData = ref({
   account: '',

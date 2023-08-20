@@ -78,15 +78,15 @@ const rules = {
     },
   ],
 };
-
+const formRef = ref(null)
 const siginup = async() => {
-  const formRef = ref(null)
-  const { account, password, email, checkPassword } = formData.value;
+  
+  const { account, password, email } = formData.value;
   const valid = formRef.value.validate()
   
     if (valid) {
       try {
-      const res = await signupAPI({ account, password, email, checkPassword });
+      const res = await signupAPI({ account, password, email });
       console.log(res)
       ElMessage({ type: 'success', message: '註冊成功' });
       router.replace({ path: '/' });
