@@ -18,19 +18,11 @@ import { NIcon } from 'naive-ui'
 </script>
 
 <style>
-.icon svg:hover {
-    transform: scale(1.1); 
-}
 .n-icon {
     size:40;
     margin-left: auto;
     margin-right: 10px;
     position: relative;
 }
-.btn {
-        transition: fill 0.3s ease; 
-    }
-svg:hover path {
-    fill: red;
-}
+
 </style>

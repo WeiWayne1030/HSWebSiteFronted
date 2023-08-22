@@ -2,7 +2,10 @@
   <div>
     <LayoutNav />
     <LayoutHeader />
-    <ItemsNavPills :categories="categories" />
+    <div v-if="isLoading" class="spinner">
+      <Spinner />
+    </div>
+    <ItemsNavPills :categories="categories" v-else />
     <div class="row">
       <ItemCard v-for="item in items" :key="item.id" :item="item" />
     </div>
@@ -18,19 +21,23 @@ import LayoutNav from '@/components/LayoutNav.vue';
 import LayoutHeader from '@/components/LayoutHeader.vue';
 import ItemsNavPills from '@/components/ItemsNavPills.vue';
 import ItemCard from '@/components/ItemCard.vue';
+import Spinner from '@/components/Spinner.vue';
 import { useRoute } from 'vue-router';
 
 const items = ref([]);
 const categories = ref([]);
 const categoryId = ref("");
 const route = useRoute();
+const isLoading = ref(true)
 const fetchItems = async () => {
   try {
     const categoryIdValue = parseInt(route.query.CategoryId); // 將查詢參數轉換為數字
     const response = await getItemsAPI(categoryIdValue); // 使用轉換後的數字
     items.value = response.items;
     categories.value = response.categories;
+    isLoading.value = false
   } catch (error) {
+    isLoading.value = false
     console.log('error', error);
   }
 };

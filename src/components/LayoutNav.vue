@@ -3,16 +3,12 @@
     <div class="container"> 
       <el-image class="logo" src="https://i.imgur.com/VVLoUqg.png"></el-image>
     </div>
-    <ul class="app-menu" v-if="false">
-        <li class="user"><i class=" iconfont icon-user">hi my friend!</i></li>
+    <ul class="app-menu" v-if="loggedIn">
+        <li class="user"><i class=" iconfont icon-user">{{ userInfo.name }}</i></li>
         <li>
-          <el-popconfirm @confirm="confirm" title="確認退出?" confirm-button-text="確認" cancel-button-text="取消">
-            <template #reference>
-              <el-tooltip content="登出" placement="top">
-                <LogOutIcon />
-              </el-tooltip> 
-            </template>
-          </el-popconfirm>
+          <el-tooltip content="登出" placement="top">
+            <LogOutIcon />
+          </el-tooltip> 
         </li>
         <li>
           <el-tooltip content="我的購物車" placement="top">
@@ -30,7 +26,7 @@
           </el-tooltip>
         </li>
     </ul>
-    <div v-if="true">
+    <div v-else>
       <el-tooltip content="登入" placement="top">
         <LogInIcon />
       </el-tooltip> 
@@ -39,11 +35,26 @@
 </template>
 
 <script setup>
+import { watch } from 'vue';
+import { useUserStore } from '@/stores/user'
 import Person from '@/components/icons/Person.vue';
 import Cart from '@/components/icons/Cart.vue';
 import Order from '@/components/icons/Order.vue';
 import LogOutIcon from '@/components/icons/LogOutIcon.vue';
 import LogInIcon from '@/components/icons/LogInIcon.vue'
+
+
+const userStore = useUserStore();
+const userInfo = userStore.userInfo;
+
+// Initialize the loggedIn flag based on userInfo
+let loggedIn = Boolean(userInfo.name);
+
+// Watch for changes in userInfo and update loggedIn accordingly
+watch(() => userInfo.name, (newName) => {
+  loggedIn = Boolean(newName);
+});
+
 </script>
  
  

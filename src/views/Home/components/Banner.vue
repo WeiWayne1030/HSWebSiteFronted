@@ -47,6 +47,7 @@
   min-width: 90vh;
   background-color: #ffffff;
   padding-left:50px;
+  padding-top:10px
 }
 .banner {
   display: flex;
@@ -97,7 +98,6 @@
 
 .img-button {
   position: absolute;
-  bottom: 10%; 
   left: 45%;
   transform: translateX(-50%);
   width: 40%;

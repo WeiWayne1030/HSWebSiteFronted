@@ -18,6 +18,7 @@
       <el-form-item label="確認密碼" prop="checkPassword">
         <el-input type="password" v-model="formData.checkPassword"></el-input>
       </el-form-item>
+      <el-checkbox class="checkbox" name="isSeller" label="我要註冊為商家" v-model="formData.role" />
       <el-form-item>
         <el-button type="primary" @click="siginup">註冊</el-button>
         <router-link to="/login" class="router-link-button">返回</router-link>
@@ -32,7 +33,7 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { signupAPI } from '@/apis/user';
-import { ElForm, ElFormItem, ElInput, ElButton } from 'element-plus';
+import { ElForm, ElFormItem, ElInput, ElButton, ElCheckbox } from 'element-plus';
 import { ElMessage } from 'element-plus'
 import 'element-plus/theme-chalk/el-message.css'
 
@@ -46,30 +47,31 @@ const formData = ref({
   email: '',
   password: '',
   checkPassword: '',
+  role: ''
 });
 
 
 const rules = {
   name: [
-    { required: true, message: 'Please enter your name', trigger: 'blur' },
-    { max: 50, message: 'Name must not exceed 50 characters', trigger: 'blur' },
+    { required: true, message: '請輸入名稱', trigger: 'blur' },
+    { max: 20, message: '名稱不得超過20個字', trigger: 'blur' },
   ],
   account: [
-    { required: true, message: 'Please enter your account', trigger: 'blur' },
+    { required: true, message: '請輸入帳號', trigger: 'blur' },
   ],
   email: [
-    { required: true, message: 'Please enter your email', trigger: 'blur' },
-    { type: 'email', message: 'Invalid email format', trigger: ['blur', 'change'] },
+    { required: true, message: '請輸入信箱', trigger: 'blur' },
+    { type: 'email', message: '無效的信箱格式', trigger: ['blur', 'change'] },
   ],
   password: [
-    { required: true, message: 'Please enter your password', trigger: 'blur' },
+    { required: true, message: '請輸入密碼', trigger: 'blur' },
   ],
   checkPassword: [
-    { required: true, message: 'Please confirm your password', trigger: 'blur' },
+    { required: true, message: '請再次輸入密碼', trigger: 'blur' },
     {
       validator: (rule, value, callback) => {
         if (value !== formData.value.password) {
-          callback(new Error('Passwords do not match'));
+          callback(new Error('密碼與確認密碼不一致'));
         } else {
           callback();
         }
@@ -102,6 +104,11 @@ const siginup = async() => {
   max-width: 400px;
   margin: 0 auto;
   padding: 20px;
+}
+
+.checkbox {
+  padding-left: 40%;
+  padding-bottom: 10px;
 }
 
 .router-link-button:hover {

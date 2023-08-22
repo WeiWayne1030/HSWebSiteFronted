@@ -34,10 +34,10 @@
                 <div class="text col-md-4">
                     <h3 class="link">快速連結</h3>
                     <ul>
-                        <li><el-link type="primary" href="#" target="_blank">首頁</el-link></li>
-                        <li><el-link type="primary" href="#" target="_blank">關於我們</el-link></li>
-                        <li><el-link type="primary" href="#" target="_blank">最新活動</el-link></li>
-                        <li><el-link type="primary" href="#" target="_blank">全部商品</el-link></li>
+                        <li><el-link type="primary" path="#" target="_blank">首頁</el-link></li>
+                        <li><el-link type="primary" path="/about" target="_blank">關於我們</el-link></li>
+                        <li><el-link type="primary" path="/wears" target="_blank">穿搭專區</el-link></li>
+                        <li><el-link type="primary" path="/items" target="_blank">全部商品</el-link></li>
                     </ul>
                 </div>
             </div>

@@ -5,7 +5,7 @@
       <img src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png" class="image">
       <div>
           <h4 class="name">{{ item.name }}</h4>
-          <p class="price">${{ item.price }}</p>
+          <p class="card-price">${{ item.price }}</p>
           <span class="badge badge-secondary">{{ item.Category.name }}</span>
         <div class="bottom clearfix">
             <el-button type="text" class="button details-button" :loading="loading" @click="handleButtonClick">
@@ -81,8 +81,10 @@ const handleButtonClick = () => {
   white-space: normal; /* 允许文本换行 */
 }
 
-.price {
-  padding:40px 0px 5px 0px
+.card-price {
+  padding:40px 0px 5px 0px;
+  font-size: 20px;
+  color: #800000
 }
 
 .link {

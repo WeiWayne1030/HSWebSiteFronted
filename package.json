@@ -16,6 +16,7 @@
     "element-plus": "^2.3.9",
     "naive-ui": "^2.34.4",
     "pinia": "^2.1.4",
+    "pinia-plugin-persistedstate": "^3.2.0",
     "sweetalert2": "^11.7.20",
     "validate.js": "^0.13.1",
     "vee-validate": "^4.11.1",
