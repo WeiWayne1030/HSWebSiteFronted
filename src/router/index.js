@@ -29,7 +29,7 @@ const router = createRouter({
       component: Items
     },
     {
-      path: '/items/4',
+      path: `/items/:id`,
       component: ItemPage
     },
     {

@@ -51,67 +51,60 @@
   <LayoutFooter />
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      selectAll: false,
-      cartItems: [
-        {
-          name: '超爆漂亮小洋裝',
-          image: 'https://i.imgur.com/PChh3PT.jpg',
-          color: '紅色',
-          size: 'M',
-          price: 100,
-          quantity: 1,
-          selected: false
-        },
-        {
-          name: '天上天下唯我獨尊小可愛',
-          image: 'https://i.imgur.com/Rz4aIj8.jpg',
-          color: '藍色',
-          size: 'L',
-          price: 150,
-          quantity: 1,
-          selected: false
-        },
-      ]
-    };
+<script setup>
+import { ref, computed } from 'vue';
+
+const selectAll = ref(false);
+const cartItems = ref([
+  {
+    name: '超爆漂亮小洋裝',
+    image: 'https://i.imgur.com/PChh3PT.jpg',
+    color: '紅色',
+    size: 'M',
+    price: 100,
+    quantity: 1,
+    selected: false,
   },
-  computed: {
-    totalPrice() {
-      return this.cartItems.reduce((total, item) => {
-        if (item.selected) {
-          total += item.price * item.quantity;
-        }
-        return total;
-      }, 0);
-    }
+  {
+    name: '天上天下唯我獨尊小可愛',
+    image: 'https://i.imgur.com/Rz4aIj8.jpg',
+    color: '藍色',
+    size: 'L',
+    price: 150,
+    quantity: 1,
+    selected: false,
   },
-  methods: {
-    handleSelectAll() {
-      this.cartItems.forEach(item => {
-        item.selected = this.selectAll;
-      });
-    },
-    handleSelectSingle(index) {
-      this.cartItems[index].selected = !this.cartItems[index].selected;
-      this.selectAll = this.cartItems.every(item => item.selected);
-    },
-    handleQuantityChange(index) {
-      if (this.cartItems[index].quantity < 1) {
-        this.cartItems[index].quantity = 1;
-      }
-    },
-    formatCurrency(value) {
-      // 可以自行實現格式化金額的邏輯
-      return `$${value.toFixed(2)}`;
-    },
-    checkout() {
-      // 實現結帳的邏輯
-      alert('結帳成功！');
+]);
+
+const totalPrice = computed(() => {
+  return cartItems.value.reduce((total, item) => {
+    if (item.selected) {
+      total += item.price * item.quantity;
     }
+    return total;
+  }, 0);
+});
+
+const handleSelectAll = () => {
+  cartItems.value.forEach(item => {
+    item.selected = selectAll.value;
+  });
+};
+
+
+
+const handleQuantityChange = index => {
+  if (cartItems.value[index].quantity < 1) {
+    cartItems.value[index].quantity = 1;
   }
+};
+
+const formatCurrency = value => {
+  return `$${value.toFixed(2)}`;
+};
+
+const checkout = () => {
+  alert('結帳成功！');
 };
 </script>
 

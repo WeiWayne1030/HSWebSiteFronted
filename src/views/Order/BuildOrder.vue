@@ -39,7 +39,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref } from 'vue'
 
 const orderData = ref({
   name: '',
@@ -74,10 +74,10 @@ const orderForm = ref(null)
 //     { required: true, message: '請選擇付款方式', trigger: 'blur' },
 //     { min: 6, max: 14, message: '密碼長度為6-14個字符', trigger: 'blur' }
 // ],
-// };
+// }
 
 // const buildOrder = async() => {
-//   const { name, paymentMethod, address, shipTel} = formData.value;
+//   const { name, paymentMethod, address, shipTel} = formData.value
 
 // }
 

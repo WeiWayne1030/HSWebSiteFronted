@@ -9,10 +9,10 @@
           <span class="badge badge-secondary">{{ item.Category.name }}</span>
         <div class="bottom clearfix">
             <el-button type="text" class="button details-button" :loading="loading" @click="handleButtonClick">
-              <a href="/items/4" class="link">詳細資訊</a>
+              <router-link :to="`/items/${item.id}`" class="link">詳細資訊</router-link>
             </el-button>
             <el-button type="text" class="button cart-button" :loading="loading" @click="handleButtonClick">
-              <a href="/items/4" class="link">加入購物車</a>
+              <router-link :to="`/items/${item.id}/cart`" class="link">詳細資訊</router-link>
             </el-button>
         </div>
       </div>
@@ -39,7 +39,7 @@ const router = useRouter();
 const handleButtonClick = () => {
   loading.value = true;
   setTimeout(() => {
-    router.push('/items/1');
+    router.push('/items');
   }, 1000);
 };
 </script>

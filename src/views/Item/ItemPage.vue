@@ -1,66 +1,139 @@
 <template>
-  <LayoutNav />
-  <LayoutHeader />
-  <div class="product-page">
-    <div class="product-image">
-      <img :src="product.image" alt="Product Image" />
-    </div>
-    <div class="product-details">
-      <h1 class="product-name">{{ product.name }}</h1>
+  <div>
+    <LayoutNav />
+    <LayoutHeader />
+
+    <div class="product-page">
+      <div class="product-image" ref="target">
+        <img :src="product.image" alt="Product Image" />
+      </div>
+      <div class="product-details">
+        <h1 class="product-name">{{ product.name }}</h1>
         <div class="price-tag">
           <h3 class="label">NT$</h3>
           <p class="price">{{ product.price }}</p>
         </div>
-      <div class="selector">
-        <el-radio-group v-model="selectedColor" class="radio-group">
-          <el-radio-button label="red">紅色</el-radio-button>
-          <el-radio-button label="blue">藍色</el-radio-button>
-          <el-radio-button label="green">粉色</el-radio-button>
-        </el-radio-group>
-      
-        <el-radio-group v-model="selectedSize" class="radio-group">
-          <el-radio-button label="small">S</el-radio-button>
-          <el-radio-button label="medium">M</el-radio-button>
-          <el-radio-button label="large">L</el-radio-button>
-        </el-radio-group>
-      </div>
-      <div class="quantity">
-        數量：
-        <el-input-number v-model="quantity" :min="1" :max="10"></el-input-number>
-      </div>
-      <el-button type="primary" @click="addToCart">加入購物車</el-button>
+        <div class="stock">
+      剩餘庫存:
+      <template v-if="selectedSizeStock">
+        {{ selectedSizeStock.itemStock }}
+      </template>
+      <template v-else>
+        暫時沒有庫存
+      </template>
     </div>
+        <div class="selector">
+          <div class="color-selector">
+            <p>Select Color:</p>
+            <el-radio-group v-model="selectedColor" class="radio-group">
+              <el-radio-button
+                v-for="stockEntry in mergedStocks"
+                :key="stockEntry.color"
+                :label="stockEntry.color"
+              >
+                {{ stockEntry.color }}
+              </el-radio-button>
+            </el-radio-group>
+          </div>
+          <div class="size-selector">
+            <p>Select Size:</p>
+            <el-radio-group v-model="selectedSize" class="radio-group">
+              <el-radio-button
+                v-for="sizeEntry in selectedColorStock?.sizes"
+                :key="sizeEntry.name"
+                :label="sizeEntry.name"
+              >
+                {{ sizeEntry.name }}
+              </el-radio-button>
+            </el-radio-group>
+          </div>
+        </div>
+        <div class="quantity">
+          數量：
+          <el-input-number v-model="quantity" :min="1" :max="10"></el-input-number>
+        </div>
+        <el-button type="primary" @click="addToCart">加入購物車</el-button>
+      </div>
+    </div>
+
+    <LayoutFooter />
   </div>
-  <LayoutFooter />
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      product: {
-        image: 'https://i.imgur.com/QvIm1lW.jpg',
-        name: '修身牛仔長褲',
-        price: '450',
-      },
-      selectedColor: '',
-      selectedSize: '',
-      quantity: 1
-    };
-  },
-  methods: {
-    addToCart() {
-      const cartItem = {
-        product: this.product.name,
-        color: this.selectedColor,
-        size: this.selectedSize,
-        quantity: this.quantity
-      };
-      // 在這裡執行將商品添加到購物車的邏輯
-      console.log('Added to cart:', cartItem);
+<script setup>
+import { onMounted, ref, computed } from 'vue'
+import { getItemAPI } from '@/apis/item'
+import { useRoute } from 'vue-router'
+
+const selectedColor = ref('')
+const selectedSize = ref('')
+const quantity = ref(1)
+
+const product = ref({})
+const mergedStocks = ref([])
+
+const route = useRoute()
+
+onMounted(async () => {
+  const id = parseInt(route.params.id)
+  try {
+    const res = await getItemAPI(id)
+    if (res && res.item) {
+      product.value = res.item;
+      mergedStocks.value = res.mergedStocks
+      selectedColor.value = res.mergedStocks[0]?.color // 設定初始顏色
+      selectedSize.value = res.mergedStocks[0]?.sizes[0]?.name // 設定初始尺寸
+    } else {
+      console.error('Invalid API response:', res)
+    }
+  } catch (error) {
+    console.error('Error fetching product:', error)
+  }
+})
+
+// 創建一個 computed 獲取選擇的顏色
+const selectedColorStock = computed(() => {
+  const color = selectedColor.value
+  return (
+    mergedStocks.value.find(stock => stock.color === color) || {
+      sizes: [],
+    }
+  )
+})
+
+// 在 selectedSizeStock 的計算屬性中，你需要對 colorStock 進行額外的檢查
+const selectedSizeStock = computed(() => {
+  const color = selectedColor.value;
+  const size = selectedSize.value;
+
+  const colorStock = mergedStocks.value.find(stock => stock.color === color);
+  if (colorStock) {
+    const sizeStock = colorStock.sizes.find(sizeEntry => sizeEntry.name === size);
+    if (sizeStock && product.value.Stocks) {
+      const matchingStock = product.value.Stocks.find(stock => {
+        return stock.Color.name === color && stock.Color.Size.name === size;
+      })
+
+      if (matchingStock) {
+        return { itemStock: matchingStock.Color.itemStock }
+      }
     }
   }
-};
+
+  return { itemStock: 0 }
+})
+
+
+// const addToCart = () => {
+//   const cartItem = {
+//     product: product.value.name,
+//     color: selectedColor.value,
+//     size: selectedSize.value,
+//     quantity: quantity.value,
+//   }
+//   // Add the logic here to add the item to the cart
+//   console.log('Added to cart:', cartItem)
+// }
 </script>
 
 <style>
