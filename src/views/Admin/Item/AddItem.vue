@@ -55,9 +55,9 @@
 </template>
 
 <script>
-  // import LayoutFooter from '@/components/LayoutFooter.vue';
-  // import LayoutNav from '@/components/LayoutNav.vue';
-  // import LayoutHeader from '@/components/LayoutHeader.vue';
+  // import LayoutFooter from '@/components/LayoutFooter.vue'
+  // import LayoutNav from '@/components/LayoutNav.vue'
+  // import LayoutHeader from '@/components/LayoutHeader.vue'
 
 export default {
   data() {
@@ -105,7 +105,7 @@ export default {
   methods: {
     addProduct() {
       // 在這裡執行新增商品的邏輯，例如提交表單資料到伺服器等
-      console.log('新增商品資料', this.product);
+      console.log('新增商品資料', this.product)
     },
     handlePreview() {
       // 圖片預覽邏輯

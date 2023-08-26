@@ -30,16 +30,16 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
-import { signupAPI } from '@/apis/user';
-import { ElForm, ElFormItem, ElInput, ElButton, ElCheckbox } from 'element-plus';
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { signupAPI } from '@/apis/user'
+import { ElForm, ElFormItem, ElInput, ElButton, ElCheckbox } from 'element-plus'
 import { ElMessage } from 'element-plus'
 import 'element-plus/theme-chalk/el-message.css'
 
 
 
-const router = useRouter();
+const router = useRouter()
 
 const formData = ref({
   name: '',
@@ -48,7 +48,7 @@ const formData = ref({
   password: '',
   checkPassword: '',
   role: ''
-});
+})
 
 
 const rules = {
@@ -71,9 +71,9 @@ const rules = {
     {
       validator: (rule, value, callback) => {
         if (value !== formData.value.password) {
-          callback(new Error('密碼與確認密碼不一致'));
+          callback(new Error('密碼與確認密碼不一致'))
         } else {
-          callback();
+          callback()
         }
       },
       trigger: 'blur',
@@ -83,17 +83,17 @@ const rules = {
 const formRef = ref(null)
 const siginup = async() => {
   
-  const { account, password, email } = formData.value;
+  const { account, password, email } = formData.value
   const valid = formRef.value.validate()
   
     if (valid) {
       try {
-      const res = await signupAPI({ account, password, email });
+      const res = await signupAPI({ account, password, email })
       console.log(res)
-      ElMessage({ type: 'success', message: '註冊成功' });
-      router.replace({ path: '/' });
+      ElMessage({ type: 'success', message: '註冊成功' })
+      router.replace({ path: '/' })
     } catch (error) {
-      ElMessage({ type: 'error', message: '註冊失敗' });
+      ElMessage({ type: 'error', message: '註冊失敗' })
     }
     }
   }

@@ -19,19 +19,19 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/user'
 import { ElMessage } from 'element-plus'
 import 'element-plus/theme-chalk/el-message.css'
 
-const router = useRouter();
+const router = useRouter()
 const userStore = useUserStore()
 
 const formData = ref({
   account: '',
   password: '',
-});
+})
 
 const rules = {
   account: [{ required: true, message: '請輸入帳號', trigger: 'blur' }],
@@ -39,23 +39,23 @@ const rules = {
     { required: true, message: '請輸入密碼', trigger: 'blur' },
     { min: 6, max: 14, message: '密碼長度為6-14個字符', trigger: 'blur' }
 ],
-};
+}
 
 const formRef = ref(null)
 const doLogin = async () => {
-  const { account, password } = formData.value;
+  const { account, password } = formData.value
   const valid = formRef.value.validate()
 
   if (valid) {
     try {
-      await userStore.getUserInfo({ account, password });
-      ElMessage({ type: 'success', message: '登入成功' });
-      router.replace({ path: '/' });
+      await userStore.getUserInfo({ account, password })
+      ElMessage({ type: 'success', message: '登入成功' })
+      router.replace({ path: '/' })
     } catch (error) {
-      ElMessage({ type: 'error', message: '登入失敗' });
+      ElMessage({ type: 'error', message: '登入失敗' })
     }
   } 
-};
+}
 </script>
 
 <style>

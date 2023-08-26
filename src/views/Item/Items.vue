@@ -7,14 +7,14 @@
     </div>
     <ItemsNavPills :categories="categories" v-else />
     <div class="row">
-      <ItemCard v-for="item in items" :key="item.id" :item="item" />
+      <ItemCard v-for="item in filteredItems" :key="item.id" :item="item" />
     </div>
     <LayoutFooter />
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 import { getItemsAPI } from '@/apis/item'
 import LayoutFooter from '@/components/LayoutFooter.vue'
 import LayoutNav from '@/components/LayoutNav.vue'
@@ -41,6 +41,10 @@ const fetchItems = async () => {
     console.log('error', error)
   }
 };
+
+const filteredItems = computed(() => {
+  return items.value.filter(item => item.state !== 0)
+})
 
 onMounted(() => {
   const categoryIdValue = parseInt(route.query.CategoryId) // 同樣，在初始化時將查詢參數轉換為數字
