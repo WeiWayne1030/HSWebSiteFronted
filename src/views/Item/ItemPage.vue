@@ -50,7 +50,7 @@
         </div>
         <div class="quantity">
           數量：
-          <el-input-number v-model="quantity" :min="1" :max="10"></el-input-number>
+          <el-input-number v-model="quantity" :min="0" :max="selectedSizeStock.itemStock"></el-input-number>
         </div>
         <el-button type="primary" @click="addToCart">加入購物車</el-button>
       </div>
