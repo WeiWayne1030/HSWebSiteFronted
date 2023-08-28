@@ -2,8 +2,10 @@
   <div>
     <LayoutNav />
     <LayoutHeader />
-
-    <div class="product-page">
+    <div v-if="isLoading" class="spinner">
+      <Spinner />
+    </div>
+    <div class="product-page" v-else>
       <div class="product-image" ref="target">
         <img :src="product.image" alt="Product Image" />
       </div>
@@ -24,7 +26,6 @@
     </div>
         <div class="selector">
           <div class="color-selector">
-            <p>Select Color:</p>
             <el-radio-group v-model="selectedColor" class="radio-group">
               <el-radio-button
                 v-for="stockEntry in mergedStocks"
@@ -36,7 +37,6 @@
             </el-radio-group>
           </div>
           <div class="size-selector">
-            <p>Select Size:</p>
             <el-radio-group v-model="selectedSize" class="radio-group">
               <el-radio-button
                 v-for="sizeEntry in selectedColorStock?.sizes"
@@ -64,6 +64,7 @@
 import { onMounted, ref, computed } from 'vue'
 import { getItemAPI } from '@/apis/item'
 import { useRoute } from 'vue-router'
+import Spinner from '@/components/Spinner.vue'
 
 const selectedColor = ref('')
 const selectedSize = ref('')
@@ -71,6 +72,7 @@ const quantity = ref(1)
 
 const product = ref({})
 const mergedStocks = ref([])
+const isLoading = ref(true)
 
 const route = useRoute()
 
@@ -83,11 +85,13 @@ onMounted(async () => {
       mergedStocks.value = res.mergedStocks
       selectedColor.value = res.mergedStocks[0]?.color // 設定初始顏色
       selectedSize.value = res.mergedStocks[0]?.sizes[0]?.name // 設定初始尺寸
+      isLoading.value = false
     } else {
       console.error('Invalid API response:', res)
     }
   } catch (error) {
     console.error('Error fetching product:', error)
+    isLoading.value = false
   }
 })
 
@@ -109,13 +113,13 @@ const selectedSizeStock = computed(() => {
   const colorStock = mergedStocks.value.find(stock => stock.color === color);
   if (colorStock) {
     const sizeStock = colorStock.sizes.find(sizeEntry => sizeEntry.name === size);
-    if (sizeStock && product.value.Stocks) {
-      const matchingStock = product.value.Stocks.find(stock => {
-        return stock.Color.name === color && stock.Color.Size.name === size;
+    if (sizeStock && product.value.Colors) {
+      const matchingStock = product.value.Colors.find(stock => {
+        return stock.name === color && stock.Size.name === size;
       })
 
       if (matchingStock) {
-        return { itemStock: matchingStock.Color.itemStock }
+        return { itemStock: matchingStock.itemStock }
       }
     }
   }

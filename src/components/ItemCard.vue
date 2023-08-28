@@ -11,9 +11,6 @@
             <el-button type="text" class="button details-button" :loading="loading" @click="handleButtonClick">
               <router-link :to="`/items/${item.id}`" class="link">詳細資訊</router-link>
             </el-button>
-            <el-button type="text" class="button cart-button" :loading="loading" @click="handleButtonClick">
-              <router-link :to="`/items/${item.id}/cart`" class="link">詳細資訊</router-link>
-            </el-button>
         </div>
       </div>
     </el-card>
