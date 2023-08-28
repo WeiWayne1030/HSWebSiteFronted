@@ -61,83 +61,96 @@
 </template>
 
 <script setup>
-import { onMounted, ref, computed } from 'vue'
-import { getItemAPI } from '@/apis/item'
-import { useRoute } from 'vue-router'
-import Spinner from '@/components/Spinner.vue'
+import { onMounted, ref, computed } from 'vue';
+import { getItemAPI } from '@/apis/item';
+import { addCartAPI } from '@/apis/user';
+import { useRoute, useRouter } from 'vue-router';
+import Spinner from '@/components/Spinner.vue';
+import { ElMessage, ElMessageBox } from 'element-plus';
 
-const selectedColor = ref('')
-const selectedSize = ref('')
-const quantity = ref(1)
+const selectedColor = ref('');
+const selectedSize = ref('');
+const quantity = ref(1);
 
-const product = ref({})
-const mergedStocks = ref([])
-const isLoading = ref(true)
+const product = ref({});
+const mergedStocks = ref([]);
+const isLoading = ref(true);
 
-const route = useRoute()
+const route = useRoute();
+const router = useRouter();
 
 onMounted(async () => {
-  const id = parseInt(route.params.id)
+  const id = parseInt(route.params.id);
   try {
-    const res = await getItemAPI(id)
+    const res = await getItemAPI(id);
     if (res && res.item) {
       product.value = res.item;
-      mergedStocks.value = res.mergedStocks
-      selectedColor.value = res.mergedStocks[0]?.color // 設定初始顏色
-      selectedSize.value = res.mergedStocks[0]?.sizes[0]?.name // 設定初始尺寸
-      isLoading.value = false
+      mergedStocks.value = res.mergedStocks;
+      selectedColor.value = res.mergedStocks[0]?.color;
+      selectedSize.value = res.mergedStocks[0]?.sizes[0]?.name;
+      isLoading.value = false;
     } else {
-      console.error('Invalid API response:', res)
+      console.error('Invalid API response:', res);
     }
   } catch (error) {
-    console.error('Error fetching product:', error)
-    isLoading.value = false
+    console.error('Error fetching product:', error);
+    isLoading.value = false;
   }
-})
+});
 
-// 創建一個 computed 獲取選擇的顏色
 const selectedColorStock = computed(() => {
-  const color = selectedColor.value
+  const color = selectedColor.value;
   return (
-    mergedStocks.value.find(stock => stock.color === color) || {
+    mergedStocks.value.find((stock) => stock.color === color) || {
       sizes: [],
     }
-  )
-})
+  );
+});
 
-// 在 selectedSizeStock 的計算屬性中，你需要對 colorStock 進行額外的檢查
 const selectedSizeStock = computed(() => {
   const color = selectedColor.value;
   const size = selectedSize.value;
-
-  const colorStock = mergedStocks.value.find(stock => stock.color === color);
+  const colorStock = mergedStocks.value.find((stock) => stock.color === color);
   if (colorStock) {
-    const sizeStock = colorStock.sizes.find(sizeEntry => sizeEntry.name === size);
+    const sizeStock = colorStock.sizes.find((sizeEntry) => sizeEntry.name === size);
     if (sizeStock && product.value.Colors) {
-      const matchingStock = product.value.Colors.find(stock => {
+      const matchingStock = product.value.Colors.find((stock) => {
         return stock.name === color && stock.Size.name === size;
-      })
-
+      });
+        console.log(matchingStock)
       if (matchingStock) {
-        return { itemStock: matchingStock.itemStock }
+        // 使用let宣告addProduct，以便稍後修改它的值
+        let addProduct = {
+          ColorId:  matchingStock.id,
+          itemQuantity: quantity.value,
+        };
+        return { itemStock: matchingStock.itemStock, addProduct }; // 將addProduct也返回
       }
     }
   }
+  return { itemStock: 0, addProduct: null }; // 如果找不到匹配的庫存，返回addProduct為null
+});
 
-  return { itemStock: 0 }
-})
+const addToCart = async () => {
+  const { itemStock, addProduct } = selectedSizeStock.value;
 
+  if (!addProduct) {
+    return; // 如果addProduct為null，不執行加入購物車操作
+  }
 
-// const addToCart = () => {
-//   const cartItem = {
-//     product: product.value.name,
-//     color: selectedColor.value,
-//     size: selectedSize.value,
-//     quantity: quantity.value,
-//   }
-//   // Add the logic here to add the item to the cart
-//   console.log('Added to cart:', cartItem)
-// }
+  if (itemStock < quantity.value) {
+    ElMessageBox.alert('庫存不足', '錯誤', { type: 'error' });
+    return;
+  }
+
+  try {
+    await addCartAPI(addProduct); // 使用修改後的addProduct
+    ElMessage.success('成功加入購物車');
+    router.replace({ path: '/' });
+  } catch (error) {
+    ElMessage.error('加入購物車失敗');
+  }
+};
 </script>
 
 <style>
