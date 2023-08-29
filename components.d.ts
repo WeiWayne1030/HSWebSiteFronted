@@ -64,6 +64,8 @@ declare module 'vue' {
     SearchIcon: typeof import('./src/components/icons/SearchIcon.vue')['default']
     Spinner: typeof import('./src/components/Spinner.vue')['default']
     TheWelcome: typeof import('./src/components/TheWelcome.vue')['default']
+    Trash: typeof import('./src/components/icons/Trash.vue')['default']
+    TrashIcon: typeof import('./src/components/icons/TrashIcon.vue')['default']
     WelcomeItem: typeof import('./src/components/WelcomeItem.vue')['default']
   }
 }

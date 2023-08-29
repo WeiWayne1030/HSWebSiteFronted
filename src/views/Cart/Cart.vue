@@ -19,6 +19,7 @@
           <th>商品</th>
           <th>數量</th>
           <th>小計</th>
+          <th>刪除</th>
         </tr>
       </thead>
       <tbody>
@@ -38,6 +39,11 @@
           </td>
           <td>{{ item.itemQuantity }}</td>
           <td>NT{{ formatCurrency(item.amount) }}</td>
+          <td>
+            <a @click="() => delCart(item.id)">
+              <TrashIcon />
+            </a>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -54,9 +60,10 @@
 
 <script setup>
 import { ref, onMounted, computed } from 'vue'
-import { getCartsAPI } from '@/apis/cart'
+import { getCartsAPI,delCartAPI } from '@/apis/cart'
 // import { useRouter } from 'vue-router'
 import Spinner from '@/components/Spinner.vue'
+import TrashIcon from '@/components/icons/TrashIcon.vue'
 // import { ElMessage, ElMessageBox } from 'element-plus'
 
 const selectAll = ref(false)
@@ -77,7 +84,7 @@ onMounted(async () => {
     console.error('Error fetching product:', error)
     isLoading.value = false
   }
-});
+})
 
 const totalPrice = computed(() => {
   return cartItems.value.reduce((total, item) => {
@@ -86,21 +93,30 @@ const totalPrice = computed(() => {
     }
     return total
   }, 0)
-});
+})
 
 const handleSelectAll = () => {
   cartItems.value.forEach(item => {
     item.selected = selectAll.value
-  });
-};
+  })
+}
 
 const formatCurrency = value => {
   return `NT${value.toFixed(2)}`
-};
+}
+
+const delCart = async (id) => {
+  try {
+    await delCartAPI(id)
+    cartItems.value = cartItems.value.filter(item => item.id !== id)
+  } catch (error) {
+    console.error('Error deleting cart item:', error)
+  }
+}
 
 const checkout = () => {
   alert('發送成功！')
-};
+}
 </script>
 
 <style>
