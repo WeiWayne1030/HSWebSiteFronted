@@ -24,13 +24,13 @@ export const signupAPI = ( { name, account, password, email } ) => {
   })
 }
 
-export const addCartAPI = ({ColorId,itemquantity}) => {
+export const addCartAPI = ({ColorId,itemQuantity}) => {
   return request({
     url:'/cart',
     method:'POST',
     data: {
       ColorId,
-      itemquantity
+      itemQuantity
     },
     headers: { Authorization: `Bearer ${getToken()}` }
   })

@@ -77,9 +77,10 @@ const mergedStocks = ref([]);
 const isLoading = ref(true);
 
 const route = useRoute();
-const router = useRouter();
+// const router = useRouter();
 
 onMounted(async () => {
+  //獲取item裡面的數據
   const id = parseInt(route.params.id);
   try {
     const res = await getItemAPI(id);
@@ -97,7 +98,7 @@ onMounted(async () => {
     isLoading.value = false;
   }
 });
-
+//處理畫面中選擇color後會出現的size選項
 const selectedColorStock = computed(() => {
   const color = selectedColor.value;
   return (
@@ -106,7 +107,7 @@ const selectedColorStock = computed(() => {
     }
   );
 });
-
+//篩選color & size 選擇後的數量
 const selectedSizeStock = computed(() => {
   const color = selectedColor.value;
   const size = selectedSize.value;
@@ -117,7 +118,6 @@ const selectedSizeStock = computed(() => {
       const matchingStock = product.value.Colors.find((stock) => {
         return stock.name === color && stock.Size.name === size;
       });
-        console.log(matchingStock)
       if (matchingStock) {
         // 使用let宣告addProduct，以便稍後修改它的值
         let addProduct = {
@@ -133,7 +133,6 @@ const selectedSizeStock = computed(() => {
 
 const addToCart = async () => {
   const { itemStock, addProduct } = selectedSizeStock.value;
-
   if (!addProduct) {
     return; // 如果addProduct為null，不執行加入購物車操作
   }
@@ -146,7 +145,7 @@ const addToCart = async () => {
   try {
     await addCartAPI(addProduct); // 使用修改後的addProduct
     ElMessage.success('成功加入購物車');
-    router.replace({ path: '/' });
+    // router.replace({ path: '/items' });
   } catch (error) {
     ElMessage.error('加入購物車失敗');
   }
