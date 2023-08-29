@@ -2,6 +2,9 @@
   <LayoutNav />
   <div>
     <div class="header">
+      <div v-if="isLoading" class="spinner">
+        <Spinner />
+      </div>
       <h1>購物車列表</h1>
       <div class="back-home">
         <router-link to="/" class="router-link">返回購物首頁</router-link>
@@ -19,24 +22,22 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(item, index) in cartItems" :key="index">
+        <tr v-for="(item) in cartItems" :key="item.id">
           <td>
             <el-checkbox v-model="item.selected" />
           </td>
           <td>
             <div class="product-info">
-              <img :src="item.image" alt="Product Image" />
+              <img :src="item.Color.Item.image" alt="Product Image" />
               <div class="product-content">
-                <h3>{{ item.name }}</h3>
-                <p>{{ item.color }}</p>
-                <p>{{ item.size }}</p>
+                <h3>{{ item.Color.Item.name }}</h3>
+                <p>{{ item.Color.name }}</p>
+                <p>{{ item.Color.Size.name }}</p>
               </div>
             </div>
           </td>
-          <td>
-            <el-input-number v-model="item.quantity" @change="handleQuantityChange(index)" :min="1"></el-input-number>
-          </td>
-          <td>NT{{ formatCurrency(item.price * item.quantity) }}</td>
+          <td>{{ item.itemQuantity }}</td>
+          <td>NT{{ formatCurrency(item.amount) }}</td>
         </tr>
       </tbody>
     </table>
@@ -52,59 +53,53 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, onMounted, computed } from 'vue'
+import { getCartsAPI } from '@/apis/cart'
+// import { useRouter } from 'vue-router'
+import Spinner from '@/components/Spinner.vue'
+// import { ElMessage, ElMessageBox } from 'element-plus'
 
-const selectAll = ref(false);
-const cartItems = ref([
-  {
-    name: '超爆漂亮小洋裝',
-    image: 'https://i.imgur.com/PChh3PT.jpg',
-    color: '紅色',
-    size: 'M',
-    price: 100,
-    quantity: 1,
-    selected: false,
-  },
-  {
-    name: '天上天下唯我獨尊小可愛',
-    image: 'https://i.imgur.com/Rz4aIj8.jpg',
-    color: '藍色',
-    size: 'L',
-    price: 150,
-    quantity: 1,
-    selected: false,
-  },
-]);
+const selectAll = ref(false)
+const cartItems = ref([])
+const isLoading = ref(true)
+const pagination = ref('')
+
+onMounted(async () => {
+  try {
+    const res = await getCartsAPI(pagination)
+    if (res && res.rows) {
+      cartItems.value = res.rows
+      isLoading.value = false
+    } else {
+      console.error('Invalid API response:', res)
+    }
+  } catch (error) {
+    console.error('Error fetching product:', error)
+    isLoading.value = false
+  }
+});
 
 const totalPrice = computed(() => {
   return cartItems.value.reduce((total, item) => {
     if (item.selected) {
-      total += item.price * item.quantity;
+      total += item.amount
     }
-    return total;
-  }, 0);
+    return total
+  }, 0)
 });
 
 const handleSelectAll = () => {
   cartItems.value.forEach(item => {
-    item.selected = selectAll.value;
+    item.selected = selectAll.value
   });
 };
 
-
-
-const handleQuantityChange = index => {
-  if (cartItems.value[index].quantity < 1) {
-    cartItems.value[index].quantity = 1;
-  }
-};
-
 const formatCurrency = value => {
-  return `$${value.toFixed(2)}`;
+  return `NT${value.toFixed(2)}`
 };
 
 const checkout = () => {
-  alert('結帳成功！');
+  alert('發送成功！')
 };
 </script>
 
