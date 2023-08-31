@@ -132,23 +132,32 @@ const selectedSizeStock = computed(() => {
 })
 
 const addToCart = async () => {
-  const { itemStock, addProduct } = selectedSizeStock.value
-  if (!addProduct) {
-    return // 如果addProduct為null，不執行加入購物車操作
-  }
+  const user = localStorage.getItem('token')
+  if (user){
+      const { itemStock, addProduct } = selectedSizeStock.value
+    if (!addProduct) {
+      return // 如果addProduct為null，不執行加入購物車操作
+    }
 
-  if (itemStock < quantity.value) {
-    ElMessageBox.alert('庫存不足', '錯誤', { type: 'error' })
-    return
-  }
+    if (itemStock < quantity.value) {
+      ElMessageBox.alert('庫存不足', '錯誤', { type: 'error' })
+      return
+    }
 
-  try {
-    await addCartAPI(addProduct) // 使用修改後的addProduct
-    ElMessage.success('成功加入購物車')
-    router.replace({ path: '/items' })
-  } catch (error) {
-    ElMessage.error('加入購物車失敗')
+    try {
+      await addCartAPI(addProduct) // 使用修改後的addProduct
+      ElMessage.success('成功加入購物車')
+      router.replace({ path: '/items' })
+    } catch (error) {
+      ElMessage.error('加入購物車失敗')
+    }
+  } else {
+    ElMessage.error('請先登入');
+    // Redirect to the login page
+    router.replace({ path: '/login' }); // Change the path to your login page
+    return;
   }
+  
 }
 </script>
 

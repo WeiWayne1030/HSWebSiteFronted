@@ -10,7 +10,7 @@
           <p>OR10000000</p>
         </el-form-item>
         <el-form-item label="收件人姓名">
-          <el-input v-model="formData.name"></el-input>
+          <el-input v-model="formData.shpName"></el-input>
         </el-form-item>
         <el-form-item label="付款方式">
           <el-radio class="selectBar" v-model="formData.paymentMethod" v-for="method in paymentMethods"
@@ -68,18 +68,21 @@ const paymentMethods = [
 
 const orderForm = ref(null)
 
-// const rules = {
-//   name: [{ required: true, message: '請輸入收貨人姓名', trigger: 'blur' }],
-//   password: [
-//     { required: true, message: '請選擇付款方式', trigger: 'blur' },
-//     { min: 6, max: 14, message: '密碼長度為6-14個字符', trigger: 'blur' }
-// ],
-// }
 
-// const buildOrder = async() => {
-//   const { name, paymentMethod, address, shipTel} = formData.value
 
-// }
+const rules = {
+  shipName: [
+    { required: true, message: '請輸入收貨人姓名', trigger: 'blur' }
+  ],
+  address: [
+    { required: true, message: '請輸入地址', trigger: 'blur' },
+  ],
+  
+}
+
+const buildOrder = async() => {
+
+}
 
 </script>
 

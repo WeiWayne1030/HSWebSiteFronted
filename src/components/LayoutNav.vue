@@ -4,27 +4,29 @@
       <el-image class="logo" src="https://i.imgur.com/VVLoUqg.png"></el-image>
     </div>
     <ul class="app-menu" v-if="loggedIn">
-        <li class="user"><i class=" iconfont icon-user">{{ userInfo.name }}</i></li>
-        <li>
-          <el-tooltip content="登出" placement="top">
-            <LogOutIcon />
-          </el-tooltip> 
-        </li>
-        <li>
+      <li class="user"><i class=" iconfont icon-user">{{ userInfo.name }}</i></li>
+      <li>
+        <el-tooltip content="登出" placement="top">
+          <LogOutIcon />
+        </el-tooltip> 
+      </li>
+      <li v-if="!isCartRoute">
+        <el-badge :value="cartBadgeCount" max="99">
           <el-tooltip content="我的購物車" placement="top">
             <cart />
-          </el-tooltip>   
-        </li>
-        <li>
-          <el-tooltip content="我的訂單" placement="top">
-            <Order />
-          </el-tooltip>   
-        </li>
-        <li>
-          <el-tooltip content="個人資料" placement="top">
-            <Person />
           </el-tooltip>
-        </li>
+        </el-badge>
+      </li>
+      <li>
+        <el-tooltip content="我的訂單" placement="top">
+          <Order />
+        </el-tooltip>   
+      </li>
+      <li>
+        <el-tooltip content="個人資料" placement="top">
+          <Person />
+        </el-tooltip>
+      </li>
     </ul>
     <div v-else>
       <el-tooltip content="登入" placement="top">
@@ -35,25 +37,43 @@
 </template>
 
 <script setup>
-import { watch } from 'vue';
+import { ref, watch, onMounted, computed } from 'vue'
 import { useUserStore } from '@/stores/user'
-import Person from '@/components/icons/Person.vue';
-import Cart from '@/components/icons/Cart.vue';
-import Order from '@/components/icons/Order.vue';
-import LogOutIcon from '@/components/icons/LogOutIcon.vue';
+import { getCartsAPI } from '@/apis/cart'
+import Person from '@/components/icons/Person.vue'
+import Cart from '@/components/icons/Cart.vue'
+import Order from '@/components/icons/Order.vue'
+import LogOutIcon from '@/components/icons/LogOutIcon.vue'
 import LogInIcon from '@/components/icons/LogInIcon.vue'
+import { useRoute } from 'vue-router'
 
+const userStore = useUserStore()
+const userInfo = userStore.userInfo
+const pagination = ref('')
+const cartItems = ref([])
+const route = useRoute()
+const isCartRoute = route.path === '/cart'
 
-const userStore = useUserStore();
-const userInfo = userStore.userInfo;
+let loggedIn = Boolean(userInfo.name)
 
-// Initialize the loggedIn flag based on userInfo
-let loggedIn = Boolean(userInfo.name);
-
-// Watch for changes in userInfo and update loggedIn accordingly
 watch(() => userInfo.name, (newName) => {
-  loggedIn = Boolean(newName);
-});
+  loggedIn = Boolean(newName)
+})
+
+onMounted(async () => {
+  try {
+    const res = await getCartsAPI(pagination)
+    if (res && res.rows) {
+      cartItems.value = res.rows
+    } else {
+      console.error('Invalid API response:', res)
+    }
+  } catch (error) {
+    console.error('Error fetching product:', error)
+  }
+})
+
+const cartBadgeCount = computed(() => cartItems.value.length)
 
 </script>
  

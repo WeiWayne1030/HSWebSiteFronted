@@ -1,5 +1,5 @@
 <template>
-  <LayoutNav />
+  <LayoutNav @updateBadgeCount="delCart" />
   <div>
     <div class="header">
       <div v-if="isLoading" class="spinner">
@@ -7,7 +7,7 @@
       </div>
       <h1>購物車列表</h1>
       <div class="back-home">
-        <router-link to="/" class="router-link">返回購物首頁</router-link>
+        <router-link to="/items" class="router-link">返回商品頁</router-link>
       </div>
     </div>
     <table class="cart-table">
@@ -47,12 +47,15 @@
         </tr>
       </tbody>
     </table>
+    <div class="item-count">
+      共{{ cartItems.length }}件商品，已選擇{{ selectedCount }}件商品
+    </div>
     <div class="total">
       <h3 class="total-price">合計：NT{{ formatCurrency(totalPrice) }}</h3>
       <p class="notice">運費和折扣將在結帳時計算</p>
     </div>
     <div class="checkout-button">
-      <el-button type="primary" @click="checkout">結帳</el-button>
+      <el-button type="primary" @click="checkout">下一步</el-button>
     </div>
   </div>
   <LayoutFooter />
@@ -61,11 +64,12 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 import { getCartsAPI,delCartAPI } from '@/apis/cart'
-// import { useRouter } from 'vue-router'
+import { useRouter } from 'vue-router'
 import Spinner from '@/components/Spinner.vue'
 import TrashIcon from '@/components/icons/TrashIcon.vue'
-// import { ElMessage, ElMessageBox } from 'element-plus'
+import { ElMessage } from 'element-plus'
 
+const router = useRouter()
 const selectAll = ref(false)
 const cartItems = ref([])
 const isLoading = ref(true)
@@ -101,6 +105,10 @@ const handleSelectAll = () => {
   })
 }
 
+const selectedCount = computed(() => {
+  return cartItems.value.filter(item => item.selected).length;
+});
+
 const formatCurrency = value => {
   return `NT${value.toFixed(2)}`
 }
@@ -115,7 +123,8 @@ const delCart = async (id) => {
 }
 
 const checkout = () => {
-  alert('發送成功！')
+  router.replace({ path: '/order' })
+  ElMessage({ type: 'success', message: '執行成功' })
 }
 </script>
 

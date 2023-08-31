@@ -10,6 +10,7 @@ declare module 'vue' {
     AdminNav: typeof import('./src/components/AdminNav.vue')['default']
     Banner: typeof import('./src/components/Banner.vue')['default']
     Cart: typeof import('./src/components/icons/Cart.vue')['default']
+    ElBadge: typeof import('element-plus/es')['ElBadge']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElCard: typeof import('element-plus/es')['ElCard']
     ElCarousel: typeof import('element-plus/es')['ElCarousel']
