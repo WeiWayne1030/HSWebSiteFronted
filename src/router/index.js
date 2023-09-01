@@ -14,6 +14,7 @@ import LogIn from '@/views/LogIn/LogIn.vue'
 import Cart from '@/views/Cart/Cart.vue'
 import Stock from '@/views/Admin/Stock/Stock.vue'
 import BuildOrder from '@/views/Order/OrderPage.vue'
+import OrderInfo from '@/views/Order/OrderInfo.vue'
 
 
 const router = createRouter({
@@ -67,6 +68,10 @@ const router = createRouter({
     {
       path: '/order',
       component: BuildOrder
+    },
+    {
+      path: '/orderInfo',
+      component: OrderInfo
     }
 
   ]

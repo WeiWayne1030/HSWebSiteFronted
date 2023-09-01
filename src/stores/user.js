@@ -1,7 +1,7 @@
 //管理用戶數據相關
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
-import { signinAPI } from '@/apis/user';
+import { signinAPI, adminSigninAPI } from '@/apis/user';
 import { useRouter } from 'vue-router'
 
 export const useUserStore = defineStore ('user', () => {
@@ -20,6 +20,19 @@ export const useUserStore = defineStore ('user', () => {
     }
   }
 
+  const getAdminInfo = async ({ account, password }) => {
+    try {
+      const res = await adminSigninAPI({ account, password })
+      userInfo.value = res.user
+      localStorage.setItem('token', res.token)
+    } catch (error) {
+      console.error("Error while signing in:", error)
+      throw error 
+    }
+  }
+
+
+
   const logout = async() => {
     // 清除本地的 Token
     localStorage.removeItem('token');
@@ -30,6 +43,7 @@ export const useUserStore = defineStore ('user', () => {
   return {
     userInfo,
     getUserInfo,
+    getAdminInfo,
     logout
   }
 },{

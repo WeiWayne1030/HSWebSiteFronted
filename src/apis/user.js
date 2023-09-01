@@ -11,6 +11,17 @@ export const signinAPI = ({ account, password }) => {
   })
 }
 
+export const adminSigninAPI = ({ account, password }) => {
+  return request({
+    url:'/admin/signin',
+    method:'POST',
+    data: {
+      account,
+      password
+    }
+  })
+}
+
 export const signupAPI = ( { name, account, password, email } ) => {
   return request({
     url:'/users',

@@ -7,7 +7,7 @@
     </div>
     <div class="product-page" v-else>
       <div class="product-image" ref="target">
-        <img :src="product.image" alt="Product Image" />
+        <el-image :src="product.image"></el-image>
       </div>
       <div class="product-details">
         <h1 class="product-name">{{ product.name }}</h1>

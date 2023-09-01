@@ -2,8 +2,8 @@
 <el-row>
   <el-col :span="15" v-for="(o, index) in 1" :key="o" :offset="index > 0 ? -1 : 0">
     <el-card :body-style="{ padding: '0px' }">
-      <img src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png" class="image">
       <div>
+          <el-image class="image" :src="item.image"></el-image>
           <h4 class="name">{{ item.name }}</h4>
           <p class="card-price">${{ item.price }}</p>
           <span class="badge badge-secondary">{{ item.Category.name }}</span>
@@ -57,6 +57,7 @@ const handleButtonClick = () => {
 
 .image {
   width: 100%;
+  max-height:250px
 }
 .bottom {
   margin-top: 10px;
