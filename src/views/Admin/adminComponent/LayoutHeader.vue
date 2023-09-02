@@ -6,41 +6,28 @@
           <router-link :to="tab.path">{{ tab.title }}</router-link>
         </el-menu-item>
       </el-menu>
-      <div class="search">
-          <SearchIcon class="icon" />
-        <el-input
-          placeholder="搜一搜"
-          v-model="input"
-          clearable>
-        </el-input>
-      </div>
     </div>
   </header>
 </template>
 
 <script setup>
-  import SearchIcon from '@/components/icons/SearchIcon.vue';
 
   const tabs = [
   {
-    title: '首頁',
-    path: '/',
+    title: '商品管理',
+    path: '/admin/stock',
     index: "1"
   },
   {
-    title: '全部商品',
-    path: '/items',
+
+    title: '商家訂單管理',
+    path: '/admin/orders',
     index: "2"
   },
   {
-    title: '穿搭專區',
-    path: '/wears',
+    title: '商品新增',
+    path: '/admin/item',
     index: "3"
-  },
-  {
-    title: '關於我們',
-    path: '/about',
-    index: "4"
   }
 ];
 </script>

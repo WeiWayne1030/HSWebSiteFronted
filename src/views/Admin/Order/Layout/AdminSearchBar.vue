@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="search-container">
     
     <div class="row">
       <p class="name" >狀態</p>

@@ -3,49 +3,113 @@
     <!-- header,footer,nav -->
     <LayoutNav />
     <LayoutHeader />
-    <AdminSearchBar2 />
     </div>
-    <div class="container">
+    <div v-if="isLoading" class="spinner">
+      <Spinner />
+    </div>
+    <div class="container" v-else>
+      <AdminSearchBar2 :categories="categories" :items="items" :stocks="stocks"/>
       <div class="parent">
         <div class="div2">商品編號</div>
         <div class="div3">商品圖</div>
         <div class="div4">商品名稱</div>
         <div class="div5">顏色</div>
-        <div class="div6">目前庫存</div>
-        <div class="div7">價格</div>
-        <div class="div8">管理</div>
-        <div class="div9">上架時間</div>
+        <div class="div6">尺寸</div>
+        <div class="div7">目前庫存</div>
+        <div class="div8">價格</div>
+        <div class="div9">管理</div>
+        <div class="div10">上架時間</div>
       </div>
       <div class="line"></div>
       <div class="or1100000-parent-container">
-        
       </div>
-      <div class="C1100000-parent">
-        <div class="C1100000">C1100000</div>
-        <img :src="'https://i.imgur.com/PChh3PT.jpg'" alt="Product Image">
-        <div class="div10">純棉圓領T-女</div>
-        <div class="div11">白</div>
-        <div class="div12">10</div>
-        <div class="div13">$400</div>
-        <div class="div14">執行下架</div>
-        <div class="div15">2023/7/12</div>
+      <div class="parent-info" v-for="stock in stocks" :key="stock.id">
+        <div class="orderNumber">{{ stock.productNumber }}</div>
+        <img class="order-image" :src=" stock.Item.image" alt="Product Image">
+        <div class="div11">{{ stock.Item.name }}</div>
+        <div class="div12">{{ stock.name }}</div>
+        <div class="div13">{{ stock.Size.name }}</div>
+        <div class="div14">{{ stock.itemStock }}</div>
+        <div class="div15">{{ stock.Item.price }}</div>
+        <div class="div16">執行下架</div>
+        <div class="div17">{{ stock.updatedAt }}</div>
       </div>
     </div> 
   <LayoutFooter />
 </template>
 
 <script setup>
+  import { ref, onMounted, watch } from 'vue'
   import LayoutFooter from '@/components/LayoutFooter.vue'
-  import LayoutNav from '@/components/LayoutNav.vue'
-  import LayoutHeader from '@/components/LayoutHeader.vue'
+  import LayoutNav from '@/views/Admin/adminComponent/LayoutNav.vue'
+  import LayoutHeader from '@/views/Admin/adminComponent/LayoutHeader.vue'
   import AdminSearchBar2 from '@/views/Admin/Stock/Layout/AdminSearchBar2.vue'
+  import Spinner from '@/components/Spinner.vue'
+  import { getItemsAPI } from '@/apis/admin/item'
+  import { useRoute } from 'vue-router'
+
+  const items = ref([])
+  const categories = ref([])
+  const stocks = ref([])
+  const categoryId = ref("")
+  const state = ref("")
+  const productNumber = ref("")
+  const route = useRoute()
+  const isLoading = ref(true)
+  
+  const fetchStockInfo = async () => {
+  try {
+    const categoryIdValue = parseInt(route.query.CategoryId)
+    const stateParamValue = route.query.state
+    const productNumberValue = route.query.productNumber
+    const res = await getItemsAPI(categoryIdValue, stateParamValue, productNumberValue)
+    if (res) {
+      stocks.value = res.stocksInfo
+      categories.value = res.categories
+      isLoading.value = false
+    } else {
+      console.error('Invalid API response:', res)
+      isLoading.value = false
+    }
+  } catch (error) {
+    console.error('Error fetching cart information:', error)
+    isLoading.value = false
+  }
+}
+
+onMounted(() => {
+  const categoryIdValue = parseInt(route.query.CategoryId) // 同樣，在初始化時將查詢參數轉換為數字
+  const stateParamValue = route.query.state
+  const productNumberValue = route.query.productNumber
+  categoryId.value = isNaN(categoryIdValue) ? "" : categoryIdValue  //如果轉換失敗，保持空字符串
+  state.value = isNaN(stateParamValue) ? "" : stateParamValue
+  productNumber.value = isNaN(stateParamValue) ? "" : productNumberValue
+  fetchStockInfo()
+})
+
+watch(() => {
+  const categoryIdValue = parseInt(route.query.CategoryId) // 在監聽時將查詢參數轉換為數字
+  const stateParamValue = route.query.state
+  const productNumberValue = route.query.productNumber
+  categoryId.value = isNaN(categoryIdValue) ? "" : categoryIdValue
+  state.value = isNaN(stateParamValue) ? "" : stateParamValue
+  productNumber.value = isNaN(stateParamValue) ? "" : productNumberValue
+  fetchStockInfo()
+})
+
+
+
 </script>
 
 <style scoped>
+  .container {
+    width:98%;
+    padding-bottom: 200px;
+  }
   .div2 {
     position: relative;
     display: inline-block;
-    width: 140px;
+    width: 100px;
     height: 48px;
     flex-shrink: 0;
     -webkit-text-stroke: 1px #000;
@@ -53,64 +117,72 @@
   .div3 {
     position: relative;
     display: inline-block;
-    width: 100px;
+    text-align: center;
+    width: 170px;
     height: 48px;
     flex-shrink: 0;
     -webkit-text-stroke: 1px #000;
   }
   .div4 {
-    margin-left: 6%;
-    padding-left:15px;
+    margin-left: 3.5%;
     position: relative;
     display: inline-block;
-    width: 300px;
+    width: 250px;
     height: 48px;
-    flex-shrink: 0;
+    flex-shrink: 4;
     -webkit-text-stroke: 1px #000;
   }
   .div5 {
-    margin-left: -80px;
+    margin-left: -115px;
     position: relative;
     display: inline-block;
-    width: 90px;
+    width: 30px;
     height: 48px;
     flex-shrink: 0;
     -webkit-text-stroke: 1px #000;
   }
    .div6 {
-    margin-left: 1.5%;
+    margin-left: 5%;
     position: relative;
     display: inline-block;
-    width: 90px;
+    width: 60px;
     height: 48px;
     flex-shrink: 0;
     -webkit-text-stroke: 1px #000;
   }
   .div7 {
-    margin-left: 1%;
+    margin-left: 3.5%;
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 100px;
+    width: 80px;
     flex-shrink: 0;
     -webkit-text-stroke: 1px #000;
   }
    .div8 {
-    margin-left: 3%;
+    margin-left: 7.8%;
     position: relative;
     display: inline-block;
-    padding-left:40px;
-    width: 150px;
+    width: 100px;
     height: 48px;
     flex-shrink: 0;
     -webkit-text-stroke: 1px #000;
   }
-   .div9 {
+  .div9 {
+    margin-left: 7%;
+    position: relative;
+    display: inline-block;
+    width: 100px;
+    height: 48px;
+    flex-shrink: 0;
+    -webkit-text-stroke: 1px #000;
+  }
+  .div10 {
     margin-left: 3%;
     position: relative;
     display: inline-block;
-    width: 60px;
+    width: 100px;
     height: 48px;
     flex-shrink: 0;
     -webkit-text-stroke: 1px #000;
@@ -122,44 +194,99 @@
     margin-top: 15px;
     margin-left: 2%;
     box-sizing: border-box;
+    width: 98%;
     height: 30px;
     display: flex;
     flex-direction: row;
+    padding: var(--padding-xl) 0px;
     align-items: flex-start;
     justify-content: flex-start;
+    gap: var(--gap-16xl);
   }
-  .C1100000-parent img {
-    max-width: 80px;
-    margin: 5px 90px 5px -10px;
-  }
-  .C1100000-parent {
-  margin-top: 0.5%;
-  box-sizing: border-box;
-  width: 1512px;
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  justify-content: flex-start;
-  gap: var(--gap-16xl);
-  }
-
-  /* Adjust styles for div9 to div14 */
-  .C1100000,
-  .div10,
-  .div11,
-  .div12,
-  .div13,
-  .div14,
-  .div15 {
-    padding: 2.5% 80px 3% 20px; /* Center the text horizontally */
-  }
-
-  .div10 {
-    padding-right:110px
+  .orderNumber {
+    position: relative;
+    display: inline-block;
+    margin: 25px 0px 0px 25px;
+    width: 110px;
+    height: 48px;
+    flex-shrink: 0;
   }
   .div11 {
-    padding-right:90px
+    margin-left: 1%;
+    position: relative;
+    display: inline-block;
+    margin: 25px 0px 0px 75px;
+    width: 100px;
+    height: 48px;
+    flex-shrink: 0;
   }
-
-
+  .div12 {
+    position: relative;
+    display: inline-block;
+    margin: 25px 0px 0px 60px;
+    width: 60px;
+    height: 48px;
+    flex-shrink: 0;
+  }
+  .div13 {
+    position: relative;
+    display: inline-block;
+    margin: 25px 0px 0px 40px;
+    width: 110px;
+    height: 48px;
+    flex-shrink: 0;
+  }
+  .div14 {
+    margin-left: 2%;
+    position: relative;
+    display: inline-block;
+    margin: 25px 0px 0px 25px;
+    width: 30px;
+    height: 48px;
+    flex-shrink: 0;
+  }
+  .div15 {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 25px 0px 0px 25px;
+    width: 233px;
+    flex-shrink: 0;
+  }
+  .div16 {
+    margin-left: 1%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 25px 0px 0px 25px;
+    width: 115px;
+    flex-shrink: 0;
+  }
+  .div17 {
+    margin-left: 1%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 25px 0px 0px 45px;
+    width: 115px;
+    flex-shrink: 0;
+  }
+  .parent-info {
+    margin: 1% 1.5% 1% 0px;
+    box-sizing: border-box;
+    width: 1512px;
+    display: flex;
+    flex-direction: row;
+    padding: var(--padding-xl) 0px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: var(--gap-16xl);
+  }
+  .order-image {
+    width: 80px;
+    margin-left: 40px
+  }
 </style>

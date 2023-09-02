@@ -77,7 +77,7 @@ onMounted(() => {
 const totalAmount = ref(0)
 const pagination = ref('')
 
-// Fetch cart information
+// 串接cart api獲取總金額
 const fetchCartInfo = async () => {
   try {
     const res = await getCartsAPI(pagination)
@@ -113,6 +113,7 @@ const rules = {
   ],
 }
 
+//發送建立訂單api
 const addProduct = async () => {
   try {
     const { shipName, method, address, shipTel } = receiverForm.value

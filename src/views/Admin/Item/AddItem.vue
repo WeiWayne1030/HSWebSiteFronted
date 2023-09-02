@@ -54,70 +54,75 @@
   </div>  
 </template>
 
-<script>
-  // import LayoutFooter from '@/components/LayoutFooter.vue'
-  // import LayoutNav from '@/components/LayoutNav.vue'
-  // import LayoutHeader from '@/components/LayoutHeader.vue'
+<script setup>
+  import { ref } from 'vue'
+  import LayoutNav from '@/views/Admin/adminComponent/LayoutNav.vue'
+  import LayoutHeader from '@/views/Admin/adminComponent/LayoutHeader.vue'
 
-export default {
-  data() {
-    return {
-      product: {
-        name: '',
-        category: '',
-        description: '',
-        price: null,
-        quantity: null,
-        color: '',
-        size: '',
-      },
-      categoryOptions: [{
-          value: 'option3',
-          label: '全部'
-        }, {
-          value: 'option4',
-          label: 'Brotop'
-        }, {
-          value: 'option5',
-          label: '上衣'
-        }, {
-          value: 'option6',
-          label: '下身'
-        }, {
-          value: 'option7',
-          label: '洋裝'
-        }, {
-          value: 'option8',
-          label: '套裝＆連身褲'
-        }, {
-          value: 'option9',
-          label: '外套＆罩衫'
-        }, {
-          value: 'option10',
-          label: '配件'
-        }, {
-          value: 'option11',
-          label: '鞋子'
-        }],
+const product = ref({
+  name: '',
+  category: '',
+  description: '',
+  price: null,
+  quantity: null,
+  color: '',
+  size: '',
+});
 
-    };
+const categoryOptions = [
+  {
+    value: 'option3',
+    label: '全部',
   },
-  methods: {
-    addProduct() {
-      // 在這裡執行新增商品的邏輯，例如提交表單資料到伺服器等
-      console.log('新增商品資料', this.product)
-    },
-    handlePreview() {
-      // 圖片預覽邏輯
-    },
-    handleRemove() {
-      // 刪除圖片邏輯
-    }
+  {
+    value: 'option4',
+    label: 'Brotop',
   },
-    //   beforeUpload(file) {
-    //   // 上傳前的處理邏輯
-    // }
+  {
+    value: 'option5',
+    label: '上衣',
+  },
+  {
+    value: 'option6',
+    label: '下身',
+  },
+  {
+    value: 'option7',
+    label: '洋裝',
+  },
+  {
+    value: 'option8',
+    label: '套裝＆連身褲',
+  },
+  {
+    value: 'option9',
+    label: '外套＆罩衫',
+  },
+  {
+    value: 'option10',
+    label: '配件',
+  },
+  {
+    value: 'option11',
+    label: '鞋子',
+  },
+];
+
+const addProduct = () => {
+  // 在這裡執行新增商品的邏輯，例如提交表單資料到伺服器等
+  console.log('新增商品資料', product.value);
 };
+
+const handlePreview = () => {
+  // 圖片預覽邏輯
+};
+
+const handleRemove = () => {
+  // 刪除圖片邏輯
+};
+
+// beforeUpload function can be defined here if needed
+
 </script>
 
 <style scoped>

@@ -3,9 +3,9 @@
     <!-- header,footer,nav -->
     <LayoutNav />
     <LayoutHeader />
-    <AdminSearchBar />
     </div>
     <div class="container">
+      <AdminSearchBar />
       <div class="parent">
         <div class="div2">訂單編號</div>
         <div class="div3">買家名稱</div>
@@ -40,16 +40,20 @@
 
 <script setup>
   import LayoutFooter from '@/components/LayoutFooter.vue'
-  import LayoutNav from '@/components/LayoutNav.vue'
-  import LayoutHeader from '@/components/LayoutHeader.vue'
+  import LayoutNav from '@/views/Admin/adminComponent/LayoutNav.vue'
+  import LayoutHeader from '@/views/Admin/adminComponent/LayoutHeader.vue'
   import AdminSearchBar from '@/views/Admin/Order/Layout/AdminSearchBar.vue'
 </script>
 
 <style scoped>
+    .container {
+    width:98%;
+    padding-bottom: 200px;
+  }
   .div2 {
     position: relative;
     display: inline-block;
-    width: 140px;
+    width: 150px;
     height: 48px;
     flex-shrink: 0;
     -webkit-text-stroke: 1px #000;
@@ -66,16 +70,16 @@
     margin-left: 6%;
     position: relative;
     display: inline-block;
-    width: 300px;
+    width: 350px;
     height: 48px;
     flex-shrink: 0;
     -webkit-text-stroke: 1px #000;
   }
   .div5 {
-    margin-left: -80px;
+    margin-left: -55px;
     position: relative;
     display: inline-block;
-    width: 110px;
+    width: 140px;
     height: 48px;
     flex-shrink: 0;
     -webkit-text-stroke: 1px #000;
@@ -95,7 +99,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 231px;
+    width: 250px;
     flex-shrink: 0;
     -webkit-text-stroke: 1px #000;
   }
@@ -103,7 +107,7 @@
     margin-left: 3%;
     position: relative;
     display: inline-block;
-    width: 300px;
+    width: 350px;
     height: 48px;
     flex-shrink: 0;
     -webkit-text-stroke: 1px #000;
@@ -141,20 +145,21 @@
   }
   .div10 {
     position: relative;
+    margin-left: 2%;
     display: inline-block;
-    width: 300px;
+    width: 350px;
     height: 48px;
     flex-shrink: 0;
   }
   .div11 {
     position: relative;
     display: inline-block;
-    width: 110px;
+    width: 120px;
     height: 48px;
     flex-shrink: 0;
   }
   .div12 {
-    margin-left: 2%;
+    margin-left: 4%;
     position: relative;
     display: inline-block;
     width: 110px;
@@ -170,7 +175,7 @@
     flex-shrink: 0;
   }
   .div14 {
-    margin-left: 1%;
+    margin-left: 2%;
     position: relative;
     display: flex;
     align-items: center;

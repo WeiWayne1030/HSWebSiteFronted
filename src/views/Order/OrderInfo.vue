@@ -71,6 +71,9 @@ onMounted(() => {
 </script>
 
 <style scoped>
+  .container {
+    width:95%
+  }
   .div2 {
     position: relative;
     display: inline-block;
@@ -82,16 +85,16 @@ onMounted(() => {
   .div3 {
     position: relative;
     display: inline-block;
-    width: 100px;
+    width: 90px;
     height: 48px;
     flex-shrink: 0;
     -webkit-text-stroke: 1px #000;
   }
   .div4 {
-    margin-left: 6%;
+    margin-left: 8%;
     position: relative;
     display: inline-block;
-    width: 330px;
+    width: 350px;
     height: 48px;
     flex-shrink: 0;
     -webkit-text-stroke: 1px #000;
@@ -133,6 +136,9 @@ onMounted(() => {
     flex-shrink: 0;
     -webkit-text-stroke: 1px #000;
   }
+  .line {
+    border-bottom: 1px solid;
+  }
   .parent {
     margin-top: 15px;
     margin-left: 2%;
@@ -154,7 +160,7 @@ onMounted(() => {
     flex-shrink: 0;
   }
   .div9 {
-    margin-left: 1%;
+    margin-left: 2.5%;
     position: relative;
     display: inline-block;
     width: 150px;
@@ -177,7 +183,7 @@ onMounted(() => {
     flex-shrink: 0;
   }
   .div12 {
-    margin-left: 2%;
+    margin-left: 3.5%;
     position: relative;
     display: inline-block;
     width: 110px;
