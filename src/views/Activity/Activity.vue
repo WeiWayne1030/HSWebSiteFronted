@@ -2,9 +2,7 @@
   <div>
     <LayoutNav />
     <LayoutHeader />
-     <div class="row">
-      最新活動
-    </div>
+      <h1>最新活動</h1>
     <LayoutFooter />
   </div>
 </template>

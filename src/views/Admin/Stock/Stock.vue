@@ -30,7 +30,7 @@
         <div class="div12">{{ stock.name }}</div>
         <div class="div13">{{ stock.Size.name }}</div>
         <div class="div14">{{ stock.itemStock }}</div>
-        <div class="div15">{{ stock.Item.price }}</div>
+        <div class="div15">${{ stock.Item.price }}</div>
         <div class="div16">執行下架</div>
         <div class="div17">{{ stock.updatedAt }}</div>
       </div>
@@ -51,9 +51,9 @@
   const items = ref([])
   const categories = ref([])
   const stocks = ref([])
-  const categoryId = ref("")
-  const state = ref("")
-  const productNumber = ref("")
+  // const categoryId = ref("")
+  // const state = ref("")
+  // const productNumber = ref("")
   const route = useRoute()
   const isLoading = ref(true)
   
@@ -78,22 +78,22 @@
 }
 
 onMounted(() => {
-  const categoryIdValue = parseInt(route.query.CategoryId) // 同樣，在初始化時將查詢參數轉換為數字
-  const stateParamValue = route.query.state
-  const productNumberValue = route.query.productNumber
-  categoryId.value = isNaN(categoryIdValue) ? "" : categoryIdValue  //如果轉換失敗，保持空字符串
-  state.value = isNaN(stateParamValue) ? "" : stateParamValue
-  productNumber.value = isNaN(stateParamValue) ? "" : productNumberValue
+  // const categoryIdValue = parseInt(route.query.CategoryId) // 同樣，在初始化時將查詢參數轉換為數字
+  // const stateParamValue = route.query.state
+  // const productNumberValue = route.query.productNumber
+  // categoryId.value = isNaN(categoryIdValue) ? "" : categoryIdValue  //如果轉換失敗，保持空字符串
+  // state.value = isNaN(stateParamValue) ? "" : stateParamValue
+  // productNumber.value = isNaN(stateParamValue) ? "" : productNumberValue
   fetchStockInfo()
 })
 
 watch(() => {
-  const categoryIdValue = parseInt(route.query.CategoryId) // 在監聽時將查詢參數轉換為數字
-  const stateParamValue = route.query.state
-  const productNumberValue = route.query.productNumber
-  categoryId.value = isNaN(categoryIdValue) ? "" : categoryIdValue
-  state.value = isNaN(stateParamValue) ? "" : stateParamValue
-  productNumber.value = isNaN(stateParamValue) ? "" : productNumberValue
+  // const categoryIdValue = parseInt(route.query.CategoryId) // 在監聽時將查詢參數轉換為數字
+  // const stateParamValue = route.query.state
+  // const productNumberValue = route.query.productNumber
+  // categoryId.value = isNaN(categoryIdValue) ? "" : categoryIdValue
+  // state.value = isNaN(stateParamValue) ? "" : stateParamValue
+  // productNumber.value = isNaN(stateParamValue) ? "" : productNumberValue
   fetchStockInfo()
 })
 

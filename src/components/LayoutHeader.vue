@@ -33,8 +33,8 @@
     index: "2"
   },
   {
-    title: '穿搭專區',
-    path: '/wears',
+    title: '活動專區',
+    path: '/activity',
     index: "3"
   },
   {

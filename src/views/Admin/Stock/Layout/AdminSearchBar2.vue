@@ -2,12 +2,13 @@
   <div class="search-container">
     <div class="row">
       <p class="name">狀態</p>
-      <el-select class="selectBar" v-model="statusValue" placeholder="請選擇">
+      <el-select class="selectBar" v-model="stateValue" placeholder="請選擇">
+        <el-option :label="'全部'" :value="null"></el-option>
         <el-option
           v-for="item in items"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value">
+          :key="item.id"
+          :label="item.state"
+          :value="item.state">
         </el-option>
       </el-select>
       <div class="verticalBar">|</div>
@@ -35,7 +36,7 @@
 import { ref } from 'vue';
 
 const categoryValue = ref(null);
-const statusValue = ref("");
+const stateValue = ref("");
 const formData = ref({ query: "" });
 
 const props = defineProps({

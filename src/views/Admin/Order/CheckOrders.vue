@@ -4,7 +4,10 @@
     <LayoutNav />
     <LayoutHeader />
     </div>
-    <div class="container">
+    <div v-if="isLoading" class="spinner">
+      <Spinner />
+    </div>
+    <div class="container" v-else>
       <AdminSearchBar />
       <div class="parent">
         <div class="div2">訂單編號</div>
@@ -16,33 +19,77 @@
         <div class="div8">訂單狀態</div>
       </div>
       <div class="line"></div>
-      <div class="or1100000-parent">
-        <div class="or1100000">OR1100000</div>
-        <div class="div9">王小明</div>
-        <div class="div10">台北市文山區木柵路三段96號B1</div>
-        <div class="div11">09111111111</div>
-        <div class="div12">$400</div>
-        <div class="div13">2023/7/12</div>
-        <div class="div14">待出貨</div>
+      <div class="or1100000-parent" v-for="order in orders" :key="order.id">
+        <div class="or1100000">{{ order.orderNumber }}</div>
+        <div class="div9">{{ order.shipName }}</div>
+        <div class="div10">{{ order.address }}</div>
+        <div class="div11">{{ order.shipTel }}</div>
+        <div class="div12">${{ order.total }}</div>
+        <div class="div13">{{ order.updatedAt }}</div>
+        <div class="div14">{{ order.state }}</div>
       </div>
-      <div class="or1100001-parent">
-        <div class="or1100000">OR1100001</div>
-        <div class="div9">王小華</div>
-        <div class="div10">台北市文山區木柵路三段96號B1</div>
-        <div class="div11">092222222</div>
-        <div class="div12">$150</div>
-        <div class="div19">2023/7/12</div>
-        <div class="div14">待出貨</div>
-      </div>
+      <el-pagination
+      background
+      layout="prev, currentPage, next"
+      :total="pagination.totalPage"
+      >
+      </el-pagination>
     </div>
   <LayoutFooter />
 </template>
 
 <script setup>
-  import LayoutFooter from '@/components/LayoutFooter.vue'
-  import LayoutNav from '@/views/Admin/adminComponent/LayoutNav.vue'
-  import LayoutHeader from '@/views/Admin/adminComponent/LayoutHeader.vue'
-  import AdminSearchBar from '@/views/Admin/Order/Layout/AdminSearchBar.vue'
+import { ref, onMounted, watch } from 'vue'
+import LayoutFooter from '@/components/LayoutFooter.vue'
+import LayoutNav from '@/views/Admin/adminComponent/LayoutNav.vue'
+import LayoutHeader from '@/views/Admin/adminComponent/LayoutHeader.vue'
+import AdminSearchBar from '@/views/Admin/Order/Layout/AdminSearchBar.vue'
+import Spinner from '@/components/Spinner.vue'
+import { getOrdersAPI } from '@/apis/admin/order'
+import { useRoute } from 'vue-router'
+
+const orders = ref([])
+const methods = ref([])
+const pagination = ref({
+  totalPage: 1,
+  currentPage: 1,
+  prev: 1,
+  next: 1,
+})
+const route = useRoute()
+const isLoading = ref(true)
+
+const fetchStockInfo = async () => {
+  try {
+    // Use the provided data structure's properties
+    const methodIdValue = route.query.MethodId || ""
+    const stateParamValue = route.query.state || ""
+    const orderNumberValue = route.query.orderNumber || ""
+    const currentPage = parseInt(route.query.page) || 1
+
+    const res = await getOrdersAPI(methodIdValue, stateParamValue, orderNumberValue, currentPage)
+    if (res) {
+      orders.value = res.orderInfos
+      methods.value = res.methods
+      pagination.value.totalPage = res.pagination.totalPage
+      isLoading.value = false
+    } else {
+      console.error('Invalid API response:', res)
+      isLoading.value = false
+    }
+  } catch (error) {
+    console.error('Error fetching cart information:', error)
+    isLoading.value = false
+  }
+}
+
+onMounted(() => {
+  fetchStockInfo()
+})
+
+watch(() => {
+  fetchStockInfo()
+})
 </script>
 
 <style scoped>

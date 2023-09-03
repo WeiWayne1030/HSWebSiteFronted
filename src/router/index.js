@@ -6,7 +6,7 @@ import SignUp from '@/views/SignUp/SignUp.vue'
 import Home from '@/views/Home/index.vue'
 import Items from '@/views/Item/Items.vue'
 import About from '@/views/About/About.vue'
-import Wears from '@/views/Wear/Wears.vue'
+import Activity from '@/views/Activity/Activity.vue'
 import CheckOrders from '@/views/Admin/Order/CheckOrders.vue'
 import AddItem from '@/views/Admin/Item/AddItem.vue'
 import ItemPage from '@/views/Item/ItemPage.vue'
@@ -46,8 +46,8 @@ const router = createRouter({
       component: LogIn
     },
         {
-      path: '/wears',
-      component: Wears
+      path: '/activity',
+      component: Activity
     },
     {
       path: '/admin/orders',
