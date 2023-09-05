@@ -49,7 +49,7 @@
   try {
     const res = await getOrdersAPI()
     if (res) {
-      orders.value = res
+      orders.value = res.ordersInfo
       isLoading.value = false
     } else {
       console.error('Invalid API response:', res)
