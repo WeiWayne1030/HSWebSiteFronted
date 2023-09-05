@@ -1,40 +1,40 @@
 <template>
   <div>
-    <!-- header,footer,nav -->
-    <LayoutNav />
-    <LayoutHeader />
+  <!-- header,footer,nav -->
+  <LayoutNav />
+  <LayoutHeader />
+  </div>
+  <div v-if="isLoading" class="spinner">
+    <Spinner />
+  </div>
+  <div class="container" v-else>
+    <AdminSearchBar />
+    <div class="parent">
+      <div class="div2">訂單編號</div>
+      <div class="div3">買家名稱</div>
+      <div class="div4">訂單地址</div>
+      <div class="div5">訂單電話</div>
+      <div class="div6">訂單金額</div>
+      <div class="div7">訂單建立時間</div>
+      <div class="div8">訂單狀態</div>
     </div>
-    <div v-if="isLoading" class="spinner">
-      <Spinner />
+    <div class="line"></div>
+    <div class="or1100000-parent" v-for="order in orders" :key="order.id">
+      <div class="or1100000">{{ order.orderNumber }}</div>
+      <div class="div9">{{ order.shipName }}</div>
+      <div class="div10">{{ order.address }}</div>
+      <div class="div11">{{ order.shipTel }}</div>
+      <div class="div12">${{ order.total }}</div>
+      <div class="div13">{{ order.updatedAt }}</div>
+      <div class="div14">{{ order.state }}</div>
     </div>
-    <div class="container" v-else>
-      <AdminSearchBar />
-      <div class="parent">
-        <div class="div2">訂單編號</div>
-        <div class="div3">買家名稱</div>
-        <div class="div4">訂單地址</div>
-        <div class="div5">訂單電話</div>
-        <div class="div6">訂單金額</div>
-        <div class="div7">訂單建立時間</div>
-        <div class="div8">訂單狀態</div>
-      </div>
-      <div class="line"></div>
-      <div class="or1100000-parent" v-for="order in orders" :key="order.id">
-        <div class="or1100000">{{ order.orderNumber }}</div>
-        <div class="div9">{{ order.shipName }}</div>
-        <div class="div10">{{ order.address }}</div>
-        <div class="div11">{{ order.shipTel }}</div>
-        <div class="div12">${{ order.total }}</div>
-        <div class="div13">{{ order.updatedAt }}</div>
-        <div class="div14">{{ order.state }}</div>
-      </div>
-      <el-pagination
-      background
-      layout="prev, currentPage, next"
-      :total="pagination.totalPage"
-      >
-      </el-pagination>
-    </div>
+    <el-pagination
+    background
+    layout="prev, currentPage, next"
+    :total="pagination.totalPage"
+    >
+    </el-pagination>
+  </div>
   <LayoutFooter />
 </template>
 

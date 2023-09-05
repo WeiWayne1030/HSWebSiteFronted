@@ -25,8 +25,8 @@
     index: "2"
   },
   {
-    title: '商品新增',
-    path: '/admin/item',
+    title: '其他管理',
+    path: '/admin/categories',
     index: "3"
   }
 ];

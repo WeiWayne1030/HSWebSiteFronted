@@ -9,29 +9,29 @@
       <Spinner />
     </div>
     <div class="container" v-else>
-      <AdminSearchBar2 :categories="categories" :items="items" :stocks="stocks"/>
+      <AdminSearchBar2 :categories="categories" :items="items" />
       <div class="parent">
-        <div class="div2">商品編號</div>
-        <div class="div3">商品圖</div>
-        <div class="div4">商品名稱</div>
-        <div class="div5">顏色</div>
-        <div class="div6">尺寸</div>
-        <div class="div7">目前庫存</div>
-        <div class="div8">價格</div>
-        <div class="div10">上架時間</div>
+        <div class="div1">商品圖</div>
+        <div class="div2">商品名稱</div>
+        <div class="div3">狀態</div>
+        <div class="div4">類別</div>
+        <div class="div5">價格</div>
+        <div class="div6">管理</div>
+        <div class="div7">上架時間</div>
       </div>
       <div class="line"></div>
       <div class="or1100000-parent-container">
       </div>
-      <div class="parent-info" v-for="stock in stocks" :key="stock.id">
-        <div class="orderNumber">{{ stock.productNumber }}</div>
-        <img class="order-image" :src=" stock.Item.image" alt="Product Image">
-        <div class="div11">{{ stock.Item.name }}</div>
-        <div class="div12">{{ stock.name }}</div>
-        <div class="div13">{{ stock.Size.name }}</div>
-        <div class="div14">{{ stock.itemStock }}</div>
-        <div class="div15">${{ stock.Item.price }}</div>
-        <div class="div17">{{ stock.updatedAt }}</div>
+      <div class="parent-info" v-for="item in items" :key="item.id">
+        <img class="order-image" :src=" item.image" alt="Product Image">
+        <div class="div11">{{ item.name }}</div>
+        <div class="div12">{{ item.state }}</div>
+        <div class="div13">{{ item.Category.name}}</div>
+        <div class="div14">{{ item.price }}</div>
+            <el-button class="div16" @click="item.state === 0 ?       fectchRelistStock(item.id) : fectchDelStock(item.id)">
+              {{ item.state === 0 ? '產品上架' : '產品下架' }}
+            </el-button>
+        <div class="div17">{{ item.updatedAt }}</div>
       </div>
     </div> 
   <LayoutFooter />
@@ -45,15 +45,11 @@
   import AdminSearchBar2 from '@/views/Admin/Stock/Layout/AdminSearchBar2.vue'
   import StocksNavPills from '@/views/Admin/Stock/Layout/StocksNavPills.vue'
   import Spinner from '@/components/Spinner.vue'
-  import { getStocksAPI } from '@/apis/admin/stock'
+  import { getItemsAPI, removeItemAPI, relistItemAPI } from '@/apis/admin/item'
   import { useRoute } from 'vue-router'
 
   const items = ref([])
   const categories = ref([])
-  const stocks = ref([])
-  // const categoryId = ref("")
-  // const state = ref("")
-  // const productNumber = ref("")
   const route = useRoute()
   const isLoading = ref(true)
   
@@ -61,10 +57,9 @@
   try {
     const categoryIdValue = parseInt(route.query.CategoryId)
     const stateParamValue = route.query.state
-    const productNumberValue = route.query.productNumber
-    const res = await getStocksAPI (categoryIdValue, stateParamValue, productNumberValue)
+    const res = await getItemsAPI(categoryIdValue, stateParamValue )
     if (res) {
-      stocks.value = res.stocksInfo
+      items.value = res.itemsInfo
       categories.value = res.categories
       isLoading.value = false
     } else {
@@ -77,6 +72,24 @@
   }
 }
 
+const fectchDelStock = async (id) => {
+  try {
+    await removeItemAPI(id)
+    items.value = items.value.filter(item => item.id !== id)
+  } catch (error) {
+    console.error('Error deleting cart item:', error)
+  }
+}
+
+const fectchRelistStock = async (id) => {
+  try {
+    await relistItemAPI(id)
+    items.value = items.value.filter(item => item.id !== id)
+  } catch (error) {
+    console.error('Error deleting cart item:', error)
+  }
+}
+
 onMounted(() => {
   // const categoryIdValue = parseInt(route.query.CategoryId) // 同樣，在初始化時將查詢參數轉換為數字
   // const stateParamValue = route.query.state
@@ -85,6 +98,8 @@ onMounted(() => {
   // state.value = isNaN(stateParamValue) ? "" : stateParamValue
   // productNumber.value = isNaN(stateParamValue) ? "" : productNumberValue
   fetchStockInfo()
+  fectchDelStock()
+  fectchRelistStock()
 })
 
 watch(() => {
@@ -95,9 +110,9 @@ watch(() => {
   // state.value = isNaN(stateParamValue) ? "" : stateParamValue
   // productNumber.value = isNaN(stateParamValue) ? "" : productNumberValue
   fetchStockInfo()
+  fectchDelStock()
+  fectchRelistStock()
 })
-
-
 
 </script>
 
@@ -106,7 +121,8 @@ watch(() => {
     width:98%;
     padding-bottom: 200px;
   }
-  .div2 {
+  .div1 {
+    margin-left:3%;
     position: relative;
     display: inline-block;
     width: 100px;
@@ -114,27 +130,27 @@ watch(() => {
     flex-shrink: 0;
     -webkit-text-stroke: 1px #000;
   }
-  .div3 {
+  .div2 {
+    margin-left:3%;
     position: relative;
     display: inline-block;
     text-align: center;
-    width: 170px;
+    width: 300px;
     height: 48px;
     flex-shrink: 0;
     -webkit-text-stroke: 1px #000;
   }
-  .div4 {
-    margin-left: 7.5%;
+  .div3 {
+    margin-left: 5%;
     position: relative;
     display: inline-block;
-    width: 300px;
+    width: 250px;
     height: 48px;
     flex-shrink: 4;
     -webkit-text-stroke: 1px #000;
-    align-items: center;
   }
-  .div5 {
-    margin-left: -40px;
+  .div4 {
+    margin-left: -100px;
     position: relative;
     display: inline-block;
     width: 30px;
@@ -142,8 +158,8 @@ watch(() => {
     flex-shrink: 0;
     -webkit-text-stroke: 1px #000;
   }
-   .div6 {
-    margin-left: 5%;
+   .div5 {
+    margin-left: 7%;
     position: relative;
     display: inline-block;
     width: 60px;
@@ -151,8 +167,8 @@ watch(() => {
     flex-shrink: 0;
     -webkit-text-stroke: 1px #000;
   }
-  .div7 {
-    margin-left: 3.5%;
+  .div6 {
+    margin-left: 7%;
     position: relative;
     display: flex;
     align-items: center;
@@ -161,26 +177,8 @@ watch(() => {
     flex-shrink: 0;
     -webkit-text-stroke: 1px #000;
   }
-   .div8 {
-    margin-left: 7.8%;
-    position: relative;
-    display: inline-block;
-    width: 100px;
-    height: 48px;
-    flex-shrink: 0;
-    -webkit-text-stroke: 1px #000;
-  }
-  .div9 {
-    margin-left: 7%;
-    position: relative;
-    display: inline-block;
-    width: 100px;
-    height: 48px;
-    flex-shrink: 0;
-    -webkit-text-stroke: 1px #000;
-  }
-  .div10 {
-    margin-left: 6.5%;
+   .div7 {
+    margin-left: 9%;
     position: relative;
     display: inline-block;
     width: 100px;
@@ -213,26 +211,25 @@ watch(() => {
     flex-shrink: 0;
   }
   .div11 {
-    margin-left: 1%;
     position: relative;
     display: inline-block;
-    margin: 25px 0px 0px 75px;
-    width: 270px;
+    margin: 25px 0px 0px 100px;
+    width: 300px;
     height: 48px;
     flex-shrink: 0;
   }
   .div12 {
     position: relative;
     display: inline-block;
-    margin: 25px 0px 0px 60px;
-    width: 70px;
+    margin: 25px 0px 0px 65px;
+    width: 60px;
     height: 48px;
     flex-shrink: 0;
   }
   .div13 {
     position: relative;
     display: inline-block;
-    margin: 25px 0px 0px 40px;
+    margin: 25px 0px 0px 75px;
     width: 110px;
     height: 48px;
     flex-shrink: 0;
@@ -241,7 +238,7 @@ watch(() => {
     margin-left: 2%;
     position: relative;
     display: inline-block;
-    margin: 25px 0px 0px 25px;
+    margin: 25px 0px 0px 30px;
     width: 30px;
     height: 48px;
     flex-shrink: 0;
@@ -256,22 +253,21 @@ watch(() => {
     flex-shrink: 0;
   }
   .div16 {
-    margin-left: 1%;
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 25px 0px 0px 25px;
-    width: 115px;
+    padding:0px 40px 0px 40px;
+    margin: 20px 0px 0px 130px;
+    width: 50px;
     flex-shrink: 0;
   }
   .div17 {
-    margin-left: 1%;
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 25px 0px 0px 45px;
+    margin: 25px 0px 0px 90px;
     width: 115px;
     flex-shrink: 0;
   }
@@ -288,6 +284,6 @@ watch(() => {
   }
   .order-image {
     width: 80px;
-    margin-left: 40px
+    margin-left: 50px
   }
 </style>

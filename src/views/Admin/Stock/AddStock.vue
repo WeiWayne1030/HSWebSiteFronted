@@ -3,6 +3,7 @@
     <!-- header,footer,nav -->
     <LayoutNav />
     <LayoutHeader />
+     <StocksNavPills />
     <div class="add-product">
       <h2>新增商品</h2>
       <el-form ref="productForm" :model="product" label-width="100px">
@@ -58,6 +59,7 @@
   import { ref } from 'vue'
   import LayoutNav from '@/views/Admin/adminComponent/LayoutNav.vue'
   import LayoutHeader from '@/views/Admin/adminComponent/LayoutHeader.vue'
+  import StocksNavPills from '@/views/Admin/Stock/Layout/StocksNavPills.vue'
 
 const product = ref({
   name: '',
