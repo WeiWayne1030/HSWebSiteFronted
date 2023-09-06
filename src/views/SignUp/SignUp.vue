@@ -60,6 +60,7 @@ const rules = {
   ],
   password: [
     { required: true, message: '請輸入密碼', trigger: 'blur' },
+    { min: 6, max: 14, message: '密碼長度為6-14個字符', trigger: 'blur' }
   ],
   checkPassword: [
     { required: true, message: '請再次輸入密碼', trigger: 'blur' },
@@ -86,7 +87,7 @@ const signup = async () => {
       const res = await signupAPI({ name, account, password, email, checkPassword })
       console.log(res)
       ElMessage({ type: 'success', message: '註冊成功' })
-      router.replace('/')
+      router.replace('/login')
     } catch (error) {
       ElMessage({ type: 'error', message: '註冊失敗' })
     }

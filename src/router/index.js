@@ -20,6 +20,7 @@ import Stock from '@/views/Admin/Stock/Stock.vue'
 import BuildOrder from '@/views/Order/OrderPage.vue'
 import OrderInfo from '@/views/Order/OrderInfo.vue'
 import AllItems from '@/views/Admin/Items/Items.vue'
+import UserPage from '@/views/User/UserPage.vue'
 
 
 const router = createRouter({
@@ -101,6 +102,10 @@ const router = createRouter({
     {
       path: '/orderInfo',
       component: OrderInfo
+    },
+    {
+      path: '/userInfo',
+      component: UserPage
     }
 
   ]

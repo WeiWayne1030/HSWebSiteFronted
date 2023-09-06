@@ -47,3 +47,10 @@ export const addCartAPI = ({ColorId,itemQuantity}) => {
     headers: { Authorization: `Bearer ${getToken()}` }
   })
 };
+
+export const getUserFileAPI = () => {
+  return request({
+    url: `/user/profile`,
+    headers: { Authorization: `Bearer ${getToken()}`}
+  })
+}
