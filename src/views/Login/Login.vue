@@ -12,7 +12,7 @@
         </el-form-item>
         <el-form-item class="button">
           <el-checkbox class="seller-checkbox" name="isSeller" label="我是商家" v-model="isSeller" />
-          <el-button type="primary" @click="isSeller ? doAdminLogin() : doLogin()">登入</el-button>
+          <el-button class="login-button" type="primary" @click="isSeller ? doAdminLogin() : doLogin()">登入</el-button>
           <router-link to="/signup" class="signUp-button">註冊</router-link>
         </el-form-item>
       </el-form>
@@ -95,9 +95,16 @@ const doAdminLogin = async () => {
   margin: 0 auto;
   padding: 20px;
 }
-.el-button {
-margin-bottom: 10px;
-margin-left: 15px
+.login-button {
+  display: inline-block;
+  background-color: #800000; 
+  margin-left: 15px;
+  margin-bottom: 10px;
+  color: white;
+  border-radius: 20px;
+  padding:0px 100px 0px 100px;
+  text-decoration: none;
+  cursor: pointer;
 }
 
 .signUp-button {

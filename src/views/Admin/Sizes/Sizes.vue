@@ -15,8 +15,8 @@
           <el-row>
             <el-col :span="16">
               <el-input
-                v-model="newCategoryName"
-                placeholder="新增類別..."
+                v-model="newSizeName"
+                placeholder="新增尺寸..."
               ></el-input>
             </el-col>
             <el-col :span="8">
@@ -38,7 +38,7 @@
           ></el-table-column>
           <el-table-column
             prop="name"
-            label="Category Name"
+            label="尺寸"
           >
               <div class="position-relative">
                 <el-input
@@ -91,7 +91,7 @@ import LayoutNav from '@/views/Admin/adminComponent/LayoutNav.vue'
 import LayoutHeader from '@/views/Admin/adminComponent/LayoutHeader.vue'
 import OthersNavPills from '../adminComponent/OthersNavPills.vue';
 
-const newCategoryName = ref('');
+const newSizeName = ref('');
 const isProcessing = ref(false);
 const categories = ref([]); // Initialize with your data
 

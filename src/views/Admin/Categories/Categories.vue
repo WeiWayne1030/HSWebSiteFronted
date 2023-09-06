@@ -5,6 +5,9 @@
   <LayoutHeader />
   <OthersNavPills />
   </div>
+  <div v-if="isLoading" class="spinner">
+    <Spinner />
+  </div>
   <div class="container py-5">
     <el-container>
       <el-aside width="100px">
@@ -23,7 +26,7 @@
               <el-button
                 type="primary"
                 :disabled="isProcessing"
-                @click.stop.prevent="createCategory"
+                @click="createCategory(category.id)"
               >
                 新增
               </el-button>
@@ -31,53 +34,39 @@
           </el-row>
         </el-form>
         <el-table :data="categories" stripe style="width: 100%">
-          <el-table-column
-            prop="id"
-            label="#"
-            width="60"
-          ></el-table-column>
-          <el-table-column
-            prop="name"
-            label="類別"
-          >
-              <div class="position-relative">
-                <el-input
-                  v-show="scope.row.isEditing"
-                  v-model="scope.row.name"
-                ></el-input>
-                <div v-show="!scope.row.isEditing" class="category-name">
-                  {{ scope.row.name }}
-                </div>
-                <span
-                  v-show="scope.row.isEditing"
-                  class="cancel"
-                  @click="handleCancel(scope.row.id)"
-                >✕</span>
-              </div>
-          </el-table-column>
-          <el-table-column label="Action" width="210">
-              <el-button
-                v-show="!scope.row.isEditing"
-                type="text"
-                @click.stop.prevent="toggleIsEditing(scope.row.id)"
-              >
-                Edit
-              </el-button>
-              <el-button
-                v-show="scope.row.isEditing"
-                type="text"
-                @click.stop.prevent="updateCategory({ categoryId: scope.row.id, name: scope.row.name })"
-              >
-                Save
-              </el-button>
-              <el-button
-                type="text"
-                @click.stop.prevent="deleteCategory(scope.row.id)"
-              >
-                Delete
-              </el-button>
-          </el-table-column>
-        </el-table>
+    <el-table-column prop="id" label="#" width="60"></el-table-column>
+    <el-table-column prop="name" label="類別"></el-table-column>
+    <el-table-column prop="state" label="狀態"></el-table-column>
+    <el-table-column label="Action" class="action" align="center">
+      <div class="action-button">
+        <el-button type="text" class="button1" width="2">編輯</el-button>
+        <el-button
+          type="text"
+          class="button2"
+          width="2"
+          @click.stop.prevent="removeCategory(category.id)"
+        >
+          移除
+        </el-button>
+        <el-button
+          type="text"
+          class="button3"
+          width="2"
+          @click.stop.prevent="relistCategory(category.id)"
+        >
+          恢复
+        </el-button>
+        <el-button
+          type="text"
+          class="button4"
+          width="2"
+          @click.stop.prevent="deleteCategory(category.id)"
+        >
+          刪除
+        </el-button>
+      </div>
+    </el-table-column>
+  </el-table>
       </el-main>
     </el-container>
   </div>
@@ -85,33 +74,110 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import LayoutFooter from '@/components/LayoutFooter.vue'
 import LayoutNav from '@/views/Admin/adminComponent/LayoutNav.vue'
 import LayoutHeader from '@/views/Admin/adminComponent/LayoutHeader.vue'
-import OthersNavPills from '../adminComponent/OthersNavPills.vue';
+import OthersNavPills from '@/views/Admin/adminComponent/OthersNavPills.vue';
+import Spinner from '@/components/Spinner.vue'
+import { addCategoryAPI, getCategoriesAPI,removeCategoryAPI,relistCategoryAPI, delCategoryAPI} from '@/apis/admin/other/category'
 
 const newCategoryName = ref('');
 const isProcessing = ref(false);
-const categories = ref([]); // Initialize with your data
+const categories = ref([]);
+const isLoading = ref(true);
 
-// const createCategory = () => {
-//   // Your createCategory logic here
+const createCategory = async (name) => {
+  try {
+    await addCategoryAPI(name);
+    // Refresh the category list here
+    fetchCategory();
+  } catch (error) {
+    isLoading.value = false;
+    console.error('Error creating category:', error);
+  }
+};
+
+const fetchCategory = async () => {
+  try {
+    const res = await getCategoriesAPI();
+    if (res) {
+      categories.value = res;
+      isLoading.value = false;
+    } else {
+      console.error('Invalid API response:', res);
+      isLoading.value = false;
+    }
+  } catch (error) {
+    console.error('Error fetching categories:', error);
+    isLoading.value = false;
+  }
+};
+
+
+// const updateCategory = async (category) => {
+//   try {
+//     await putCategoryAPI({ id: category.id, name: category.name });
+//     fetchCategory();
+//   } catch (error) {
+//     console.error('Error updating category:', error);
+//   }
 // };
 
-// const handleCancel = (categoryId) => {
-//   // Your handleCancel logic here
-// };
+const removeCategory = async (id) => {
+  try {
+    const { id } =  await removeCategoryAPI({id});
+    // Refresh the category list here
+    fetchCategory();
+  } catch (error) {
+    console.error('Error removing category:', error);
+  }
+};
 
-// const toggleIsEditing = (categoryId) => {
-//   // Your toggleIsEditing logic here
-// };
+const relistCategory = async (id) => {
+  try {
+    await relistCategoryAPI({id});
+    // Refresh the category list here
+    fetchCategory();
+  } catch (error) {
+    console.error('Error restoring category:', error);
+  }
+};
 
-// const updateCategory = ({ categoryId, name }) => {
-//   // Your updateCategory logic here
-// };
+const deleteCategory = async (id) => {
+  try {
+    await delCategoryAPI(id);
+    fetchCategory();
+  } catch (error) {
+    console.error('Error deleting category:', error);
+  }
+};
 
-// const deleteCategory = (categoryId) => {
-//   // Your deleteCategory logic here
-// };
+onMounted(() => {
+  fetchCategory();
+});
 </script>
+<style>
+.action-button {
+    display: flex;
+    justify-content: center; 
+    align-items:  center;
+    margin-right:300px;
+    width:330px;
+}
+.button1 {
+  padding:3px
+}
+.button2 {
+  padding:3px
+}
+.button3 {
+  padding:3px
+}
+.button4 {
+  padding:3px
+}
+.my-4 {
+  padding-bottom: 2%;
+}
+</style>

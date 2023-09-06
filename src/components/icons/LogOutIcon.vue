@@ -1,5 +1,5 @@
 <template>
-  <el-popconfirm class="popconfirm"  @Confirm="confirmLogout" width="20%"  title="確認退出?" confirmButtonText="確認" cancelButtonText="取消">
+  <el-popconfirm class="popconfirm"  @Confirm="confirmLogout" title="確認退出?" confirmButtonText="確認" cancelButtonText="取消">
     <template #reference>
       <n-icon size="30" color="#ffffff" class="btn btn-fb nav-item footer-link">
         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

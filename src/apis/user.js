@@ -22,7 +22,7 @@ export const adminSigninAPI = ({ account, password }) => {
   })
 }
 
-export const signupAPI = ( { name, account, password, email } ) => {
+export const signupAPI = ( { name, account, password, checkPassword, email } ) => {
   return request({
     url:'/users',
     method:'POST',
@@ -30,6 +30,7 @@ export const signupAPI = ( { name, account, password, email } ) => {
       name,
       account,
       password,
+      checkPassword,
       email
     }
   })

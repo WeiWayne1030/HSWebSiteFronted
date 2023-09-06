@@ -56,7 +56,7 @@
         <p class="notice">運費和折扣將在結帳時計算</p>
       </div>
       <div class="checkout-button">
-        <el-button type="primary" @click="checkout">下一步</el-button>
+        <el-button class="next-button" type="primary" @click="checkout">下一步</el-button>
       </div>
     </div>
   </div>
@@ -219,7 +219,7 @@ const checkout = () => {
   padding-bottom: 10px;
 }
 
-.el-button {
+.next-button {
   padding:10px 100px 10px 100px;
   border-radius: 50px
 }
