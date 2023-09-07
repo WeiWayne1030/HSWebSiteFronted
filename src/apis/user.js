@@ -63,6 +63,7 @@ export const editUserFileAPI = ({
         sex,
         telNumber,
         introduction,
+        avatar
       }) => {
   return request({
     url:'/user/profile',
@@ -75,7 +76,10 @@ export const editUserFileAPI = ({
       sex,
       telNumber,
       introduction,
+      avatar
     },
-    headers: { Authorization: `Bearer ${getToken()}` }
+    headers: { Authorization: `Bearer ${getToken()}`,
+  },
+    
   })
 };

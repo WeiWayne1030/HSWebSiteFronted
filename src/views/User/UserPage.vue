@@ -8,12 +8,21 @@
     <el-card class="user-card" v-else>
       <div class="user-info">
         <!-- 用户头像放左侧 -->
-        <div class="user-avatar">
-          <img :src="userData.avatar" alt="User Avatar" />
-        </div>
+        <img
+          v-if="editUserData.avatar"
+          :src="editUserData.avatar"
+          alt="User Avatar"
+          class="user-avatar"
+        />
+        <img
+          v-else
+          :src="dummyAvatarUrl"
+          alt="Dummy Avatar"
+          class="user-avatar"
+        />
         <!-- 用户信息放右侧 -->
         <div class="user-details">
-          <h2>{{ userData.name }}</h2>
+          <h2>{{ editUserData.name }}</h2>
           <p>用戶信箱: {{ editUserData.email }}</p>
           <p>用戶帳號: {{ editUserData.account }}</p>
           <p>用戶性別: {{ editUserData.sex }}</p>
@@ -56,6 +65,23 @@
           </el-form-item>
           <el-form-item label="個人簡介">
             <el-input v-model="editUserData.introduction" type="textarea" class="userIput"></el-input>
+          </el-form-item>
+          <el-form-item label="更換頭像">
+            <img
+              v-if="editUserData.avatar"
+              :src="editUserData.avatar"
+              class="d-block img-thumbnail mb-3"
+              width="50"
+              height="50"
+            >
+            <input
+              id="image"
+              type="file"
+              name="image"
+              accept="image/*"
+              class="form-control-file"
+              @change="handleFileChange"
+            >
           </el-form-item>
           <span class="dialog-footer">
             <el-button @click="closeEditDialog">取消</el-button>
@@ -103,6 +129,7 @@ onMounted(async () => {
 const toggleEdit = () => {
   isEditingUser.value = true
 };
+const dummyAvatarUrl = 'https://i.imgur.com/AKiOvH7.jpg'
 
 const initialUserData = {
   name: '',
@@ -126,6 +153,7 @@ const getUserData = async () => {
       editUserData.sex = res.sex
       editUserData.telNumber = res.telNumber
       editUserData.introduction = res.introduction
+      editUserData.avatar = res.avatar
     } else {
       console.error('Invalid API response:', res);
     }
@@ -134,25 +162,30 @@ const getUserData = async () => {
   }
 };
 
+const handleFileChange = (e) => {
+  const files = e.target.files;
+  if (files.length > 0) {
+    const file = files[0];
+    editUserData.avatar = URL.createObjectURL(file);
+  }
+};
+
 const updateUserData = async () => {
   try {
-    // 准备要发送到 API 的数据
-    const updatedData = {
-      name: editUserData.name,
-      email: editUserData.email,
-      account: editUserData.account,
-      sex: editUserData.sex,
-      telNumber: editUserData.telNumber,
-      introduction: editUserData.introduction,
-    };
+    // 创建一个空的JavaScript对象来存储FormData的键值对
+    const formDataObject = {};
 
-    // 发送 PUT 请求以更新用户数据
-    const res = await editUserFileAPI(updatedData);
+    // 使用FormData.entries()来迭代FormData的键值对
+    for (const [key, value] of Object.entries(editUserData)) {
+      formDataObject[key] = value;
+    }
+
+    // 发送 PUT 请求以更新用户数据，并将整个对象传递给API
+    const res = await editUserFileAPI(formDataObject);
 
     if (res) {
       isEditingUser.value = false; // 成功后关闭编辑对话框
-      ElMessage.success('保存成功'); 
-      isEditingUser.value = false
+      ElMessage.success('保存成功');
     } else {
       console.error('Invalid API response:', res);
     }
@@ -263,5 +296,13 @@ p {
 .dialog-footer {
   padding:10px
 }
+
+.img-thumbnail {
+  padding-right: 10px;
+  background-color: #fff;
+}
+
+
+
 
 </style>
