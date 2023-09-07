@@ -22,7 +22,6 @@ import OrderInfo from '@/views/Order/OrderInfo.vue'
 import AllItems from '@/views/Admin/Items/Items.vue'
 import UserPage from '@/views/User/UserPage.vue'
 
-
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   //path & component對應關係位置
@@ -107,7 +106,6 @@ const router = createRouter({
       path: '/userInfo',
       component: UserPage
     }
-
   ]
 })
 
