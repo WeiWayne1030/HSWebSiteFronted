@@ -5,6 +5,9 @@
   <LayoutHeader />
   <OthersNavPills />
   </div>
+  <div v-if="isLoading" class="spinner">
+    <Spinner />
+  </div>
   <div class="container py-5">
     <el-container>
       <el-aside width="100px">
@@ -23,61 +26,47 @@
               <el-button
                 type="primary"
                 :disabled="isProcessing"
-                @click.stop.prevent="createCategory"
+                @click="createSize(size.id)"
               >
                 新增
               </el-button>
             </el-col>
           </el-row>
         </el-form>
-        <el-table :data="categories" stripe style="width: 100%">
-          <el-table-column
-            prop="id"
-            label="#"
-            width="60"
-          ></el-table-column>
-          <el-table-column
-            prop="name"
-            label="尺寸"
-          >
-              <div class="position-relative">
-                <el-input
-                  v-show="scope.row.isEditing"
-                  v-model="scope.row.name"
-                ></el-input>
-                <div v-show="!scope.row.isEditing" class="category-name">
-                  {{ scope.row.name }}
-                </div>
-                <span
-                  v-show="scope.row.isEditing"
-                  class="cancel"
-                  @click="handleCancel(scope.row.id)"
-                >✕</span>
-              </div>
-          </el-table-column>
-          <el-table-column label="Action" width="210">
-              <el-button
-                v-show="!scope.row.isEditing"
-                type="text"
-                @click.stop.prevent="toggleIsEditing(scope.row.id)"
-              >
-                Edit
-              </el-button>
-              <el-button
-                v-show="scope.row.isEditing"
-                type="text"
-                @click.stop.prevent="updateCategory({ categoryId: scope.row.id, name: scope.row.name })"
-              >
-                Save
-              </el-button>
-              <el-button
-                type="text"
-                @click.stop.prevent="deleteCategory(scope.row.id)"
-              >
-                Delete
-              </el-button>
-          </el-table-column>
-        </el-table>
+        <el-table :data="sizes" stripe style="width: 100%">
+    <el-table-column prop="id" label="#" width="60"></el-table-column>
+    <el-table-column prop="name" label="支付方式"></el-table-column>
+    <el-table-column prop="state" label="狀態"></el-table-column>
+    <el-table-column label="Action" class="action" align="center">
+      <div class="action-button">
+        <el-button type="text" class="button1" width="2">編輯</el-button>
+        <el-button
+          type="text"
+          class="button2"
+          width="2"
+          @click.stop.prevent="removeSize(size.id)"
+        >
+          移除
+        </el-button>
+        <el-button
+          type="text"
+          class="button3"
+          width="2"
+          @click.stop.prevent="relistSize(size.id)"
+        >
+          恢复
+        </el-button>
+        <el-button
+          type="text"
+          class="button4"
+          width="2"
+          @click.stop.prevent="deleteSize(size.id)"
+        >
+          刪除
+        </el-button>
+      </div>
+    </el-table-column>
+  </el-table>
       </el-main>
     </el-container>
   </div>
@@ -85,33 +74,109 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import LayoutFooter from '@/components/LayoutFooter.vue'
 import LayoutNav from '@/views/Admin/adminComponent/LayoutNav.vue'
 import LayoutHeader from '@/views/Admin/adminComponent/LayoutHeader.vue'
-import OthersNavPills from '../adminComponent/OthersNavPills.vue';
+import OthersNavPills from '@/views/Admin/adminComponent/OthersNavPills.vue';
+import Spinner from '@/components/Spinner.vue'
+import { addSizeAPI, getSizesAPI,removeSizeAPI,relistSizeAPI, delSizeAPI} from '@/apis/admin/other/size'
 
 const newSizeName = ref('');
 const isProcessing = ref(false);
-const categories = ref([]); // Initialize with your data
+const sizes = ref([]);
+const isLoading = ref(true);
 
-// const createCategory = () => {
-//   // Your createCategory logic here
+const createSize = async (name) => {
+  try {
+    await addSizeAPI(name);
+    fetchSize();
+  } catch (error) {
+    isLoading.value = false;
+    console.error('Error creating size:', error);
+  }
+};
+
+const fetchSize = async () => {
+  try {
+    const res = await getSizesAPI();
+    if (res) {
+      sizes.value = res;
+      isLoading.value = false;
+    } else {
+      console.error('Invalid API response:', res);
+      isLoading.value = false;
+    }
+  } catch (error) {
+    console.error('Error fetching categories:', error);
+    isLoading.value = false;
+  }
+};
+
+
+// const updateSize = async (size) => {
+//   try {
+//     await putSizeAPI({ id: size.id, name: size.name });
+//     fetchSize();
+//   } catch (error) {
+//     console.error('Error updating size:', error);
+//   }
 // };
 
-// const handleCancel = (categoryId) => {
-//   // Your handleCancel logic here
-// };
+const removeSize= async (id) => {
+  try {
+    const { id } =  await removeSizeAPI({id});
+    // Refresh the size list here
+    fetchSize();
+  } catch (error) {
+    console.error('Error removing size:', error);
+  }
+};
 
-// const toggleIsEditing = (categoryId) => {
-//   // Your toggleIsEditing logic here
-// };
+const relistSize = async (id) => {
+  try {
+    await relistSizeAPI({id});
+    // Refresh the size list here
+    fetchSize();
+  } catch (error) {
+    console.error('Error restoring size:', error);
+  }
+};
 
-// const updateCategory = ({ categoryId, name }) => {
-//   // Your updateCategory logic here
-// };
+const deleteSize = async (id) => {
+  try {
+    await delSizeAPI(id);
+    fetchSize();
+  } catch (error) {
+    console.error('Error deleting size:', error);
+  }
+};
 
-// const deleteCategory = (categoryId) => {
-//   // Your deleteCategory logic here
-// };
+onMounted(() => {
+  fetchSize();
+});
 </script>
+<style>
+.action-button {
+    display: flex;
+    justify-content: center; 
+    align-items:  center;
+    margin-right:300px;
+    width:330px;
+}
+.button1 {
+  padding:3px
+}
+.button2 {
+  padding:3px
+}
+.button3 {
+  padding:3px
+}
+.button4 {
+  padding:3px
+}
+.my-4 {
+  padding-bottom: 2%;
+}
+</style>

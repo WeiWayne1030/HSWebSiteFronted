@@ -167,21 +167,19 @@ const handleFileChange = (e) => {
   if (files.length > 0) {
     const file = files[0];
     editUserData.avatar = URL.createObjectURL(file);
+
+    // 创建一个 FormData 对象并将文件添加到其中
+    const formData = new FormData();
+    formData.append('avatar', file);
+
+    // 将 FormData 对象存储在 editUserData 中，以备稍后提交
+    editUserData.formData = formData;
   }
 };
 
 const updateUserData = async () => {
   try {
-    // 创建一个空的JavaScript对象来存储FormData的键值对
-    const formDataObject = {};
-
-    // 使用FormData.entries()来迭代FormData的键值对
-    for (const [key, value] of Object.entries(editUserData)) {
-      formDataObject[key] = value;
-    }
-
-    // 发送 PUT 请求以更新用户数据，并将整个对象传递给API
-    const res = await editUserFileAPI(formDataObject);
+    const res = await editUserFileAPI(editUserData.formData);
 
     if (res) {
       isEditingUser.value = false; // 成功后关闭编辑对话框
@@ -193,6 +191,8 @@ const updateUserData = async () => {
     console.error('Error updating user data:', error);
   }
 };
+
+
 
 const getUserDataAndOpenDialog = () => {
   getUserData();

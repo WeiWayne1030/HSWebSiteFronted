@@ -10,11 +10,6 @@
           <LogOutIcon />
         </el-tooltip> 
       </li>
-      <li>
-        <el-tooltip content="個人資料" placement="top">
-          <Person />
-        </el-tooltip>
-      </li>
     </ul>
     <div v-else>
       <el-tooltip content="登入" placement="top">
@@ -28,7 +23,6 @@
 import { watch } from 'vue'
 import { useUserStore } from '@/stores/user'
 // import { getCartsAPI } from '@/apis/cart'
-import Person from '@/components/icons/Person.vue'
 // import Order from '@/components/icons/Order.vue'
 import LogOutIcon from '@/components/icons/LogOutIcon.vue'
 import LogInIcon from '@/components/icons/LogInIcon.vue'
