@@ -1,11 +1,11 @@
 <script setup>
-// 定义props
+// 定義props
 defineProps({
-  // 主标题
+  // 主標題
   title: {
     type: String
   },
-  // 副标题
+  // 副標題
   subTitle: {
     type: String
   }

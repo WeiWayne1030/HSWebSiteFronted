@@ -154,7 +154,7 @@ const addToCart = async () => {
   } else {
     ElMessage.error('請先登入');
     // Redirect to the login page
-    router.replace({ path: '/login' }); // Change the path to your login page
+    router.replace({ path: '/login' })
     return;
   }
   
@@ -208,8 +208,8 @@ const addToCart = async () => {
   display: block;
   width: 100%;
   height: 1px;
-  background-color: #ccc; /* 设置线条的颜色 */
-  margin: 10px 0; /* 控制线条与选择器之间的间距 */
+  background-color: #ccc; 
+  margin: 10px 0; 
 }
 
 .quantity {
@@ -219,7 +219,7 @@ const addToCart = async () => {
 .radio-group {
   padding:30px 0px 30px 0px ;
   display: flex;
-  gap: 30px; /* 控制选项之间的间距 */
+  gap: 30px;
 }
 
 .selected-color-button {

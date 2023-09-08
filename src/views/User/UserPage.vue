@@ -7,7 +7,7 @@
     </div>
     <el-card class="user-card" v-else>
       <div class="user-info">
-        <!-- 用户头像放左侧 -->
+        <!-- 用戶圖片放左邊 -->
         <img
           v-if="editUserData.avatar"
           :src="editUserData.avatar"
@@ -20,7 +20,7 @@
           alt="Dummy Avatar"
           class="user-avatar"
         />
-        <!-- 用户信息放右侧 -->
+        <!-- 用戶訊息放右邊 -->
         <div class="user-details">
           <h2>{{ editUserData.name }}</h2>
           <p>用戶信箱: {{ editUserData.email }}</p>
@@ -31,14 +31,14 @@
           <p>帳號建立時間: {{ formatDateTime(userData.createdAt) }}</p>
           <p>帳號更新時間: {{ formatDateTime(userData.updatedAt) }}</p>
         </div>
-          <!-- 编辑按钮 -->
+          <!-- 編輯按鈕 -->
         <div class="edit-button">
           <el-button type="primary" class="button-text" @click="toggleEdit">編輯</el-button>
         </div>
       </div>
     </el-card>
     <LayoutFooter />
-    <!-- 编辑用户页面 -->
+    <!-- 編輯用戶頁面 -->
     <div v-if="isEditingUser" class="edit-user-modal">
       <div class="edit-user-modal-content">
         <h2>Edit User</h2>
@@ -47,6 +47,7 @@
           :rules="rules"
           ref="editUserForm"
           label-width="100px"
+          @submit.stop.prevent="handleSubmit"
         >
           <el-form-item label="用戶名稱">
             <el-input v-model="editUserData.name" class="userIput"></el-input>
@@ -94,23 +95,22 @@
 </template>
 
 <script setup>
-import { ref, onMounted, reactive } from 'vue';
+import { ref, onMounted, reactive } from 'vue'
 import LayoutFooter from '@/components/LayoutFooter.vue'
 import LayoutNav from '@/components/LayoutNav.vue'
 import LayoutHeader from '@/components/LayoutHeader.vue'
 import { getUserFileAPI, editUserFileAPI } from '@/apis/user'
-import { ElMessage } from 'element-plus';
+import { ElMessage } from 'element-plus'
 import Spinner from '@/components/Spinner.vue'
 
 const isLoading = ref(true)
 const userData = ref({})
-const isEditingUser = ref(false);
+const isEditingUser = ref(false)
 
 const formatDateTime = (dateTime) => {
-  const options = { year: 'numeric', month: 'long', day: 'numeric'};
-  return new Date(dateTime).toLocaleDateString('en-US', options);
-};
-
+  const options = { year: 'numeric', month: 'long', day: 'numeric'}
+  return new Date(dateTime).toLocaleDateString('en-US', options)
+}
 onMounted(async () => {
   try {
     const res = await getUserFileAPI()
@@ -124,13 +124,10 @@ onMounted(async () => {
     console.error('Error fetching product:', error)
     isLoading.value = false
   }
-});
-
+})
 const toggleEdit = () => {
   isEditingUser.value = true
-};
-const dummyAvatarUrl = 'https://i.imgur.com/AKiOvH7.jpg'
-
+}
 const initialUserData = {
   name: '',
   email: '',
@@ -138,13 +135,11 @@ const initialUserData = {
   sex: '',
   telNumber: '',
   introduction: '',
-};
-
-const editUserData = reactive({ ...initialUserData });
-
+}
+const editUserData = reactive({ ...initialUserData })
 const getUserData = async () => {
   try {
-    const res = await getUserFileAPI();
+    const res = await getUserFileAPI()
     if (res) {
       editUserData.value = res
       editUserData.name = res.name
@@ -153,62 +148,61 @@ const getUserData = async () => {
       editUserData.sex = res.sex
       editUserData.telNumber = res.telNumber
       editUserData.introduction = res.introduction
-      editUserData.avatar = res.avatar
     } else {
-      console.error('Invalid API response:', res);
+      console.error('Invalid API response:', res)
     }
   } catch (error) {
-    console.error('Error fetching user data:', error);
+    console.error('Error fetching user data:', error)
   }
-};
+}
 
 const handleFileChange = (e) => {
-  const files = e.target.files;
+  const files = e.target.files
   if (files.length > 0) {
-    const file = files[0];
-    editUserData.avatar = URL.createObjectURL(file);
-
-    // 创建一个 FormData 对象并将文件添加到其中
-    const formData = new FormData();
-    formData.append('avatar', file);
-
-    // 将 FormData 对象存储在 editUserData 中，以备稍后提交
-    editUserData.formData = formData;
+    const file = files[0]
+    editUserData.avatar = URL.createObjectURL(file)
   }
-};
+}
 
+
+console.log(editUserData.avatar)
 const updateUserData = async () => {
   try {
-    const res = await editUserFileAPI(editUserData.formData);
-
+    // 准备要发送到 API 的数据
+    const updatedData = {
+      name: editUserData.name,
+      email: editUserData.email,
+      account: editUserData.account,
+      sex: editUserData.sex,
+      telNumber: editUserData.telNumber,
+      introduction: editUserData.introduction,
+      avatar: editUserData.avatar,
+    }
+    // 发送 PUT 请求以更新用户数据
+    const res = await editUserFileAPI(updatedData)
     if (res) {
-      isEditingUser.value = false; // 成功后关闭编辑对话框
-      ElMessage.success('保存成功');
+      isEditingUser.value = false // 成功后关闭编辑对话框
+      ElMessage.success('保存成功')
+      isEditingUser.value = false
     } else {
-      console.error('Invalid API response:', res);
+      console.error('Invalid API response:', res)
     }
   } catch (error) {
-    console.error('Error updating user data:', error);
+    console.error('Error updating user data:', error)
   }
-};
-
+}
 
 
 const getUserDataAndOpenDialog = () => {
-  getUserData();
-};
-
-getUserDataAndOpenDialog();
-
+  getUserData()
+}
+getUserDataAndOpenDialog()
 const submitForm = () => {
   updateUserData();
-};
-
+}
 const closeEditDialog = () => {
-  isEditingUser.value = false;
-};
-
-
+  isEditingUser.value = false
+}
 </script>
 
 <style scoped>
@@ -216,12 +210,12 @@ const closeEditDialog = () => {
   display:flex
 }
 
-/* 添加一个包装类来自定义el-card的样式 */
+
 .user-card {
-  background-color: #fff; /* 设置背景颜色 */
-  border: 1px solid #e0e0e0; /* 设置边框样式 */
-  border-radius: 8px; /* 设置边框圆角 */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 添加阴影效果 */
+  background-color: #fff; 
+  border: 1px solid #e0e0e0; 
+  border-radius: 8px; 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 20px;
   margin: 20px;
 }
@@ -253,7 +247,6 @@ p {
   margin: 10px;
 }
 
-/* 编辑按钮样式 */
 .edit-button {
   text-align: right;
   margin: 30% 0px 0px 35%;
@@ -264,18 +257,17 @@ p {
   border-radius: 20px;
 }
 
-/* 编辑用户页面样式 */
 .edit-user-modal {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* 半透明背景 */
+  background-color: rgba(0, 0, 0, 0.5); 
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000; /* 确保模态框在其他内容之上 */
+  z-index: 1000; 
 }
 
 .edit-user-modal-content {

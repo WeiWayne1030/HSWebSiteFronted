@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 import { getCartsAPI } from '@/apis/cart'
 
 export const useCartStore = defineStore('cart', () => {
-  // 1. 定义管理用户数据的 state
+  // 1. 定義用戶管理的 state
   const cartCount = ref(0)
   const getCartInfo = async (pagination) => {
     try {

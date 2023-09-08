@@ -41,8 +41,8 @@
 .banner-wrapper {
   display: flex;
   flex-direction: column; /* 垂直堆叠子元素 */
-  justify-content: center; /* 垂直居中 */
-  align-items: center; /* 水平居中 */
+  justify-content: center; 
+  align-items: center; 
   min-height: 90vh;
   min-width: 90vh;
   background-color: #ffffff;
@@ -64,7 +64,7 @@
 .banner-content {
   display: flex;
   flex-direction: column; /* 垂直堆叠子元素 */
-  justify-content: space-between; /* 垂直居中 */
+  justify-content: space-between; 
   height: calc(100vh - 92px);
 }
 .img-container {

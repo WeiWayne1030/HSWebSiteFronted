@@ -23,16 +23,16 @@
       <div class="or1100000-parent-container">
       </div>
       <div class="parent-info" v-for="item in items" :key="item.id">
-        <img class="order-image" :src=" item.image" alt="Product Image">
-        <div class="div11">{{ item.name }}</div>
-        <div class="div12">{{ item.state }}</div>
-        <div class="div13">{{ item.Category.name}}</div>
-        <div class="div14">{{ item.price }}</div>
-            <el-button class="div16" @click="item.state === 0 ?       fectchRelistStock(item.id) : fectchDelStock(item.id)">
-              {{ item.state === 0 ? '產品上架' : '產品下架' }}
-            </el-button>
-        <div class="div17">{{ item.updatedAt }}</div>
-      </div>
+      <img class="order-image" :src="item.image" alt="Product Image">
+      <div class="div11">{{ item.name }}</div>
+      <div class="div12">{{ item.state }}</div>
+      <div class="div13">{{ item.Category.name }}</div>
+      <div class="div14">{{ item.price }}</div>
+      <el-button class="div16" @click="toggleItemState(item)">
+        {{ item.buttonText }}
+      </el-button>
+    <div class="div17">{{ item.updatedAt }}</div>
+  </div>
     </div> 
   <LayoutFooter />
 </template>
@@ -61,6 +61,10 @@
     if (res) {
       items.value = res.itemsInfo
       categories.value = res.categories
+      // 預設取得每個商品初始的state
+      items.value.forEach((item) => {
+        item.buttonText = item.state === 0 ? '產品上架' : '產品下架'
+      })
       isLoading.value = false
     } else {
       console.error('Invalid API response:', res)
@@ -112,6 +116,27 @@ watch(() => {
   fetchStockInfo()
   fectchDelStock()
   fectchRelistStock()
+})
+
+const toggleItemState = async (item) => {
+  try {
+    if (item.state === 0) {
+      await relistItemAPI(item.id)
+      item.state = 1
+      item.buttonText = '產品下架'
+    } else {
+      await removeItemAPI(item.id)
+      item.state = 0
+      item.buttonText = '產品上架'
+    }
+  } catch (error) {
+    console.error('Error toggling item state:', error)
+  }
+}
+
+
+items.value.forEach((item) => {
+  item.buttonText = item.state === 0 ? '產品上架' : '產品下架'
 })
 
 </script>
