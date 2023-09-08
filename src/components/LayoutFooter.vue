@@ -29,15 +29,14 @@
                         <li><el-link type="primary" href="#" target="_blank">問題反饋</el-link></li>
                       </ul>    
                 </div>
-
                 <!--連結-->
                 <div class="text col-md-4">
                     <h3 class="link">快速連結</h3>
                     <ul>
-                        <li><el-link type="primary" path="#" target="_blank">首頁</el-link></li>
-                        <li><el-link type="primary" path="/about" target="_blank">關於我們</el-link></li>
-                        <li><el-link type="primary" path="/wears" target="_blank">最新活動</el-link></li>
-                        <li><el-link type="primary" path="/items" target="_blank">全部商品</el-link></li>
+                        <li><RouterLink type="primary" to="/" class="footer-link">首頁</RouterLink></li>
+                        <li><RouterLink type="primary" to="/about" class="footer-link">關於我們</RouterLink></li>
+                        <li><RouterLink type="primary" to="/activity" class="footer-link">最新活動</RouterLink></li>
+                        <li><RouterLink type="primary" to="/items" class="footer-link">全部商品</RouterLink></li>
                     </ul>
                 </div>
             </div>
@@ -79,8 +78,13 @@ import LineIcon from '@/components/icons/LineIcon.vue';
     padding-top: 20px;
     display: inline-block;
   }
-  .el-link {
+  .footer-link {
     color: white;
+    transition: fill 0.3s ease;
+  }
+
+  .footer-link:hover {
+  color: red
   }
 
   .icon {

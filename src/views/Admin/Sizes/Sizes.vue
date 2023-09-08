@@ -35,7 +35,7 @@
         </el-form>
         <el-table :data="sizes" stripe style="width: 100%">
     <el-table-column prop="id" label="#" width="60"></el-table-column>
-    <el-table-column prop="name" label="支付方式"></el-table-column>
+    <el-table-column prop="name" label="尺寸"></el-table-column>
     <el-table-column prop="state" label="狀態"></el-table-column>
     <el-table-column label="Action" class="action" align="center">
       <div class="action-button">
