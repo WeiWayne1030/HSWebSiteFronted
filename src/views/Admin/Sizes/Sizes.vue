@@ -177,7 +177,7 @@ const removeSize = async (sizeId) => {
     fetchSize();
     ElMessage({ type: 'success', message: '操作成功' })
   } catch (error) {
-    ElMessage({ type: 'success', message: '操作失敗' })
+    ElMessage({ type: 'error', message: '操作失敗' })
   }
 };
 
@@ -187,7 +187,7 @@ const relistSize = async (sizeId) => {
     fetchSize();
     ElMessage({ type: 'success', message: '操作成功' })
   } catch (error) {
-    ElMessage({ type: 'success', message: '操作失敗' })
+    ElMessage({ type: 'error', message: '操作失敗' })
   }
 };
 
@@ -197,7 +197,7 @@ const deleteSize = async (sizeId) => {
     fetchSize();
     ElMessage({ type: 'success', message: '操作成功' })
   } catch (error) {
-    ElMessage({ type: 'success', message: '操作失敗' })
+    ElMessage({ type: 'error', message: '操作失敗' })
   }
 };
 

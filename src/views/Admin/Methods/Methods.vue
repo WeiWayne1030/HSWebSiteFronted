@@ -115,7 +115,7 @@ const fetchMethod = async () => {
       isLoading.value = false;
     }
   } catch (error) {
-    ElMessage({ type: 'success', message: '操作失敗' })
+    ElMessage({ type: 'error', message: '操作失敗' })
     isLoading.value = false;
   }
 };
@@ -187,7 +187,7 @@ const relistMethod = async (methodId) => {
     fetchMethod();
     ElMessage({ type: 'success', message: '操作成功' })
   } catch (error) {
-    ElMessage({ type: 'success', message: '操作失敗' })
+    ElMessage({ type: 'error', message: '操作失敗' })
   }
 };
 
@@ -197,7 +197,7 @@ const deleteMethod = async (methodId) => {
     fetchMethod();
     ElMessage({ type: 'success', message: '操作成功' })
   } catch (error) {
-    ElMessage({ type: 'success', message: '操作失敗' })
+    ElMessage({ type: 'error', message: '操作失敗' })
   }
 };
 

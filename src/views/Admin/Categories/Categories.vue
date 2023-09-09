@@ -177,7 +177,7 @@ const removeCategory = async (categoryId) => {
     fetchCategory();
     ElMessage({ type: 'success', message: '操作成功' })
   } catch (error) {
-    ElMessage({ type: 'success', message: '操作失敗' })
+    ElMessage({ type: 'error', message: '操作失敗' })
   }
 };
 
@@ -187,7 +187,7 @@ const relistCategory = async (categoryId) => {
     fetchCategory();
     ElMessage({ type: 'success', message: '操作成功' })
   } catch (error) {
-    ElMessage({ type: 'success', message: '操作失敗' })
+    ElMessage({ type: 'error', message: '操作失敗' })
   }
 };
 
@@ -197,7 +197,7 @@ const deleteCategory = async (categoryId) => {
     fetchCategory();
     ElMessage({ type: 'success', message: '操作成功' })
   } catch (error) {
-    ElMessage({ type: 'success', message: '操作失敗' })
+    ElMessage({ type: 'error', message: '操作失敗' })
   }
 };
 

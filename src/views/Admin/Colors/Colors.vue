@@ -9,7 +9,7 @@
     <Spinner />
   </div>
   <div class="color-container">
-    <el-form  ref="formRef" v-model="formData" class="my-4">
+    <el-form  ref="formRef" :model="formData" class="my-4">
       <el-row>
         <el-col :span="16">
           <el-input
@@ -80,6 +80,7 @@ const createColor = async () => {
       const res = await addColorAPI({ name })
       console.log(res)
       ElMessage({ type: 'success', message: '註冊成功' })
+      formData.value.name = ''
       fetchColor()
     } catch (error) {
       ElMessage({ type: 'error', message: '註冊失敗' })

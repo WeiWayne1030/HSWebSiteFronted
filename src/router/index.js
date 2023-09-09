@@ -8,6 +8,7 @@ import Items from '@/views/Item/Items.vue'
 import About from '@/views/About/About.vue'
 import Activity from '@/views/Activity/Activity.vue'
 import CheckOrders from '@/views/Admin/Order/CheckOrders.vue'
+import OrderItems from '@/views/Admin/Order/OrderItems.vue'
 import Colors from '@/views/Admin/Colors/Colors.vue'
 import Sizes from '@/views/Admin/Sizes/Sizes.vue'
 import Categories from '@/views/Admin/Categories/Categories.vue'
@@ -57,6 +58,10 @@ const router = createRouter({
     {
       path: '/admin/orders',
       component: CheckOrders
+    },
+    {
+      path:`/admin/orderItems/:orderNumber`,
+      component: OrderItems
     },
     {
       path: '/admin/item',

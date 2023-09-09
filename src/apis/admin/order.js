@@ -9,3 +9,9 @@ export const getOrdersAPI = ( state, currentPage, orderNumber,MethodId ) => {
     headers: { Authorization: `Bearer ${getToken()}` }
   })
 }
+
+export const getOrderItemsAPI = (orderNumber) => {
+    return request({url:`/admin/orderItems/${orderNumber}`,
+    headers: { Authorization: `Bearer ${getToken()}` }
+  })
+};

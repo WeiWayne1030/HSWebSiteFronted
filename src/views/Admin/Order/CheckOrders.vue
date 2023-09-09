@@ -27,6 +27,9 @@
       <div class="div12">${{ order.total }}</div>
       <div class="div13">{{ order.updatedAt }}</div>
       <div class="div14">{{ order.state }}</div>
+      <el-button class="div16" @click="enterItemState(order.orderNumber)">
+        詳細訂單
+      </el-button>
     </div>
     <el-pagination
     background
@@ -46,7 +49,8 @@ import LayoutHeader from '@/views/Admin/adminComponent/LayoutHeader.vue'
 import AdminSearchBar from '@/views/Admin/Order/Layout/AdminSearchBar.vue'
 import Spinner from '@/components/Spinner.vue'
 import { getOrdersAPI } from '@/apis/admin/order'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
+import { ElMessage } from 'element-plus'
 
 const orders = ref([])
 const methods = ref([])
@@ -57,6 +61,7 @@ const pagination = ref({
   next: 1,
 })
 const route = useRoute()
+const router = useRouter()
 const isLoading = ref(true)
 
 const fetchStockInfo = async () => {
@@ -81,6 +86,11 @@ const fetchStockInfo = async () => {
     console.error('Error fetching cart information:', error)
     isLoading.value = false
   }
+}
+
+const enterItemState =(orderNumber) => {
+  router.replace({ path: `/admin/orderItems/${orderNumber}` })
+  ElMessage({ type: 'success', message: '執行成功' })
 }
 
 onMounted(() => {
