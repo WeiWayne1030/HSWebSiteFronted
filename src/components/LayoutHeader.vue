@@ -60,16 +60,7 @@
     padding-left: 10px;
     padding-top: 50px;
   }
-  .logo {
-    width: 200px;
  
-    a {
-      display: block;
-      height: 132px;
-      width: 100%;
-      text-indent: -9999px;
-    }
-  }
   .search {
     display: flex;
     position: relative;
