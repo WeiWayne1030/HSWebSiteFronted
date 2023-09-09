@@ -68,7 +68,6 @@
       height: 132px;
       width: 100%;
       text-indent: -9999px;
-      background: no-repeat center 18px / contain;
     }
   }
   .search {
