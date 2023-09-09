@@ -3,13 +3,12 @@
     <!-- header,footer,nav -->
     <LayoutNav />
     <LayoutHeader />
-    <StocksNavPills />
   </div>
   <div v-if="isLoading" class="spinner">
     <Spinner />
   </div>
   <div class="container" v-else>
-    <AdminSearchBar2 :categories="categories" :items="items" />
+    <h1>訂單資訊</h1>
     <div class="parent">
       <div class="div1">商品圖</div>
       <div class="div2">商品名稱</div>
@@ -42,12 +41,10 @@ import { ref, onMounted } from 'vue'
 import LayoutFooter from '@/components/LayoutFooter.vue'
 import LayoutNav from '@/views/Admin/adminComponent/LayoutNav.vue'
 import LayoutHeader from '@/views/Admin/adminComponent/LayoutHeader.vue'
-import AdminSearchBar2 from '@/views/Admin/Stock/Layout/AdminSearchBar2.vue'
-import StocksNavPills from '@/views/Admin/Stock/Layout/StocksNavPills.vue'
 import Spinner from '@/components/Spinner.vue'
 import { getOrderItemsAPI } from '@/apis/admin/order'
 import { useRoute } from 'vue-router'
- import { ElButton, ElMessage } from 'element-plus'
+import { ElButton, ElMessage } from 'element-plus'
 
 const items = ref([])
 const isLoading = ref(true)
@@ -79,6 +76,7 @@ onMounted(() => {
   .container {
     width:98%;
     padding-bottom: 200px;
+    padding-top:10px
   }
   .div1 {
     margin-left:3%;

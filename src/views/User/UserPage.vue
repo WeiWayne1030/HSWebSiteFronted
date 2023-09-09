@@ -41,7 +41,7 @@
     <!-- 編輯用戶頁面 -->
     <div v-if="isEditingUser" class="edit-user-modal">
       <div class="edit-user-modal-content">
-        <h2>Edit User</h2>
+        <h2>編輯個人頁面</h2>
         <el-form
           :model="editUserData"
           :rules="rules"

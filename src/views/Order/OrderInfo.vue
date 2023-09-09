@@ -18,8 +18,8 @@
         <div class="div7">訂單建立時間</div>
         <div class="div8">訂單狀態</div>
       </div>
-      <div class="line" v-for="order in orders" :key="order.id" :order="order">
-        <div class="or1100000-parent">
+      <div class="line" >
+        <div class="or1100000-parent" v-for="order in orders" :key="order.id" :order="order">
           <div class="or1100000">{{ order.orderNumber }}</div>
           <div class="div9">{{ order.shipName }}</div>
           <div class="div10">{{ order.address }}</div>

@@ -25,3 +25,18 @@ export const relistItemAPI = (id) => {
     headers: { Authorization: `Bearer ${getToken()}` }
   })
 }
+
+export const addItemAPI = ({ name, price, description, CategoryId, image}) => {
+    return request({
+    url:`/admin/items`,
+    method:'POST',
+    data:{
+      name, 
+      price, 
+      description, 
+      CategoryId, 
+      image
+    },
+    headers: { Authorization: `Bearer ${getToken()}` }
+  })
+}
