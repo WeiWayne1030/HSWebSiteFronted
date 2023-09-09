@@ -22,9 +22,10 @@ export const addMethodAPI = ({name}) => {
 
 export const putMethodAPI = ({id, name}) => {
   return request({
-    url:`/admin/methods/${id}/relist`,
+    url:`/admin/method`,
     method:'PUT',
     data: {
+      id,
       name
     },
     headers: { Authorization: `Bearer ${getToken()}` }
@@ -33,24 +34,33 @@ export const putMethodAPI = ({id, name}) => {
 
 export const removeMethodAPI = ({id}) => {
   return request({
-    url:`/admin/methods/${id}/remove`,
+    url:`/admin/method/remove`,
     method:'POST',
+    data:{
+      id
+    },
     headers: { Authorization: `Bearer ${getToken()}` }
   })
 }
 
 export const relistMethodAPI = ({id}) => {
   return request({
-    url:`/admin/methods/${id}/relist`,
+    url:`/admin/method/relist`,
     method:'POST',
+    data:{
+      id
+    },
     headers: { Authorization: `Bearer ${getToken()}` }
   })
 }
 
 export const delMethodAPI = ({id}) => {
   return request({
-    url:`/admin/methods/${id}`,
+    url:`/admin/method`,
     method:'DELETE',
+    data:{
+      id
+    },
     headers: { Authorization: `Bearer ${getToken()}` }
   })
 }

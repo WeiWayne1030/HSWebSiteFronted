@@ -111,11 +111,11 @@ const fetchCategory = async () => {
       categories.value = res;
       isLoading.value = false;
     } else {
-      console.error('Invalid API response:', res);
+      ElMessage({ type: 'success', message: '操作成功' })
       isLoading.value = false;
     }
   } catch (error) {
-    console.error('Error fetching categories:', error);
+    ElMessage({ type: 'success', message: '操作失敗' })
     isLoading.value = false;
   }
 };
@@ -173,20 +173,21 @@ const removeCategory = async (categoryId) => {
   try {
     const res = await removeCategoryAPI({id:categoryId});
     console.log(res)
-    // Refresh the category list here
+    // refresh表單
     fetchCategory();
+    ElMessage({ type: 'success', message: '操作成功' })
   } catch (error) {
-    console.error('Error removing category:', error);
+    ElMessage({ type: 'success', message: '操作失敗' })
   }
 };
 
 const relistCategory = async (categoryId) => {
   try {
     await relistCategoryAPI({id:categoryId});
-    // Refresh the category list here
     fetchCategory();
+    ElMessage({ type: 'success', message: '操作成功' })
   } catch (error) {
-    console.error('Error restoring category:', error);
+    ElMessage({ type: 'success', message: '操作失敗' })
   }
 };
 
@@ -194,8 +195,9 @@ const deleteCategory = async (categoryId) => {
   try {
     await delCategoryAPI({id:categoryId});
     fetchCategory();
+    ElMessage({ type: 'success', message: '操作成功' })
   } catch (error) {
-    console.error('Error deleting category:', error);
+    ElMessage({ type: 'success', message: '操作失敗' })
   }
 };
 
