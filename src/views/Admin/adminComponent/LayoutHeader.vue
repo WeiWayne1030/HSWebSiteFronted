@@ -47,17 +47,6 @@
     padding-left: 10px;
     padding-top: 50px;
   }
-  .logo {
-    width: 200px;
- 
-    a {
-      display: block;
-      height: 132px;
-      width: 100%;
-      text-indent: -9999px;
-      background: url('@/assets/images/logo.png') no-repeat center 18px / contain;
-    }
-  }
   .search {
     display: flex;
     position: relative;
