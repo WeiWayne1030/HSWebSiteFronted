@@ -22,9 +22,10 @@ export const addCategoryAPI = ({name}) => {
 
 export const putCategoryAPI = ({id, name}) => {
   return request({
-    url:`/admin/categories/${id}/relist`,
+    url:`/admin/category`,
     method:'PUT',
     data: {
+      id,
       name
     },
     headers: { Authorization: `Bearer ${getToken()}` }
@@ -33,24 +34,33 @@ export const putCategoryAPI = ({id, name}) => {
 
 export const removeCategoryAPI = ({id}) => {
   return request({
-    url:`/admin/categories/${id}/remove`,
+    url:`/admin/category/remove`,
     method:'POST',
+    data:{
+      id
+    },
     headers: { Authorization: `Bearer ${getToken()}` }
   })
 }
 
 export const relistCategoryAPI = ({id}) => {
   return request({
-    url:`/admin/categories/${id}/relist`,
+    url:`/admin/category/relist`,
     method:'POST',
+    data:{
+      id
+    },
     headers: { Authorization: `Bearer ${getToken()}` }
   })
 }
 
 export const delCategoryAPI = ({id}) => {
   return request({
-    url:`/admin/categories/${id}`,
+    url:`/admin/category`,
     method:'DELETE',
+    data:{
+      id
+    },
     headers: { Authorization: `Bearer ${getToken()}` }
   })
 }

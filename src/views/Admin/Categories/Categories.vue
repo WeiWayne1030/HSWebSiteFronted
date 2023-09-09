@@ -34,39 +34,51 @@
           </el-row>
         </el-form>
         <el-table :data="categories" stripe style="width: 100%">
-    <el-table-column prop="id" label="#" width="60"></el-table-column>
-    <el-table-column prop="name" label="類別"></el-table-column>
-    <el-table-column prop="state" label="狀態"></el-table-column>
-    <el-table-column label="Action" class="action" align="center">
-      <div class="action-button">
-        <el-button type="text" class="button1" width="2">編輯</el-button>
-        <el-button
-          type="text"
-          class="button2"
-          width="2"
-          @click.stop.prevent="removeCategory(category.id)"
-        >
-          移除
-        </el-button>
-        <el-button
-          type="text"
-          class="button3"
-          width="2"
-          @click.stop.prevent="relistCategory(category.id)"
-        >
-          恢复
-        </el-button>
-        <el-button
-          type="text"
-          class="button4"
-          width="2"
-          @click.stop.prevent="deleteCategory(category.id)"
-        >
-          刪除
-        </el-button>
-      </div>
-    </el-table-column>
-  </el-table>
+          <el-table-column prop="id" label="#" width="60"></el-table-column>
+          <el-table-column prop="name" label="類別">
+            <!-- 使用 v-if 控制顯示文字或輸入框 -->
+            <template #default="{ row }">
+              <div v-if="editingCategoryId === row.id" ref="inputRef" :model="row">
+                <el-input v-model="row.name" placeholder="編輯類別..."></el-input>
+                <el-button type="text" class="button1" width="2" @click="saveCategory(row.id)">完成</el-button>
+                <el-button type="text" class="button5" @click="cancelEditCategory">取消</el-button>
+              </div>
+              <div v-else>{{ row.name }}</div>
+            </template>
+          </el-table-column>
+          <el-table-column prop="state" label="狀態"></el-table-column>
+          <el-table-column label="Action" class="action" align="center">
+            <template #default="{ row }">
+            <div class="action-button">
+              <el-button  type="text" class="button1" width="2" @click="editCategory(row.id)">編輯</el-button>
+              <el-button
+                type="text"
+                class="button2"
+                width="2"
+                @click="removeCategory(row.id)"
+              >
+                移除
+              </el-button>
+              <el-button
+                type="text"
+                class="button3"
+                width="2"
+                @click.stop.prevent="relistCategory(row.id)"
+              >
+                恢复
+              </el-button>
+              <el-button
+                type="text"
+                class="button4"
+                width="2"
+                @click.stop.prevent="deleteCategory(row.id)"
+              >
+                刪除
+              </el-button>
+            </div>
+            </template>
+          </el-table-column>
+        </el-table>
       </el-main>
     </el-container>
   </div>
@@ -80,7 +92,7 @@ import LayoutNav from '@/views/Admin/adminComponent/LayoutNav.vue'
 import LayoutHeader from '@/views/Admin/adminComponent/LayoutHeader.vue'
 import OthersNavPills from '@/views/Admin/adminComponent/OthersNavPills.vue';
 import Spinner from '@/components/Spinner.vue'
-import { addCategoryAPI, getCategoriesAPI,removeCategoryAPI,relistCategoryAPI, delCategoryAPI} from '@/apis/admin/other/category'
+import { addCategoryAPI, getCategoriesAPI,putCategoryAPI, removeCategoryAPI,relistCategoryAPI, delCategoryAPI} from '@/apis/admin/other/category'
 import { ElForm, ElInput, ElButton, ElMessage } from 'element-plus'
 
 const formData = ref({ name:'' });
@@ -88,6 +100,8 @@ const isProcessing = ref(false);
 const categories = ref([]);
 const isLoading = ref(true);
 const formRef = ref(null)
+
+
 
 
 const fetchCategory = async () => {
@@ -122,18 +136,43 @@ const createCategory = async () => {
   }
 };
 
-// const updateCategory = async (category) => {
-//   try {
-//     await putCategoryAPI({ id: category.id, name: category.name });
-//     fetchCategory();
-//   } catch (error) {
-//     console.error('Error updating category:', error);
-//   }
-// };
+const editingCategoryId = ref(null)
+const inputRef =ref(null)
 
-const removeCategory = async () => {
+const editCategory = (categoryId, categoryName) => {
+  // 設定要編輯的類別ID和名稱，以顯示輸入框
+  editingCategoryId.value = categoryId;
+  formData.value.name = categoryName;
+};
+
+const saveCategory = async (row) => {
+  const valid = inputRef.value;
+  if (valid) {
+    try {
+      const { id, name } = row; // Extract id and name from the row
+      const res = await putCategoryAPI({ id, name});
+      console.log(res);
+      ElMessage({ type: 'success', message: '編輯成功' });
+      // Clear the editing state
+      editingCategoryId.value = null;
+      // No need to reset formData.value.name here, as it's already updated in the UI
+      fetchCategory();
+    } catch (error) {
+      ElMessage({ type: 'error', message: '編輯失敗' });
+    }
+  }
+};
+const cancelEditCategory = () => {
+  // 清除编辑状态
+  editingCategoryId.value = null;
+  // 将表单数据重置为原始值
+  formData.value.name = '';
+};
+
+const removeCategory = async (categoryId) => {
   try {
-    const { id } =  await removeCategoryAPI({id});
+    const res = await removeCategoryAPI({id:categoryId});
+    console.log(res)
     // Refresh the category list here
     fetchCategory();
   } catch (error) {
@@ -141,9 +180,9 @@ const removeCategory = async () => {
   }
 };
 
-const relistCategory = async (id) => {
+const relistCategory = async (categoryId) => {
   try {
-    await relistCategoryAPI({id});
+    await relistCategoryAPI({id:categoryId});
     // Refresh the category list here
     fetchCategory();
   } catch (error) {
@@ -151,9 +190,9 @@ const relistCategory = async (id) => {
   }
 };
 
-const deleteCategory = async (id) => {
+const deleteCategory = async (categoryId) => {
   try {
-    await delCategoryAPI(id);
+    await delCategoryAPI({id:categoryId});
     fetchCategory();
   } catch (error) {
     console.error('Error deleting category:', error);
