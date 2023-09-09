@@ -1,20 +1,21 @@
 import request from '@/utils/http'
 
 const getToken = () => localStorage.getItem('token')
-export const addMethodAPI = (name) => {
+
+export const getMethodsAPI = () => {
+  return request({
+    url:`/admin/methods`,
+    headers: { Authorization: `Bearer ${getToken()}` }
+  })
+}
+
+export const addMethodAPI = ({name}) => {
   return request({
     url:`/admin/method`,
     method:'POST',
     data: {
       name
     },
-    headers: { Authorization: `Bearer ${getToken()}` }
-  })
-}
-
-export const getMethodsAPI = () => {
-  return request({
-    url:`/admin/methods`,
     headers: { Authorization: `Bearer ${getToken()}` }
   })
 }

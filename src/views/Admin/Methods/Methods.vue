@@ -14,11 +14,11 @@
         <!-- AdminNav goes here -->
       </el-aside>
       <el-main>
-        <el-form class="my-4">
+        <el-form ref="formRef" :model="formData" class="my-4">
           <el-row>
             <el-col :span="16">
               <el-input
-                v-model="newMethodName"
+                v-model="formData.name"
                 placeholder="新增支付方式..."
               ></el-input>
             </el-col>
@@ -26,7 +26,7 @@
               <el-button
                 type="primary"
                 :disabled="isProcessing"
-                @click="createMethod(method.id)"
+                @click="createMethod()"
               >
                 新增
               </el-button>
@@ -81,21 +81,14 @@ import LayoutHeader from '@/views/Admin/adminComponent/LayoutHeader.vue'
 import OthersNavPills from '@/views/Admin/adminComponent/OthersNavPills.vue';
 import Spinner from '@/components/Spinner.vue'
 import { addMethodAPI, getMethodsAPI,removeMethodAPI,relistMethodAPI, delMethodAPI} from '@/apis/admin/other/method'
+import { ElForm, ElInput, ElButton, ElMessage } from 'element-plus'
 
-const newMethodName = ref('');
+const formData = ref({ name:'' });
 const isProcessing = ref(false);
 const methods = ref([]);
 const isLoading = ref(true);
+const formRef = ref(null)
 
-const createMethod = async (name) => {
-  try {
-    await addMethodAPI(name);
-    fetchMethod();
-  } catch (error) {
-    isLoading.value = false;
-    console.error('Error creating method:', error);
-  }
-};
 
 const fetchMethod = async () => {
   try {
@@ -113,6 +106,22 @@ const fetchMethod = async () => {
   }
 };
 
+const createMethod = async () => {
+  const valid = await formRef.value.validate()
+  if (valid) {
+    try {
+      const { name } = formData.value
+      const res = await addMethodAPI({ name })
+      console.log(res)
+      ElMessage({ type: 'success', message: '添加成功' })
+      formData.value.name = ''
+      fetchMethod()
+    } catch (error) {
+      ElMessage({ type: 'error', message: '添加失敗' })
+    }
+  }
+};
+
 
 // const updateMethod = async (method) => {
 //   try {
@@ -123,7 +132,7 @@ const fetchMethod = async () => {
 //   }
 // };
 
-const removeMethod = async (id) => {
+const removeMethod = async () => {
   try {
     const { id } =  await removeMethodAPI({id});
     // Refresh the method list here

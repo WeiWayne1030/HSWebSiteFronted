@@ -1,7 +1,7 @@
 import request from '@/utils/http'
 
 const getToken = () => localStorage.getItem('token')
-export const addColorAPI = (name) => {
+export const addColorAPI = ({name}) => {
   return request({
     url:`/admin/color`,
     method:'POST',

@@ -9,11 +9,11 @@
     <Spinner />
   </div>
   <div class="color-container">
-    <el-form class="my-4">
+    <el-form  ref="formRef" v-model="formData" class="my-4">
       <el-row>
         <el-col :span="16">
           <el-input
-            v-model="newMethodName"
+            v-model="formData.name"
             placeholder="新增顏色..."
           ></el-input>
         </el-col>
@@ -21,7 +21,7 @@
           <el-button
             type="primary"
             :disabled="isProcessing"
-            @click="createColor(color.id)"
+            @click="createColor()"
           >
             新增
           </el-button>
@@ -48,10 +48,13 @@ import LayoutNav from '@/views/Admin/adminComponent/LayoutNav.vue'
 import LayoutHeader from '@/views/Admin/adminComponent/LayoutHeader.vue'
 import OthersNavPills from '@/views/Admin/adminComponent/OthersNavPills.vue';
 import Spinner from '@/components/Spinner.vue'
-import { getColorsAPI} from '@/apis/admin/other/color'
+import { getColorsAPI, addColorAPI } from '@/apis/admin/other/color'
+import { ElForm, ElInput, ElButton, ElMessage } from 'element-plus'
 
 const colors = ref([]);
 const isLoading = ref(true);
+const formRef =ref(null)
+const formData = ref({ name: '' })
 
 const fetchColor = async () => {
   try {
@@ -66,6 +69,21 @@ const fetchColor = async () => {
   } catch (error) {
     console.error('Error fetching colors:', error);
     isLoading.value = false;
+  }
+};
+
+const createColor = async () => {
+  const valid = await formRef.value.validate()
+  if (valid) {
+    try {
+      const { name } = formData.value
+      const res = await addColorAPI({ name })
+      console.log(res)
+      ElMessage({ type: 'success', message: '註冊成功' })
+      fetchColor()
+    } catch (error) {
+      ElMessage({ type: 'error', message: '註冊失敗' })
+    }
   }
 };
 

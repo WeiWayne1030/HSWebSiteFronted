@@ -14,11 +14,11 @@
         <!-- AdminNav goes here -->
       </el-aside>
       <el-main>
-        <el-form class="my-4">
+        <el-form ref="formRef" :model="formData" class="my-4">
           <el-row>
             <el-col :span="16">
               <el-input
-                v-model="newCategoryName"
+                v-model="formData.name"
                 placeholder="新增類別..."
               ></el-input>
             </el-col>
@@ -26,7 +26,7 @@
               <el-button
                 type="primary"
                 :disabled="isProcessing"
-                @click="createCategory(category.id)"
+                @click="createCategory()"
               >
                 新增
               </el-button>
@@ -81,22 +81,14 @@ import LayoutHeader from '@/views/Admin/adminComponent/LayoutHeader.vue'
 import OthersNavPills from '@/views/Admin/adminComponent/OthersNavPills.vue';
 import Spinner from '@/components/Spinner.vue'
 import { addCategoryAPI, getCategoriesAPI,removeCategoryAPI,relistCategoryAPI, delCategoryAPI} from '@/apis/admin/other/category'
+import { ElForm, ElInput, ElButton, ElMessage } from 'element-plus'
 
-const newCategoryName = ref('');
+const formData = ref({ name:'' });
 const isProcessing = ref(false);
 const categories = ref([]);
 const isLoading = ref(true);
+const formRef = ref(null)
 
-const createCategory = async (name) => {
-  try {
-    await addCategoryAPI(name);
-    // Refresh the category list here
-    fetchCategory();
-  } catch (error) {
-    isLoading.value = false;
-    console.error('Error creating category:', error);
-  }
-};
 
 const fetchCategory = async () => {
   try {
@@ -114,6 +106,21 @@ const fetchCategory = async () => {
   }
 };
 
+const createCategory = async () => {
+  const valid = await formRef.value.validate()
+  if (valid) {
+    try {
+      const { name } = formData.value
+      const res = await addCategoryAPI({ name })
+      console.log(res)
+      ElMessage({ type: 'success', message: '添加成功' })
+      formData.value.name = ''
+      fetchCategory()
+    } catch (error) {
+      ElMessage({ type: 'error', message: '添加失敗' })
+    }
+  }
+};
 
 // const updateCategory = async (category) => {
 //   try {
@@ -124,7 +131,7 @@ const fetchCategory = async () => {
 //   }
 // };
 
-const removeCategory = async (id) => {
+const removeCategory = async () => {
   try {
     const { id } =  await removeCategoryAPI({id});
     // Refresh the category list here

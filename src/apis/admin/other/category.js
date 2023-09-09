@@ -1,20 +1,21 @@
 import request from '@/utils/http'
 
 const getToken = () => localStorage.getItem('token')
-export const addCategoryAPI = (name) => {
+
+export const getCategoriesAPI = () => {
+  return request({
+    url:`/admin/categories`,
+    headers: { Authorization: `Bearer ${getToken()}` }
+  })
+}
+
+export const addCategoryAPI = ({name}) => {
   return request({
     url:`/admin/category`,
     method:'POST',
     data: {
       name
     },
-    headers: { Authorization: `Bearer ${getToken()}` }
-  })
-}
-
-export const getCategoriesAPI = () => {
-  return request({
-    url:`/admin/categories`,
     headers: { Authorization: `Bearer ${getToken()}` }
   })
 }

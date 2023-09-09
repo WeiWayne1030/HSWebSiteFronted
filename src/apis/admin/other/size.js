@@ -1,7 +1,7 @@
 import request from '@/utils/http'
 
 const getToken = () => localStorage.getItem('token')
-export const addSizeAPI = (name) => {
+export const addSizeAPI = ({name}) => {
   return request({
     url:`/admin/size`,
     method:'POST',

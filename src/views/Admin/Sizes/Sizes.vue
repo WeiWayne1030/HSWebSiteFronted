@@ -14,11 +14,11 @@
         <!-- AdminNav goes here -->
       </el-aside>
       <el-main>
-        <el-form class="my-4">
+        <el-form ref="formRef" :model="formData" class="my-4">
           <el-row>
             <el-col :span="16">
               <el-input
-                v-model="newSizeName"
+                v-model="formData.name"
                 placeholder="新增尺寸..."
               ></el-input>
             </el-col>
@@ -26,7 +26,7 @@
               <el-button
                 type="primary"
                 :disabled="isProcessing"
-                @click="createSize(size.id)"
+                @click="createSize()"
               >
                 新增
               </el-button>
@@ -81,21 +81,13 @@ import LayoutHeader from '@/views/Admin/adminComponent/LayoutHeader.vue'
 import OthersNavPills from '@/views/Admin/adminComponent/OthersNavPills.vue';
 import Spinner from '@/components/Spinner.vue'
 import { addSizeAPI, getSizesAPI,removeSizeAPI,relistSizeAPI, delSizeAPI} from '@/apis/admin/other/size'
+import { ElForm, ElInput, ElButton, ElMessage } from 'element-plus'
 
-const newSizeName = ref('');
+const formData = ref({ name: '' });
 const isProcessing = ref(false);
 const sizes = ref([]);
 const isLoading = ref(true);
-
-const createSize = async (name) => {
-  try {
-    await addSizeAPI(name);
-    fetchSize();
-  } catch (error) {
-    isLoading.value = false;
-    console.error('Error creating size:', error);
-  }
-};
+const formRef=ref(null)
 
 const fetchSize = async () => {
   try {
@@ -113,6 +105,22 @@ const fetchSize = async () => {
   }
 };
 
+const createSize = async () => {
+  const valid = await formRef.value.validate()
+  if (valid) {
+    try {
+      const { name } = formData.value
+      const res = await addSizeAPI({ name })
+      console.log(res)
+      ElMessage({ type: 'success', message: '添加成功' })
+      formData.value.name = ''
+      fetchSize()
+    } catch (error) {
+      ElMessage({ type: 'error', message: '添加失敗' })
+    }
+  }
+};
+
 
 // const updateSize = async (size) => {
 //   try {
@@ -123,7 +131,7 @@ const fetchSize = async () => {
 //   }
 // };
 
-const removeSize= async (id) => {
+const removeSize= async () => {
   try {
     const { id } =  await removeSizeAPI({id});
     // Refresh the size list here
