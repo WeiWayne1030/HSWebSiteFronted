@@ -26,7 +26,7 @@
               v-for="category in categories"
               :key="category.id"
               :label="category.name"
-              :value="category.name">
+              :value="category.id">
             </el-option>
           </el-select>
         </el-form-item>
@@ -116,7 +116,8 @@ const addProduct = async () => {
   if (valid) {
     try {
       const { name, price, description, category, image } = product.value
-      const res = await addItemAPI({ name, price, description, CategoryId: category, image })
+      console.log(category)
+      const res = await addItemAPI({ name, price, description, CategoryId: Number(category), image })
       console.log(res)
       ElMessage({ type: 'success', message: '新增成功' })
       router.replace('/admin/items')
