@@ -56,10 +56,10 @@ const doLogin = async () => {
   if (valid) {
     try {
       await userStore.getUserInfo({ account, password })
-      await alert.success
+      alert.success
       router.replace({ path: '/' })
     } catch (error) {
-      await alert.error
+      alert.error
     }
   }
 }
