@@ -155,7 +155,7 @@ const addToCart = async () => {
       alert.showError()
     }
   } else {
-    alert.showError('庫存不足')
+    alert.showError()
     router.replace({ path: '/login' })
     return;
   }

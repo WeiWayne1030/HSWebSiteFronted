@@ -9,32 +9,31 @@
     <Spinner />
   </div>
   <div class="color-container">
-    <el-form  ref="formRef" :model="formData" class="my-4">
+    <el-form ref="formRef" :model="formData" class="my-4">
       <el-row>
         <el-col :span="16">
-          <el-input
-            v-model="formData.name"
-            placeholder="新增顏色..."
-          ></el-input>
+          <el-input v-model="formData.name" placeholder="新增顏色..."></el-input>
         </el-col>
         <el-col :span="8">
-          <el-button
-            type="primary"
-            :disabled="isProcessing"
-            @click="createColor()"
-          >
+          <el-button type="primary" :disabled="isProcessing" @click="createColor">
             新增
           </el-button>
         </el-col>
       </el-row>
     </el-form>
-    <!-- 将表格包裹在.center-table类的<div>中 -->
     <div class="center-table">
       <el-table :data="colors" style="width: 70%">
         <el-table-column label="顏色" prop="color" align="center"></el-table-column>
         <el-table-column label="操作">
-          <el-button type="primary">刪除</el-button>
-        </el-table-column>
+        <template #default="scope">
+            <el-button
+              type="primary"
+              @click="delColor(scope.row)"
+            >
+              刪除
+            </el-button>
+      </template>
+    </el-table-column>
       </el-table>
     </div>
   </div>
@@ -48,7 +47,7 @@ import LayoutNav from '@/views/Admin/adminComponent/LayoutNav.vue'
 import LayoutHeader from '@/views/Admin/adminComponent/LayoutHeader.vue'
 import OthersNavPills from '@/views/Admin/adminComponent/OthersNavPills.vue';
 import Spinner from '@/components/Spinner.vue'
-import { getColorsAPI, addColorAPI } from '@/apis/admin/other/color'
+import { getColorsAPI, addColorAPI, delColorAPI } from '@/apis/admin/other/color'
 import { ElForm, ElInput, ElButton } from 'element-plus'
 import { useAlertStore } from '@/stores/alert'
 
@@ -90,6 +89,20 @@ const createColor = async () => {
     }
   }
 };
+
+const delColor = async (colorData) => {
+  try {
+    //獲取選擇顏色的名稱
+    const selectedColor = colorData.color;
+    const res = await delColorAPI(selectedColor)
+    console.log(res)
+    fetchColor();
+    alert.showSuccess()
+  } catch (error) {
+    alert.showError()
+  }
+};
+
 
 
 onMounted(() => {

@@ -75,7 +75,6 @@
   } catch (error) {
     console.error('Error fetching cart information:', error)
     isLoading.value = false
-    alert.showError()
   }
 }
 
@@ -85,7 +84,6 @@ const fectchDelStock = async (id) => {
     items.value = items.value.filter(item => item.id !== id)
   } catch (error) {
     console.error('Error deleting cart item:', error)
-    alert.showError()
   }
 }
 
@@ -95,7 +93,6 @@ const fectchRelistStock = async (id) => {
     items.value = items.value.filter(item => item.id !== id)
   } catch (error) {
     console.error('Error deleting cart item:', error)
-    alert.showError()
   }
 }
 
@@ -138,6 +135,7 @@ const toggleItemState = async (item) => {
     }
   } catch (error) {
     console.error('Error toggling item state:', error)
+    alert.showError()
   }
 }
 

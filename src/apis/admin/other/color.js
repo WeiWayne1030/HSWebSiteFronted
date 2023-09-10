@@ -19,10 +19,13 @@ export const getColorsAPI = () => {
   })
 }
 
-// export const delColorAPI = ({id}) => {
-//   return request({
-//     url:`/admin/colors/${id}`,
-//     method:'DELETE',
-//     headers: { Authorization: `Bearer ${getToken()}` }
-//   })
-// }
+export const delColorAPI = (name) => {
+  return request({
+    url:`/admin/color`,
+    method:'DELETE',
+    data: {
+      name
+    },
+    headers: { Authorization: `Bearer ${getToken()}` }
+  })
+}
