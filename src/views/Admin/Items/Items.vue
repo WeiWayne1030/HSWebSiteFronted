@@ -45,7 +45,7 @@
   import AdminSearchBar2 from '@/views/Admin/Stock/Layout/AdminSearchBar2.vue'
   import StocksNavPills from '@/views/Admin/Stock/Layout/StocksNavPills.vue'
   import Spinner from '@/components/Spinner.vue'
-  import { getItemsAPI, removeItemAPI, relistItemAPI } from '@/apis/admin/item'
+  import { getItemsAPI, removeItemAPI, relistItemAPI } from '@/apis/admin/adminItem'
   import { useRoute } from 'vue-router'
   import { useAlertStore } from '@/stores/alert'
 
