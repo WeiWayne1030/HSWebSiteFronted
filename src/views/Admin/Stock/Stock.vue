@@ -29,9 +29,28 @@
         <div class="div11">{{ stock.Item.name }}</div>
         <div class="div12">{{ stock.name }}</div>
         <div class="div13">{{ stock.Size.name }}</div>
-        <div class="div14">{{ stock.itemStock }}</div>
+        <div class="div14" v-if="editStockIndex !== stock.id">
+          {{ stock.itemStock }}
+        </div>
+        <div class="div14" v-else>
+          <el-input v-model="editedStockValue" class="stock-input"></el-input>
+          <div class="row">
+            <el-button class="cancel-number-button" @click="saveStockNumber(stock, editedStockValue)">
+              保存
+            </el-button>
+            <el-button class="cancel-number-button" @click="cancelEditStock()">取消</el-button>
+          </div>
+        </div>
         <div class="div15">${{ stock.Item.price }}</div>
         <div class="div17">{{ stock.updatedAt }}</div>
+        <el-button
+                type="text"
+                class="edit-number-button"
+                width="2"
+                @click="editStockNumber(stock.id, stock.itemStock)"
+              >
+                更變庫存
+          </el-button>
       </div>
     </div> 
   <LayoutFooter />
@@ -45,9 +64,10 @@
   import AdminSearchBar2 from '@/views/Admin/Stock/Layout/AdminSearchBar2.vue'
   import StocksNavPills from '@/views/Admin/Stock/Layout/StocksNavPills.vue'
   import Spinner from '@/components/Spinner.vue'
-  import { getStocksAPI } from '@/apis/admin/stock'
+  import { getStocksAPI, putStockNumberAPI } from '@/apis/admin/stock'
   import { useRoute } from 'vue-router'
   import { useAlertStore } from '@/stores/alert'
+  import { ElButton, ElInput } from 'element-plus'
 
   const alert = useAlertStore()
   const items = ref([])
@@ -80,6 +100,42 @@
     alert.showError()
   }
 }
+
+  const editStockIndex = ref(-1) // 用於跟蹤編輯得庫存索引
+  const editedStockValue = ref("")
+
+  const editStockNumber = (stockId, initialValue) => {
+    editStockIndex.value = stockId // 設置要编辑的库存的索引
+    editedStockValue.value = initialValue // 設置輸入框中的初始值
+  }
+
+  const saveStockNumber = async (stock, editedStockValue) => {
+    try {
+      const res = await putStockNumberAPI({productNumber:stock.productNumber, itemStock:editedStockValue})
+      console.log(res)
+      // 更新成功後，將相應的 stock 的 itemStock 更新為新的值
+      stock.itemStock = editedStockValue
+      // 更新成功後，將表單重置
+      editStockIndex.value = -1
+      // 清除編輯狀態
+      editedStockValue.value = ""
+      alert.showSuccess()
+    } catch (error) {
+      console.error('Error updating stock number:', error)
+       alert.showSuccess()
+       //失敗也需要重置編輯狀態
+       editStockIndex.value = -1
+       editedStockValue.value = ""
+    }
+  };
+
+  const cancelEditStock = () => {
+    // 清除編輯狀態
+    editedStockValue.value = ""
+    // 將表單重置為原始值
+    editStockIndex.value = -1
+  }
+
 
 onMounted(() => {
   // const categoryIdValue = parseInt(route.query.CategoryId) // 同樣，在初始化時將查詢參數轉換為數字
@@ -293,5 +349,17 @@ watch(() => {
   .order-image {
     width: 80px;
     margin-left: 40px
+  }
+
+  .edit-number-button{
+    margin-top: 18px;
+  }
+
+  .cancel-number-button{
+    margin-top: 17px;
+  }
+
+  .stock-input{
+    width: 50px
   }
 </style>

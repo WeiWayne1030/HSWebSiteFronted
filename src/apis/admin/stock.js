@@ -9,3 +9,15 @@ export const getStocksAPI = ({CategoryId, state, productNumber}) => {
     headers: { Authorization: `Bearer ${getToken()}` }
   })
 }
+
+export const putStockNumberAPI = ({productNumber, itemStock}) => {
+  return request({
+    url: `/admin/itemStock`,
+    method:"PUT",
+    data: {
+      productNumber,
+      itemStock
+    },
+    headers: { Authorization: `Bearer ${getToken()}` }
+  })
+}
