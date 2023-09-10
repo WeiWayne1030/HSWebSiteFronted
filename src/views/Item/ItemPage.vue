@@ -66,7 +66,6 @@ import { getItemAPI } from '@/apis/item'
 import { addCartAPI } from '@/apis/user'
 import { useRoute, useRouter } from 'vue-router'
 import Spinner from '@/components/Spinner.vue'
-import { ElMessageBox } from 'element-plus'
 import { useAlertStore } from '@/stores/alert'
 
 const alert = useAlertStore()
@@ -144,7 +143,7 @@ const addToCart = async () => {
     }
 
     if (itemStock < quantity.value) {
-      ElMessageBox.alert('庫存不足', '錯誤', { type: 'error' })
+      alert.showError('庫存不足')
       return
     }
 
@@ -156,11 +155,7 @@ const addToCart = async () => {
       alert.showError()
     }
   } else {
-    alert.Toast.fire({
-          icon: 'error',
-          title: '請先登入'
-        })
-    // Redirect to the login page
+    alert.showError('庫存不足')
     router.replace({ path: '/login' })
     return;
   }

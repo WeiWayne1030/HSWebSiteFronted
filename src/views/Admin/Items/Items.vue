@@ -71,7 +71,6 @@
     } else {
       console.error('Invalid API response:', res)
       isLoading.value = false
-      alert.showError()
     }
   } catch (error) {
     console.error('Error fetching cart information:', error)
@@ -84,7 +83,6 @@ const fectchDelStock = async (id) => {
   try {
     await removeItemAPI(id)
     items.value = items.value.filter(item => item.id !== id)
-    alert.showSuccess()
   } catch (error) {
     console.error('Error deleting cart item:', error)
     alert.showError()
@@ -95,7 +93,6 @@ const fectchRelistStock = async (id) => {
   try {
     await relistItemAPI(id)
     items.value = items.value.filter(item => item.id !== id)
-    alert.showSuccess()
   } catch (error) {
     console.error('Error deleting cart item:', error)
     alert.showError()
