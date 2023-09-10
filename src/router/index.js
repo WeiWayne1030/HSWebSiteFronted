@@ -15,7 +15,7 @@ import Categories from '@/views/Admin/Categories/Categories.vue'
 import Methods from '@/views/Admin/Methods/Methods.vue'
 import AddItem from '@/views/Admin/Items/AddItem.vue'
 import ItemPage from '@/views/Item/ItemPage.vue'
-import LogIn from '@/views/LogIn/LogIn.vue'
+import LogIn from '@/views/Login/Login.vue'
 import Cart from '@/views/Cart/Cart.vue'
 import Stock from '@/views/Admin/Stock/Stock.vue'
 import BuildOrder from '@/views/Order/OrderPage.vue'
@@ -27,6 +27,10 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   //path & component對應關係位置
   routes: [
+    {
+      path: '/login',
+      component: LogIn
+    },
     {
       path: '/',
       component: Home,
@@ -46,10 +50,6 @@ const router = createRouter({
     {
       path: '/signup',
       component: SignUp
-    },
-    {
-      path: '/login',
-      component: LogIn
     },
     {
       path: '/activity',
