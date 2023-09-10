@@ -93,8 +93,10 @@ import LayoutHeader from '@/views/Admin/adminComponent/LayoutHeader.vue'
 import OthersNavPills from '@/views/Admin/adminComponent/OthersNavPills.vue';
 import Spinner from '@/components/Spinner.vue'
 import { addSizeAPI, getSizesAPI,putSizeAPI, removeSizeAPI,relistSizeAPI, delSizeAPI} from '@/apis/admin/other/size'
-import { ElForm, ElInput, ElButton, ElMessage } from 'element-plus'
+import { ElForm, ElInput, ElButton } from 'element-plus'
+import { useAlertStore } from '@/stores/alert'
 
+const alert = useAlertStore()
 const formData = ref({ name:'' });
 const isProcessing = ref(false);
 const sizes = ref([]);
@@ -111,11 +113,11 @@ const fetchSize = async () => {
       sizes.value = res;
       isLoading.value = false;
     } else {
-      ElMessage({ type: 'success', message: '操作成功' })
+      alert.error
       isLoading.value = false;
     }
   } catch (error) {
-    ElMessage({ type: 'success', message: '操作失敗' })
+    alert.error
     isLoading.value = false;
   }
 };
@@ -127,11 +129,11 @@ const createSize = async () => {
       const { name } = formData.value
       const res = await addSizeAPI({ name })
       console.log(res)
-      ElMessage({ type: 'success', message: '添加成功' })
+      alert.success
       formData.value.name = ''
       fetchSize()
     } catch (error) {
-      ElMessage({ type: 'error', message: '添加失敗' })
+      alert.error
     }
   }
 };
@@ -152,13 +154,13 @@ const saveSize = async (row) => {
       const { id, name } = row; // Extract id and name from the row
       const res = await putSizeAPI({ id, name});
       console.log(res);
-      ElMessage({ type: 'success', message: '編輯成功' });
+      alert.success
       // Clear the editing state
       editingSizeId.value = null;
       // No need to reset formData.value.name here, as it's already updated in the UI
       fetchSize();
     } catch (error) {
-      ElMessage({ type: 'error', message: '編輯失敗' });
+      alert.error
     }
   }
 };
@@ -175,9 +177,9 @@ const removeSize = async (sizeId) => {
     console.log(res)
     // refresh 表單
     fetchSize();
-    ElMessage({ type: 'success', message: '操作成功' })
+    alert.success
   } catch (error) {
-    ElMessage({ type: 'error', message: '操作失敗' })
+    alert.error
   }
 };
 
@@ -185,9 +187,9 @@ const relistSize = async (sizeId) => {
   try {
     await relistSizeAPI({id:sizeId});
     fetchSize();
-    ElMessage({ type: 'success', message: '操作成功' })
+    alert.success
   } catch (error) {
-    ElMessage({ type: 'error', message: '操作失敗' })
+    alert.error
   }
 };
 
@@ -195,9 +197,9 @@ const deleteSize = async (sizeId) => {
   try {
     await delSizeAPI({id:sizeId});
     fetchSize();
-    ElMessage({ type: 'success', message: '操作成功' })
+    alert.success
   } catch (error) {
-    ElMessage({ type: 'error', message: '操作失敗' })
+    alert.error
   }
 };
 

@@ -25,9 +25,11 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/user'
-import { ElMessage } from 'element-plus'
+import { useAlertStore } from '@/stores/alert'
+const alert = useAlertStore()
 const router = useRouter()
 const userStore = useUserStore()
+
 
 const formData = ref({
   account: '',
@@ -54,10 +56,10 @@ const doLogin = async () => {
   if (valid) {
     try {
       await userStore.getUserInfo({ account, password })
-      ElMessage({ type: 'success', message: '登入成功' })
+      await alert.success
       router.replace({ path: '/' })
     } catch (error) {
-      ElMessage({ type: 'error', message: '登入失敗' })
+      await alert.error
     }
   }
 }
@@ -69,10 +71,10 @@ const doAdminLogin = async () => {
   if (valid) {
     try {
       await userStore.getAdminInfo({ account, password })
-      ElMessage({ type: 'success', message: '登入成功' })
+      alert.success
       router.replace({ path: '/admin/orders' })
     } catch (error) {
-      ElMessage({ type: 'error', message: '登入失敗' })
+      alert.error
     }
   }
 }

@@ -44,7 +44,10 @@ import LayoutHeader from '@/views/Admin/adminComponent/LayoutHeader.vue'
 import Spinner from '@/components/Spinner.vue'
 import { getOrderItemsAPI } from '@/apis/admin/order'
 import { useRoute } from 'vue-router'
-import { ElButton, ElMessage } from 'element-plus'
+import { ElButton } from 'element-plus'
+import { useAlertStore } from '@/stores/alert'
+
+const alert = useAlertStore()
 
 const items = ref([])
 const isLoading = ref(true)
@@ -58,12 +61,12 @@ const fetchOrderItems = async () => {
       items.value = res
       isLoading.value = false
     } else {
-      ElMessage({ type: 'success', message: '載入成功' })
+      alert.error
       isLoading.value = false
     }
   } catch (error) {
     isLoading.value = false
-    ElMessage({ type: 'error', message: '載入失敗' })
+    alert.error
   }
 }
 

@@ -93,8 +93,10 @@ import LayoutHeader from '@/views/Admin/adminComponent/LayoutHeader.vue'
 import OthersNavPills from '@/views/Admin/adminComponent/OthersNavPills.vue';
 import Spinner from '@/components/Spinner.vue'
 import { addCategoryAPI, getCategoriesAPI,putCategoryAPI, removeCategoryAPI,relistCategoryAPI, delCategoryAPI} from '@/apis/admin/other/category'
-import { ElForm, ElInput, ElButton, ElMessage } from 'element-plus'
+import { ElForm, ElInput, ElButton } from 'element-plus'
+import { useAlertStore } from '@/stores/alert'
 
+const alert = useAlertStore()
 const formData = ref({ name:'' });
 const isProcessing = ref(false);
 const categories = ref([]);
@@ -111,11 +113,11 @@ const fetchCategory = async () => {
       categories.value = res;
       isLoading.value = false;
     } else {
-      ElMessage({ type: 'success', message: '操作成功' })
+      alert.error
       isLoading.value = false;
     }
   } catch (error) {
-    ElMessage({ type: 'success', message: '操作失敗' })
+    alert.error
     isLoading.value = false;
   }
 };
@@ -127,11 +129,11 @@ const createCategory = async () => {
       const { name } = formData.value
       const res = await addCategoryAPI({ name })
       console.log(res)
-      ElMessage({ type: 'success', message: '添加成功' })
+      alert.success
       formData.value.name = ''
       fetchCategory()
     } catch (error) {
-      ElMessage({ type: 'error', message: '添加失敗' })
+      alert.error
     }
   }
 };
@@ -152,13 +154,13 @@ const saveCategory = async (row) => {
       const { id, name } = row; // Extract id and name from the row
       const res = await putCategoryAPI({ id, name});
       console.log(res);
-      ElMessage({ type: 'success', message: '編輯成功' });
+      alert.success
       // Clear the editing state
       editingCategoryId.value = null;
       // No need to reset formData.value.name here, as it's already updated in the UI
       fetchCategory();
     } catch (error) {
-      ElMessage({ type: 'error', message: '編輯失敗' });
+      alert.error;
     }
   }
 };
@@ -175,9 +177,9 @@ const removeCategory = async (categoryId) => {
     console.log(res)
     // refresh表單
     fetchCategory();
-    ElMessage({ type: 'success', message: '操作成功' })
+    alert.success
   } catch (error) {
-    ElMessage({ type: 'error', message: '操作失敗' })
+    alert.error
   }
 };
 
@@ -185,9 +187,9 @@ const relistCategory = async (categoryId) => {
   try {
     await relistCategoryAPI({id:categoryId});
     fetchCategory();
-    ElMessage({ type: 'success', message: '操作成功' })
+    alert.success
   } catch (error) {
-    ElMessage({ type: 'error', message: '操作失敗' })
+    alert.error
   }
 };
 
@@ -195,9 +197,9 @@ const deleteCategory = async (categoryId) => {
   try {
     await delCategoryAPI({id:categoryId});
     fetchCategory();
-    ElMessage({ type: 'success', message: '操作成功' })
+    alert.success
   } catch (error) {
-    ElMessage({ type: 'error', message: '操作失敗' })
+    alert.error
   }
 };
 

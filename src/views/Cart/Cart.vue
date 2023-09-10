@@ -69,8 +69,9 @@ import { getCartsAPI,delCartAPI } from '@/apis/cart'
 import { useRouter } from 'vue-router'
 import Spinner from '@/components/Spinner.vue'
 import TrashIcon from '@/components/icons/TrashIcon.vue'
-import { ElMessage } from 'element-plus'
+import { useAlertStore } from '@/stores/alert'
 
+const alert = useAlertStore()
 const router = useRouter()
 const selectAll = ref(false)
 const cartItems = ref([])
@@ -85,10 +86,12 @@ onMounted(async () => {
       isLoading.value = false
     } else {
       console.error('Invalid API response:', res)
+      alert.error
     }
   } catch (error) {
     console.error('Error fetching product:', error)
     isLoading.value = false
+    alert.error
   }
 })
 
@@ -119,14 +122,16 @@ const delCart = async (id) => {
   try {
     await delCartAPI(id)
     cartItems.value = cartItems.value.filter(item => item.id !== id)
+    alert.success
   } catch (error) {
     console.error('Error deleting cart item:', error)
+    alert.error
   }
 }
 
 const checkout = () => {
   router.replace({ path: '/order' })
-  ElMessage({ type: 'success', message: '執行成功' })
+  alert.success
 }
 </script>
 

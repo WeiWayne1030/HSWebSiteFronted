@@ -41,7 +41,9 @@ import { ref, onMounted } from 'vue'
 import { buildOrderAPI, getOrdersAPI } from '@/apis/order'
 import { getCartsAPI } from '@/apis/cart'
 import { useRouter } from 'vue-router'
-import { ElMessage } from 'element-plus'
+import { useAlertStore } from '@/stores/alert'
+
+const alert = useAlertStore()
 
 const receiverForm = ref({
   shipName: '',
@@ -62,11 +64,14 @@ const fetchPaymentMethods = async () => {
     const res = await getOrdersAPI()
     if (res && res.methods) {
       methods.value = res.methods
+      alert.success
     } else {
       console.error('Invalid API response:', res)
+      alert.error
     }
   } catch (error) {
     console.error('Error fetching payment methods:', error)
+    alert.error
   }
 }
 
@@ -88,9 +93,11 @@ const fetchCartInfo = async () => {
       totalAmount.value = calculatedTotalAmount
     } else {
       console.error('Invalid API response:', res)
+      alert.error
     }
   } catch (error) {
     console.error('Error fetching cart information:', error)
+    alert.error
   }
 }
 
@@ -123,10 +130,10 @@ const addProduct = async () => {
     const MethodId = selectedMethod ? selectedMethod.id : ''
 
     await buildOrderAPI({ shipName, MethodId, address, shipTel })
-    ElMessage({ type: 'success', message: '訂單建立成功' })
+    alert.success
     router.replace({ path: '/' })
   } catch (error) {
-    ElMessage({ type: 'error', message: '建立訂單失敗' })
+    alert.error
   }
 }
 </script>

@@ -52,9 +52,10 @@ import LayoutHeader from '@/views/Admin/adminComponent/LayoutHeader.vue'
 import StocksNavPills from '@/views/Admin/Stock/Layout/StocksNavPills.vue'
 import { addItemAPI } from '@/apis/admin/Item'
 import { useRouter } from 'vue-router'
-import { ElMessage } from 'element-plus'
 import { getItemsAPI } from '@/apis/Item'
+import { useAlertStore } from '@/stores/alert'
 
+const alert = useAlertStore()
 const product = ref({
   name: '',
   category: '', 
@@ -96,6 +97,7 @@ const formRef = ref(null)
   categories.value = res.categories
   } catch (error) {
     console.log('error', error)
+    alert.error
   }
 };
 
@@ -104,6 +106,7 @@ const handleFileChange = (e) => {
   if (files.length > 0) {
     const file = files[0]
     product.value.image = URL.createObjectURL(file)
+    alert.success
   }
 }
 
@@ -119,10 +122,10 @@ const addProduct = async () => {
       console.log(category)
       const res = await addItemAPI({ name, price, description, CategoryId: Number(category), image })
       console.log(res)
-      ElMessage({ type: 'success', message: '新增成功' })
+      alert.success
       router.replace('/admin/items')
     } catch (error) {
-      ElMessage({ type: 'error', message: '新增失敗' })
+      alert.error
     }
   }
 }

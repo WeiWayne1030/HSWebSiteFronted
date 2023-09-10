@@ -66,8 +66,10 @@ import { getItemAPI } from '@/apis/item'
 import { addCartAPI } from '@/apis/user'
 import { useRoute, useRouter } from 'vue-router'
 import Spinner from '@/components/Spinner.vue'
-import { ElMessage, ElMessageBox } from 'element-plus'
+import { ElMessageBox } from 'element-plus'
+import { useAlertStore } from '@/stores/alert'
 
+const alert = useAlertStore()
 const selectedColor = ref('')
 const selectedSize = ref('')
 const quantity = ref(1)
@@ -92,10 +94,12 @@ onMounted(async () => {
       isLoading.value = false
     } else {
       console.error('Invalid API response:', res)
+      alert.error
     }
   } catch (error) {
     console.error('Error fetching product:', error)
     isLoading.value = false
+    alert.error
   }
 });
 //處理畫面中選擇color後會出現的size選項
@@ -146,13 +150,16 @@ const addToCart = async () => {
 
     try {
       await addCartAPI(addProduct) // 使用修改後的addProduct
-      ElMessage.success('成功加入購物車')
+      alert.success
       router.replace({ path: '/items' })
     } catch (error) {
-      ElMessage.error('加入購物車失敗')
+      alert.error
     }
   } else {
-    ElMessage.error('請先登入');
+    alert.Toast.fire({
+          icon: 'error',
+          title: '請先登入'
+        })
     // Redirect to the login page
     router.replace({ path: '/login' })
     return;

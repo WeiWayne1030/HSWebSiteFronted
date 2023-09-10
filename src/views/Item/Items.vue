@@ -23,7 +23,9 @@ import ItemsNavPills from '@/components/ItemsNavPills.vue'
 import ItemCard from '@/components/ItemCard.vue'
 import Spinner from '@/components/Spinner.vue'
 import { useRoute } from 'vue-router'
+import { useAlertStore } from '@/stores/alert'
 
+const alert = useAlertStore()
 const items = ref([])
 const categories = ref([])
 const categoryId = ref("")
@@ -39,6 +41,7 @@ const fetchItems = async () => {
   } catch (error) {
     isLoading.value = false
     console.log('error', error)
+    alert.error
   }
 };
 

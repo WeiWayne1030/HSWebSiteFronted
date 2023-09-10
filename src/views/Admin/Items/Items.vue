@@ -47,7 +47,9 @@
   import Spinner from '@/components/Spinner.vue'
   import { getItemsAPI, removeItemAPI, relistItemAPI } from '@/apis/admin/item'
   import { useRoute } from 'vue-router'
+  import { useAlertStore } from '@/stores/alert'
 
+  const alert = useAlertStore()
   const items = ref([])
   const categories = ref([])
   const route = useRoute()
@@ -69,10 +71,12 @@
     } else {
       console.error('Invalid API response:', res)
       isLoading.value = false
+      alert.error
     }
   } catch (error) {
     console.error('Error fetching cart information:', error)
     isLoading.value = false
+    alert.error
   }
 }
 
@@ -80,8 +84,10 @@ const fectchDelStock = async (id) => {
   try {
     await removeItemAPI(id)
     items.value = items.value.filter(item => item.id !== id)
+    alert.success
   } catch (error) {
     console.error('Error deleting cart item:', error)
+    alert.error
   }
 }
 
@@ -89,8 +95,10 @@ const fectchRelistStock = async (id) => {
   try {
     await relistItemAPI(id)
     items.value = items.value.filter(item => item.id !== id)
+    alert.success
   } catch (error) {
     console.error('Error deleting cart item:', error)
+    alert.error
   }
 }
 
@@ -124,10 +132,12 @@ const toggleItemState = async (item) => {
       await relistItemAPI(item.id)
       item.state = 1
       item.buttonText = '產品下架'
+      alert.success
     } else {
       await removeItemAPI(item.id)
       item.state = 0
       item.buttonText = '產品上架'
+      alert.success
     }
   } catch (error) {
     console.error('Error toggling item state:', error)

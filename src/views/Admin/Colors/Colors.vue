@@ -49,8 +49,10 @@ import LayoutHeader from '@/views/Admin/adminComponent/LayoutHeader.vue'
 import OthersNavPills from '@/views/Admin/adminComponent/OthersNavPills.vue';
 import Spinner from '@/components/Spinner.vue'
 import { getColorsAPI, addColorAPI } from '@/apis/admin/other/color'
-import { ElForm, ElInput, ElButton, ElMessage } from 'element-plus'
+import { ElForm, ElInput, ElButton } from 'element-plus'
+import { useAlertStore } from '@/stores/alert'
 
+const alert = useAlertStore()
 const colors = ref([]);
 const isLoading = ref(true);
 const formRef =ref(null)
@@ -64,6 +66,7 @@ const fetchColor = async () => {
       isLoading.value = false;
     } else {
       console.error('Invalid API response:', res);
+      alert.error
       isLoading.value = false;
     }
   } catch (error) {
@@ -79,11 +82,11 @@ const createColor = async () => {
       const { name } = formData.value
       const res = await addColorAPI({ name })
       console.log(res)
-      ElMessage({ type: 'success', message: '註冊成功' })
+      alert.success
       formData.value.name = ''
       fetchColor()
     } catch (error) {
-      ElMessage({ type: 'error', message: '註冊失敗' })
+      alert.error
     }
   }
 };

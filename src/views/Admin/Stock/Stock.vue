@@ -47,7 +47,9 @@
   import Spinner from '@/components/Spinner.vue'
   import { getStocksAPI } from '@/apis/admin/stock'
   import { useRoute } from 'vue-router'
+  import { useAlertStore } from '@/stores/alert'
 
+  const alert = useAlertStore()
   const items = ref([])
   const categories = ref([])
   const stocks = ref([])
@@ -70,10 +72,12 @@
     } else {
       console.error('Invalid API response:', res)
       isLoading.value = false
+      alert.error
     }
   } catch (error) {
     console.error('Error fetching cart information:', error)
     isLoading.value = false
+    alert.error
   }
 }
 

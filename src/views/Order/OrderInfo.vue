@@ -41,7 +41,9 @@
   import AdminSearchBar from '@/views/Admin/Order/Layout/AdminSearchBar.vue'
   import Spinner from '@/components/Spinner.vue'
   import { getOrdersAPI } from '@/apis/order'
-  
+  import { useAlertStore } from '@/stores/alert'
+
+  const alert = useAlertStore()
   const orders = ref({})
   const isLoading = ref(true)
   
@@ -54,10 +56,12 @@
     } else {
       console.error('Invalid API response:', res)
       isLoading.value = false
+      alert.error
     }
   } catch (error) {
     console.error('Error fetching cart information:', error)
     isLoading.value = false
+    alert.error
   }
 }
 

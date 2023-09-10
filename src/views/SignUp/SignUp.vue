@@ -33,7 +33,10 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { signupAPI } from '@/apis/user'
-import { ElForm, ElFormItem, ElInput, ElButton, ElMessage } from 'element-plus'
+import { ElForm, ElFormItem, ElInput, ElButton } from 'element-plus'
+import { useAlertStore } from '@/stores/alert'
+
+const alert = useAlertStore()
 
 const router = useRouter()
 
@@ -86,10 +89,10 @@ const signup = async () => {
       const { name, account, password, email, checkPassword } = formData.value
       const res = await signupAPI({ name, account, password, email, checkPassword })
       console.log(res)
-      ElMessage({ type: 'success', message: '註冊成功' })
+      alert.success
       router.replace('/login')
     } catch (error) {
-      ElMessage({ type: 'error', message: '註冊失敗' })
+      alert.error
     }
   }
 }

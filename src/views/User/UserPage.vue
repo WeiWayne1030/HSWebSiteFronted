@@ -100,9 +100,10 @@ import LayoutFooter from '@/components/LayoutFooter.vue'
 import LayoutNav from '@/components/LayoutNav.vue'
 import LayoutHeader from '@/components/LayoutHeader.vue'
 import { getUserFileAPI, editUserFileAPI } from '@/apis/user'
-import { ElMessage } from 'element-plus'
 import Spinner from '@/components/Spinner.vue'
+import { useAlertStore } from '@/stores/alert'
 
+const alert = useAlertStore()
 const isLoading = ref(true)
 const userData = ref({})
 const isEditingUser = ref(false)
@@ -118,11 +119,12 @@ onMounted(async () => {
       userData.value = res
       isLoading.value = false
     } else {
-      console.error('Invalid API response:', res)
+      alert.error
     }
   } catch (error) {
     console.error('Error fetching product:', error)
     isLoading.value = false
+    alert.error
   }
 })
 const toggleEdit = () => {
@@ -150,9 +152,11 @@ const getUserData = async () => {
       editUserData.introduction = res.introduction
     } else {
       console.error('Invalid API response:', res)
+      alert.error
     }
   } catch (error) {
     console.error('Error fetching user data:', error)
+    alert.error
   }
 }
 
@@ -182,13 +186,14 @@ const updateUserData = async () => {
     const res = await editUserFileAPI(updatedData)
     if (res) {
       isEditingUser.value = false // 成功后关闭编辑对话框
-      ElMessage.success('保存成功')
-      isEditingUser.value = false
+      alert.success
     } else {
       console.error('Invalid API response:', res)
+      alert.error
     }
   } catch (error) {
     console.error('Error updating user data:', error)
+    alert.error
   }
 }
 

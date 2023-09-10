@@ -93,8 +93,10 @@ import LayoutHeader from '@/views/Admin/adminComponent/LayoutHeader.vue'
 import OthersNavPills from '@/views/Admin/adminComponent/OthersNavPills.vue';
 import Spinner from '@/components/Spinner.vue'
 import { addMethodAPI, getMethodsAPI,putMethodAPI, removeMethodAPI,relistMethodAPI, delMethodAPI} from '@/apis/admin/other/method'
-import { ElForm, ElInput, ElButton, ElMessage } from 'element-plus'
+import { ElForm, ElInput, ElButton } from 'element-plus'
+import { useAlertStore } from '@/stores/alert'
 
+const alert = useAlertStore()
 const formData = ref({ name:'' });
 const isProcessing = ref(false);
 const methods = ref([]);
@@ -111,11 +113,11 @@ const fetchMethod = async () => {
       methods.value = res;
       isLoading.value = false;
     } else {
-      ElMessage({ type: 'success', message: '操作成功' })
+      alert.success
       isLoading.value = false;
     }
   } catch (error) {
-    ElMessage({ type: 'error', message: '操作失敗' })
+    alert.error
     isLoading.value = false;
   }
 };
@@ -127,11 +129,11 @@ const createMethod = async () => {
       const { name } = formData.value
       const res = await addMethodAPI({ name })
       console.log(res)
-      ElMessage({ type: 'success', message: '添加成功' })
+      alert.success
       formData.value.name = ''
       fetchMethod()
     } catch (error) {
-      ElMessage({ type: 'error', message: '添加失敗' })
+      alert.error
     }
   }
 };
@@ -152,13 +154,13 @@ const saveMethod = async (row) => {
       const { id, name } = row; // Extract id and name from the row
       const res = await putMethodAPI({ id, name});
       console.log(res);
-      ElMessage({ type: 'success', message: '編輯成功' });
+      alert.success
       // Clear the editing state
       editingMethodId.value = null;
       // No need to reset formData.value.name here, as it's already updated in the UI
       fetchMethod();
     } catch (error) {
-      ElMessage({ type: 'error', message: '編輯失敗' });
+      alert.error
     }
   }
 };
@@ -175,9 +177,9 @@ const removeMethod = async (methodId) => {
     console.log(res)
     // refresh 表單
     fetchMethod();
-    ElMessage({ type: 'success', message: '操作成功' })
+    alert.success
   } catch (error) {
-    ElMessage({ type: 'success', message: '操作失敗' })
+    alert.error
   }
 };
 
@@ -185,9 +187,9 @@ const relistMethod = async (methodId) => {
   try {
     await relistMethodAPI({id:methodId});
     fetchMethod();
-    ElMessage({ type: 'success', message: '操作成功' })
+    alert.success
   } catch (error) {
-    ElMessage({ type: 'error', message: '操作失敗' })
+    alert.error
   }
 };
 
@@ -195,9 +197,9 @@ const deleteMethod = async (methodId) => {
   try {
     await delMethodAPI({id:methodId});
     fetchMethod();
-    ElMessage({ type: 'success', message: '操作成功' })
+    alert.success
   } catch (error) {
-    ElMessage({ type: 'error', message: '操作失敗' })
+    alert.error
   }
 };
 

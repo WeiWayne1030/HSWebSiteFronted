@@ -50,8 +50,9 @@ import AdminSearchBar from '@/views/Admin/Order/Layout/AdminSearchBar.vue'
 import Spinner from '@/components/Spinner.vue'
 import { getOrdersAPI } from '@/apis/admin/order'
 import { useRoute, useRouter } from 'vue-router'
-import { ElMessage } from 'element-plus'
+import { useAlertStore } from '@/stores/alert'
 
+const alert = useAlertStore()
 const orders = ref([])
 const methods = ref([])
 const pagination = ref({
@@ -81,16 +82,18 @@ const fetchStockInfo = async () => {
     } else {
       console.error('Invalid API response:', res)
       isLoading.value = false
+      alert.error
     }
   } catch (error) {
     console.error('Error fetching cart information:', error)
     isLoading.value = false
+    alert.error
   }
 }
 
 const enterItemState =(orderNumber) => {
   router.replace({ path: `/admin/orderItems/${orderNumber}` })
-  ElMessage({ type: 'success', message: '執行成功' })
+  alert.success
 }
 
 onMounted(() => {
