@@ -113,11 +113,11 @@ const fetchSize = async () => {
       sizes.value = res;
       isLoading.value = false;
     } else {
-      alert.error
+      alert.showError()
       isLoading.value = false;
     }
   } catch (error) {
-    alert.error
+    alert.showError()
     isLoading.value = false;
   }
 };
@@ -129,11 +129,11 @@ const createSize = async () => {
       const { name } = formData.value
       const res = await addSizeAPI({ name })
       console.log(res)
-      alert.success
+      alert.showSuccess()
       formData.value.name = ''
       fetchSize()
     } catch (error) {
-      alert.error
+      alert.showError()
     }
   }
 };
@@ -154,13 +154,13 @@ const saveSize = async (row) => {
       const { id, name } = row; // Extract id and name from the row
       const res = await putSizeAPI({ id, name});
       console.log(res);
-      alert.success
+      alert.showSuccess()
       // Clear the editing state
       editingSizeId.value = null;
       // No need to reset formData.value.name here, as it's already updated in the UI
       fetchSize();
     } catch (error) {
-      alert.error
+      alert.showError()
     }
   }
 };
@@ -177,9 +177,9 @@ const removeSize = async (sizeId) => {
     console.log(res)
     // refresh 表單
     fetchSize();
-    alert.success
+    alert.showSuccess()
   } catch (error) {
-    alert.error
+    alert.showError()
   }
 };
 
@@ -187,9 +187,9 @@ const relistSize = async (sizeId) => {
   try {
     await relistSizeAPI({id:sizeId});
     fetchSize();
-    alert.success
+    alert.showSuccess()
   } catch (error) {
-    alert.error
+    alert.showError()
   }
 };
 
@@ -197,9 +197,9 @@ const deleteSize = async (sizeId) => {
   try {
     await delSizeAPI({id:sizeId});
     fetchSize();
-    alert.success
+    alert.showSuccess()
   } catch (error) {
-    alert.error
+    alert.showError()
   }
 };
 

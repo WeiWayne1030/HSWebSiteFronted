@@ -56,10 +56,10 @@ const doLogin = async () => {
   if (valid) {
     try {
       await userStore.getUserInfo({ account, password })
-      alert.success
+      alert.showSuccess()
       router.replace({ path: '/' })
     } catch (error) {
-      alert.error
+      alert.showError()
     }
   }
 }
@@ -71,10 +71,10 @@ const doAdminLogin = async () => {
   if (valid) {
     try {
       await userStore.getAdminInfo({ account, password })
-      alert.success
+      alert.showSuccess()
       router.replace({ path: '/admin/orders' })
     } catch (error) {
-      alert.error
+      alert.showError()
     }
   }
 }

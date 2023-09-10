@@ -97,7 +97,7 @@ const formRef = ref(null)
   categories.value = res.categories
   } catch (error) {
     console.log('error', error)
-    alert.error
+    alert.showError()
   }
 };
 
@@ -106,7 +106,7 @@ const handleFileChange = (e) => {
   if (files.length > 0) {
     const file = files[0]
     product.value.image = URL.createObjectURL(file)
-    alert.success
+    alert.showSuccess()
   }
 }
 
@@ -122,10 +122,10 @@ const addProduct = async () => {
       console.log(category)
       const res = await addItemAPI({ name, price, description, CategoryId: Number(category), image })
       console.log(res)
-      alert.success
+      alert.showSuccess()
       router.replace('/admin/items')
     } catch (error) {
-      alert.error
+      alert.showError()
     }
   }
 }

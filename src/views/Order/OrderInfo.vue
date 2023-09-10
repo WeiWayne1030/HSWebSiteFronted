@@ -56,12 +56,12 @@
     } else {
       console.error('Invalid API response:', res)
       isLoading.value = false
-      alert.error
+      alert.showError()
     }
   } catch (error) {
     console.error('Error fetching cart information:', error)
     isLoading.value = false
-    alert.error
+    alert.showError()
   }
 }
 

@@ -61,12 +61,12 @@ const fetchOrderItems = async () => {
       items.value = res
       isLoading.value = false
     } else {
-      alert.error
+      alert.showError()
       isLoading.value = false
     }
   } catch (error) {
     isLoading.value = false
-    alert.error
+    alert.showError()
   }
 }
 

@@ -86,12 +86,12 @@ onMounted(async () => {
       isLoading.value = false
     } else {
       console.error('Invalid API response:', res)
-      alert.error
+      alert.showError()
     }
   } catch (error) {
     console.error('Error fetching product:', error)
     isLoading.value = false
-    alert.error
+    alert.showError()
   }
 })
 
@@ -122,16 +122,16 @@ const delCart = async (id) => {
   try {
     await delCartAPI(id)
     cartItems.value = cartItems.value.filter(item => item.id !== id)
-    alert.success
+    alert.showSuccess()
   } catch (error) {
     console.error('Error deleting cart item:', error)
-    alert.error
+    alert.showError()
   }
 }
 
 const checkout = () => {
   router.replace({ path: '/order' })
-  alert.success
+  alert.showSuccess()
 }
 </script>
 

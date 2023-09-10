@@ -66,7 +66,7 @@ const fetchColor = async () => {
       isLoading.value = false;
     } else {
       console.error('Invalid API response:', res);
-      alert.error
+      alert.showError()
       isLoading.value = false;
     }
   } catch (error) {
@@ -82,11 +82,11 @@ const createColor = async () => {
       const { name } = formData.value
       const res = await addColorAPI({ name })
       console.log(res)
-      alert.success
+      alert.showSuccess()
       formData.value.name = ''
       fetchColor()
     } catch (error) {
-      alert.error
+      alert.showError()
     }
   }
 };

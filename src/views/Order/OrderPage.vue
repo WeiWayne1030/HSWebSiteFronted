@@ -64,14 +64,14 @@ const fetchPaymentMethods = async () => {
     const res = await getOrdersAPI()
     if (res && res.methods) {
       methods.value = res.methods
-      alert.success
+      alert.showSuccess()
     } else {
       console.error('Invalid API response:', res)
-      alert.error
+      alert.showError()
     }
   } catch (error) {
     console.error('Error fetching payment methods:', error)
-    alert.error
+    alert.showError()
   }
 }
 
@@ -93,11 +93,11 @@ const fetchCartInfo = async () => {
       totalAmount.value = calculatedTotalAmount
     } else {
       console.error('Invalid API response:', res)
-      alert.error
+      alert.showError()
     }
   } catch (error) {
     console.error('Error fetching cart information:', error)
-    alert.error
+    alert.showError()
   }
 }
 
@@ -130,10 +130,10 @@ const addProduct = async () => {
     const MethodId = selectedMethod ? selectedMethod.id : ''
 
     await buildOrderAPI({ shipName, MethodId, address, shipTel })
-    alert.success
+    alert.showSuccess()
     router.replace({ path: '/' })
   } catch (error) {
-    alert.error
+    alert.showError()
   }
 }
 </script>

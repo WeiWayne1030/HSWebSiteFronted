@@ -113,11 +113,11 @@ const fetchCategory = async () => {
       categories.value = res;
       isLoading.value = false;
     } else {
-      alert.error
+      alert.showError()
       isLoading.value = false;
     }
   } catch (error) {
-    alert.error
+    alert.showError()
     isLoading.value = false;
   }
 };
@@ -129,11 +129,11 @@ const createCategory = async () => {
       const { name } = formData.value
       const res = await addCategoryAPI({ name })
       console.log(res)
-      alert.success
+      alert.showSuccess()
       formData.value.name = ''
       fetchCategory()
     } catch (error) {
-      alert.error
+      alert.showError()
     }
   }
 };
@@ -154,13 +154,13 @@ const saveCategory = async (row) => {
       const { id, name } = row; // Extract id and name from the row
       const res = await putCategoryAPI({ id, name});
       console.log(res);
-      alert.success
+      alert.showSuccess()
       // Clear the editing state
       editingCategoryId.value = null;
       // No need to reset formData.value.name here, as it's already updated in the UI
       fetchCategory();
     } catch (error) {
-      alert.error;
+      alert.showError();
     }
   }
 };
@@ -177,9 +177,9 @@ const removeCategory = async (categoryId) => {
     console.log(res)
     // refresh表單
     fetchCategory();
-    alert.success
+    alert.showSuccess()
   } catch (error) {
-    alert.error
+    alert.showError()
   }
 };
 
@@ -187,9 +187,9 @@ const relistCategory = async (categoryId) => {
   try {
     await relistCategoryAPI({id:categoryId});
     fetchCategory();
-    alert.success
+    alert.showSuccess()
   } catch (error) {
-    alert.error
+    alert.showError()
   }
 };
 
@@ -197,9 +197,9 @@ const deleteCategory = async (categoryId) => {
   try {
     await delCategoryAPI({id:categoryId});
     fetchCategory();
-    alert.success
+    alert.showSuccess()
   } catch (error) {
-    alert.error
+    alert.showError()
   }
 };
 

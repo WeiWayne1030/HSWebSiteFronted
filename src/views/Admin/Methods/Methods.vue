@@ -113,11 +113,11 @@ const fetchMethod = async () => {
       methods.value = res;
       isLoading.value = false;
     } else {
-      alert.success
+      alert.showSuccess()
       isLoading.value = false;
     }
   } catch (error) {
-    alert.error
+    alert.showError()
     isLoading.value = false;
   }
 };
@@ -129,11 +129,11 @@ const createMethod = async () => {
       const { name } = formData.value
       const res = await addMethodAPI({ name })
       console.log(res)
-      alert.success
+      alert.showSuccess()
       formData.value.name = ''
       fetchMethod()
     } catch (error) {
-      alert.error
+      alert.showError()
     }
   }
 };
@@ -154,13 +154,13 @@ const saveMethod = async (row) => {
       const { id, name } = row; // Extract id and name from the row
       const res = await putMethodAPI({ id, name});
       console.log(res);
-      alert.success
+      alert.showSuccess()
       // Clear the editing state
       editingMethodId.value = null;
       // No need to reset formData.value.name here, as it's already updated in the UI
       fetchMethod();
     } catch (error) {
-      alert.error
+      alert.showError()
     }
   }
 };
@@ -177,9 +177,9 @@ const removeMethod = async (methodId) => {
     console.log(res)
     // refresh 表單
     fetchMethod();
-    alert.success
+    alert.showSuccess()
   } catch (error) {
-    alert.error
+    alert.showError()
   }
 };
 
@@ -187,9 +187,9 @@ const relistMethod = async (methodId) => {
   try {
     await relistMethodAPI({id:methodId});
     fetchMethod();
-    alert.success
+    alert.showSuccess()
   } catch (error) {
-    alert.error
+    alert.showError()
   }
 };
 
@@ -197,9 +197,9 @@ const deleteMethod = async (methodId) => {
   try {
     await delMethodAPI({id:methodId});
     fetchMethod();
-    alert.success
+    alert.showSuccess()
   } catch (error) {
-    alert.error
+    alert.showError()
   }
 };
 

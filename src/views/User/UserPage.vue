@@ -119,12 +119,12 @@ onMounted(async () => {
       userData.value = res
       isLoading.value = false
     } else {
-      alert.error
+      alert.showError()
     }
   } catch (error) {
     console.error('Error fetching product:', error)
     isLoading.value = false
-    alert.error
+    alert.showError()
   }
 })
 const toggleEdit = () => {
@@ -152,11 +152,11 @@ const getUserData = async () => {
       editUserData.introduction = res.introduction
     } else {
       console.error('Invalid API response:', res)
-      alert.error
+      alert.showError()
     }
   } catch (error) {
     console.error('Error fetching user data:', error)
-    alert.error
+    alert.showError()
   }
 }
 
@@ -166,6 +166,7 @@ const handleFileChange = (e) => {
     const file = files[0]
     editUserData.avatar = URL.createObjectURL(file)
   }
+  alert.showSuccess()
 }
 
 
@@ -186,14 +187,14 @@ const updateUserData = async () => {
     const res = await editUserFileAPI(updatedData)
     if (res) {
       isEditingUser.value = false // 成功后关闭编辑对话框
-      alert.success
+      alert.showSuccess()
     } else {
       console.error('Invalid API response:', res)
-      alert.error
+      alert.showError()
     }
   } catch (error) {
     console.error('Error updating user data:', error)
-    alert.error
+    alert.showError()
   }
 }
 

@@ -41,7 +41,7 @@ const fetchItems = async () => {
   } catch (error) {
     isLoading.value = false
     console.log('error', error)
-    alert.error
+    alert.showError()
   }
 };
 

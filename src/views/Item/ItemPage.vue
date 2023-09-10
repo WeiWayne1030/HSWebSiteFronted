@@ -94,12 +94,12 @@ onMounted(async () => {
       isLoading.value = false
     } else {
       console.error('Invalid API response:', res)
-      alert.error
+      alert.showError()
     }
   } catch (error) {
     console.error('Error fetching product:', error)
     isLoading.value = false
-    alert.error
+    alert.showError()
   }
 });
 //處理畫面中選擇color後會出現的size選項
@@ -150,10 +150,10 @@ const addToCart = async () => {
 
     try {
       await addCartAPI(addProduct) // 使用修改後的addProduct
-      alert.success
+      alert.showSuccess()
       router.replace({ path: '/items' })
     } catch (error) {
-      alert.error
+      alert.showError()
     }
   } else {
     alert.Toast.fire({
