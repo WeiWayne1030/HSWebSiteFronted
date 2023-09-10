@@ -50,9 +50,9 @@ import { ref, onMounted } from 'vue'
 import LayoutNav from '@/views/Admin/adminComponent/LayoutNav.vue'
 import LayoutHeader from '@/views/Admin/adminComponent/LayoutHeader.vue'
 import StocksNavPills from '@/views/Admin/Stock/Layout/StocksNavPills.vue'
-import { addItemAPI } from '@/apis/admin/Item'
+import { addItemAPI } from '@/apis/admin/item'
 import { useRouter } from 'vue-router'
-import { getItemsAPI } from '@/apis/Item'
+import { getItemsAPI } from '@/apis/item'
 import { useAlertStore } from '@/stores/alert'
 
 const alert = useAlertStore()
