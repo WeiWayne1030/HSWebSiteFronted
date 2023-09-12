@@ -117,7 +117,7 @@
         itemStock: 0,
       }
     } catch (error) {
-      alert.showError('請重新選擇')
+      alert.showError('您所添加的庫存已存在，請重新選擇')
     }
   }
 
