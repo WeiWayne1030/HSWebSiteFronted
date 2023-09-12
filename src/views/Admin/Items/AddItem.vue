@@ -5,7 +5,7 @@
     <LayoutHeader />
     <StocksNavPills />
     <div class="add-product">
-      <h2>新增商品</h2>
+      <h2 class="addItem-title">新增商品</h2>
       <el-form ref="formRef" :model="product" :rules="rules" label-width="100px">
         <el-form-item label="上傳圖片" prop="image">
             <input
@@ -152,5 +152,8 @@ const addProduct = async () => {
   .add-product {
     max-width: 100%;
   }
+}
+.addItem-title{
+  margin-left:30px ;
 }
 </style>

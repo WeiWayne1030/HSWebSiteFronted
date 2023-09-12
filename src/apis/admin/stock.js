@@ -21,3 +21,17 @@ export const putStockNumberAPI = ({productNumber, itemStock}) => {
     headers: { Authorization: `Bearer ${getToken()}` }
   })
 }
+
+export const addStockAPI = ({ItemId, colorName , SizeId, itemStock }) => {
+  return request({
+    url: `/admin/stock`,
+    method:"POST",
+    data: {
+      ItemId, 
+      colorName, 
+      SizeId, 
+      itemStock
+    },
+    headers: { Authorization: `Bearer ${getToken()}` }
+  })
+}

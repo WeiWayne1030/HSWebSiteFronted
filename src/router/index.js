@@ -22,6 +22,7 @@ import BuildOrder from '@/views/Order/OrderPage.vue'
 import OrderInfo from '@/views/Order/OrderInfo.vue'
 import AllItems from '@/views/Admin/Items/Items.vue'
 import UserPage from '@/views/User/UserPage.vue'
+import AddStock from '@/views/Admin/Stock/AddStock.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -110,6 +111,10 @@ const router = createRouter({
     {
       path: '/userInfo',
       component: UserPage
+    },
+    {
+      path:'/admin/addStock',
+      component: AddStock
     }
   ]
 })

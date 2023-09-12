@@ -20,13 +20,13 @@
     index: "2"
   },
   {
-    title: '庫存新增',
+    title: '商品新增',
     path: '/admin/item',
     index: "3"
   },
   {
-    title: '庫存修改',
-    path: '/admin/',
+    title: '庫存新增',
+    path: '/admin/addStock',
     index: "4"
   }
 ];

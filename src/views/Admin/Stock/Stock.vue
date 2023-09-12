@@ -1,9 +1,10 @@
 <template>
-  <div>
+<div>
     <!-- header,footer,nav -->
-    <LayoutNav />
-    <LayoutHeader />
-    <StocksNavPills />
+    <div>
+      <LayoutNav />
+      <LayoutHeader />
+      <StocksNavPills />
     </div>
     <div v-if="isLoading" class="spinner">
       <Spinner />
@@ -33,7 +34,7 @@
           {{ stock.itemStock }}
         </div>
         <div class="div14" v-else>
-          <el-input v-model="editedStockValue" class="stock-input"></el-input>
+          <el-input v-model="editedStockValue" type="number" class="stock-input"></el-input>
           <div class="row">
             <el-button class="cancel-number-button" @click="saveStockNumber(stock, editedStockValue)">
               保存
@@ -52,7 +53,8 @@
                 更變庫存
           </el-button>
       </div>
-    </div> 
+    </div>
+  </div>
   <LayoutFooter />
 </template>
 
@@ -360,6 +362,6 @@ watch(() => {
   }
 
   .stock-input{
-    width: 50px
+    width: 70px
   }
 </style>
