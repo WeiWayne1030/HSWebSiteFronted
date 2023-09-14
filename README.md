@@ -76,13 +76,13 @@
 
 #### 全部商品頁
 
-![](public/screenshots/全部商品.mov)
+![](public/screenshots/全部商品.gif)
 
 ### 會員功能
 
 #### 購物車頁面
 
-![]()
+![]
 
 #### 訂單頁面
 
