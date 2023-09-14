@@ -56,27 +56,13 @@ export const getUserFileAPI = () => {
 }
 
 export const editUserFileAPI = ({
-        name,
-        account,
-        email,
-        password: hashedPassword,
-        sex,
-        telNumber,
-        introduction,
-        avatar
+        updatedData
       }) => {
   return request({
     url:'/user/profile',
     method:'PUT',
     data: {
-      name,
-      account,
-      email,
-      password: hashedPassword,
-      sex,
-      telNumber,
-      introduction,
-      avatar
+      updatedData
     },
     headers: { Authorization: `Bearer ${getToken()}`,
   },

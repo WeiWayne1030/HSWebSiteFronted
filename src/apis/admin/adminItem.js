@@ -26,17 +26,13 @@ export const relistItemAPI = (id) => {
   })
 }
 
-export const addItemAPI = ({ name, price, description, CategoryId, image}) => {
+export const addItemAPI = ({formData}) => {
     return request({
     url:`/admin/items`,
     method:'POST',
-    data:{
-      name, 
-      price, 
-      description, 
-      CategoryId, 
-      image
-    },
-    headers: { Authorization: `Bearer ${getToken()}` }
+    data:formData,
+    headers: {Authorization: `Bearer ${getToken()}`,
+    'Content-Type': 'multipart/form-data'
+  }
   })
 }

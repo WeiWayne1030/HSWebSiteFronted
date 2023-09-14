@@ -6,8 +6,15 @@
     <StocksNavPills />
     <div class="add-product">
       <h2 class="addItem-title">新增商品</h2>
-      <el-form ref="formRef" :model="product" :rules="rules" label-width="100px">
+      <el-form ref="formRef" :model="product" :rules="rules" label-width="100px" enctype="multipart/form-data">
         <el-form-item label="上傳圖片" prop="image">
+            <img
+              v-if="product.displayImage"
+              :src="product.displayImage"
+              class="d-block img-thumbnail mb-3"
+              width="200"
+              height="200"
+            >
             <input
               id="image"
               type="file"
@@ -61,7 +68,8 @@ const product = ref({
   category: '', 
   description: '',
   price: null,
-  image:''
+  file:'',
+  image: ''
 });
 
 const router = useRouter()
@@ -103,9 +111,14 @@ const formRef = ref(null)
 
 const handleFileChange = (e) => {
   const files = e.target.files
-  if (files.length > 0) {
+  if (files.length === 0) {
+    product.value.image = null
+  }
+  else {
     const file = files[0]
-    product.value.image = URL.createObjectURL(file)
+    product.value.image = file
+    const imageURL = URL.createObjectURL(file)
+    product.value.displayImage = imageURL
     alert.showSuccess()
   }
 }
@@ -115,12 +128,21 @@ onMounted(async () => {
 });
 
 const addProduct = async () => {
-  const valid = await formRef.value.validate() // Use productForm for validation
+  const valid = await formRef.value.validate()
   if (valid) {
+    console.log(product.value.image)
     try {
-      const { name, price, description, category, image } = product.value
-      console.log(category)
-      const res = await addItemAPI({ name, price, description, CategoryId: Number(category), image })
+      const formData = new FormData()
+      formData.append('name', product.value.name)
+      formData.append('price', Number(product.value.price))
+      formData.append('description', product.value.description)
+      formData.append('CategoryId', Number(product.value.category))
+      formData.append('image', product.value.image)
+      for (let [name, value] of formData.entries()) {
+        console.log(name + ': ' + value)
+      }
+      console.log(formData)
+      const res = await addItemAPI(formData)
       console.log(res)
       alert.showSuccess()
       router.replace('/admin/items')

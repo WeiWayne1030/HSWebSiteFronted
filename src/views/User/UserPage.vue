@@ -69,8 +69,8 @@
           </el-form-item>
           <el-form-item label="更換頭像">
             <img
-              v-if="editUserData.avatar"
-              :src="editUserData.avatar"
+              v-if="editUserData.displayAvatar"
+              :src="editUserData.displayAvatar"
               class="d-block img-thumbnail mb-3"
               width="50"
               height="50"
@@ -164,29 +164,36 @@ const handleFileChange = (e) => {
   const files = e.target.files
   if (files.length > 0) {
     const file = files[0]
-    editUserData.avatar = URL.createObjectURL(file)
+    const imageURL = URL.createObjectURL(file)
+    editUserData.avatar = file
+    editUserData.value.displayAvatar = imageURL
   }
   alert.showSuccess()
 }
 
 
-console.log(editUserData.avatar)
+
 const updateUserData = async () => {
   try {
     // 准备要发送到 API 的数据
-    const updatedData = {
-      name: editUserData.name,
-      email: editUserData.email,
-      account: editUserData.account,
-      sex: editUserData.sex,
-      telNumber: editUserData.telNumber,
-      introduction: editUserData.introduction,
-      avatar: editUserData.avatar,
-    }
+    console.log(editUserData.avatar)
+    const updatedData = new FormData()
+      updatedData.append('name', editUserData.name),
+       updatedData.append('email', editUserData.email),
+       updatedData.append('account', editUserData.account),
+       updatedData.append('sex', editUserData.sex),
+       updatedData.append('telNumber', editUserData.telNumber),
+       updatedData.append('introduction', editUserData.introduction),
+       updatedData.append('avatar', editUserData.avatar)
     // 发送 PUT 请求以更新用户数据
+    for (let [name, value] of updatedData.entries()) {
+        console.log(name + ': ' + value)
+      }
+    
+    
     const res = await editUserFileAPI(updatedData)
     if (res) {
-      isEditingUser.value = false // 成功后关闭编辑对话框
+      isEditingUser.value = false // 成功後關閉對話框
       alert.showSuccess()
     } else {
       console.error('Invalid API response:', res)
