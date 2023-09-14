@@ -76,7 +76,7 @@
 
 #### 全部商品頁
 
-![](https://imgur.com/a/EjzQmfY)
+![](https://i.imgur.com/zUJJUWD.mp4)
 
 ### 會員功能
 
