@@ -76,7 +76,7 @@
 
 #### 全部商品頁
 
-![image](public/screenshots/全部商品.gif)
+![image](public/screenshots/allItems.gif)
 
 ### 會員功能
 
