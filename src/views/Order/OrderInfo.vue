@@ -76,7 +76,8 @@ onMounted(() => {
 
 <style scoped>
   .container {
-    width:95%
+    width:95%;
+    padding-bottom:15%
   }
   .div2 {
     position: relative;

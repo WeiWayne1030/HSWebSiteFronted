@@ -16,7 +16,7 @@
         />
         <img
           v-else
-          :src="dummyAvatarUrl"
+          :src="'/public/screenshots/暫無圖片.jpg'"
           alt="Dummy Avatar"
           class="user-avatar"
         />

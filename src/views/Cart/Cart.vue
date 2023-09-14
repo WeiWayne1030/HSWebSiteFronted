@@ -164,7 +164,7 @@ const checkout = () => {
 .cart-table {
   width: 100%;
   border-collapse: collapse;
-  margin-bottom: 20px;
+  margin-bottom: 10%;
 }
 
 .cart-table th {
