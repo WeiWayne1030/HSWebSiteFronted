@@ -3,7 +3,7 @@
 
 # herStoryWebSite
 
-####用衣服，穿出屬於她的故事。
+#### 用衣服，穿出屬於她的故事。
 
 </div>
 
@@ -56,7 +56,7 @@
 
 ### 🧩 Built with
 
-[![built with](https://skillicons.dev/icons?i=figma,vue,render,vite)](https://skillicons.dev)
+[![built with](https://skillicons.dev/icons?i=figma,vue,vite)](https://skillicons.dev)
 <img width="50" src="https://user-images.githubusercontent.com/11247099/145112184-a9ff6727-661c-439d-9ada-963124a281f7.png" alt="vitest logo">
 
 ![](public/screenshots/Screenshot_1.jpg)
@@ -68,27 +68,47 @@
 
 #### 登入註冊頁面
 
-![]()
+![]([label](../Desktop/%E9%A6%96%E9%A0%81.mov))
 
-#### Bookmark your favorite how-to creations
-
-![]()
-
-#### Leave a comment to share your thoughts
+#### 首頁
 
 ![]()
 
-#### Search for all kinds of how-to ideas
+#### 全部商品頁
 
 ![]()
 
-#### Personalize your profile with custom bio and images
+### 會員功能
+
+#### 購物車頁面
 
 ![]()
 
-#### Manage your username, email and password easily
+#### 訂單頁面
 
 ![]()
+
+#### 個人資料
+
+![]()
+
+### 管理者頁面
+
+#### 商品管理
+
+![]()
+
+#### 商家訂單管理
+
+![]()
+
+#### 其他管理
+
+![]()
+
+
+
+
 
 #### 🤔 Future Features
 
