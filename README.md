@@ -72,7 +72,7 @@
 
 #### 首頁
 
-![]()
+![image](public/screenshots/main.png)
 
 #### 全部商品頁
 
