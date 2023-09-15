@@ -68,7 +68,7 @@
 
 #### 登入註冊頁面
 
-![]()
+![image](public/screenshots/login.png)
 
 #### 首頁
 
@@ -110,7 +110,7 @@
 
 #### 其他管理
 
-![image](adminOtherAdd)
+![image](public/screenshots/adminOtherAdd.png)
 
 
 
