@@ -13,9 +13,9 @@
     <div v-if="isLoading" class="spinner">
       <Spinner />
     </div>
-    <!-- Display the filtered items -->
+    <!-- 載入篩選的item -->
     <div class="parent-info" v-for="item in filteredItems" :key="item.id">
-      <!-- Display filtered items here -->
+      <!-- 載入塞選的內容 -->
       <img class="order-image" :src="item.image" alt="Product Image">
       <div class="div11">{{ item.name }}</div>
       <div class="div12">{{ item.state }}</div>
@@ -49,13 +49,13 @@ const route = useRoute();
 
 const stateValue = ref("");
 const categoryValue = ref(null);
-const formData = ref({ query: "" });
+const formData = ref({ name: "" });
 
-// Define computed property to filter items based on search criteria
+// 定義computed以根據搜索條件過濾項目
 const filteredItems = computed(() => {
   const filteredByState = stateValue.value === "" ? items.value : items.value.filter(item => item.state === stateValue.value);
   const filteredByCategory = categoryValue.value === null ? filteredByState : filteredByState.filter(item => item.Category.id === categoryValue.value);
-  const filteredByQuery = formData.value.query === "" ? filteredByCategory : filteredByCategory.filter(item => item.productNumber.includes(formData.value.query));
+  const filteredByQuery = formData.value.name === "" ? filteredByCategory : filteredByCategory.filter(item => item.productNumber.includes(formData.value.query));
   return filteredByQuery;
 });
 

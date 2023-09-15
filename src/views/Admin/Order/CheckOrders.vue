@@ -8,7 +8,10 @@
     <Spinner />
   </div>
   <div class="container" v-else>
-    <AdminSearchBar />
+    <AdminSearchBar 
+      :orders="orders"
+      @state-change="handleStateChange"
+      @orderNumber-change="handleOrderNumberChange"/>
     <div class="parent">
       <div class="div2">訂單編號</div>
       <div class="div3">買家名稱</div>
@@ -19,7 +22,7 @@
       <div class="div8">訂單狀態</div>
     </div>
     <div class="line"></div>
-    <div class="or1100000-parent" v-for="order in orders" :key="order.id">
+    <div class="or1100000-parent" v-for="order in filteredOrders" :key="order.id">
       <div class="or1100000">{{ order.orderNumber }}</div>
       <div class="div9">{{ order.shipName }}</div>
       <div class="div10">{{ order.address }}</div>
@@ -42,7 +45,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from 'vue'
+import { ref, onMounted, watch,computed } from 'vue'
 import LayoutFooter from '@/components/LayoutFooter.vue'
 import LayoutNav from '@/views/Admin/adminComponent/LayoutNav.vue'
 import LayoutHeader from '@/views/Admin/adminComponent/LayoutHeader.vue'
@@ -64,6 +67,17 @@ const pagination = ref({
 const route = useRoute()
 const router = useRouter()
 const isLoading = ref(true)
+
+const stateValue = ref("");
+const formData = ref({ orderNumber: "" });
+
+// 定義computed以根據搜索條件過濾項目
+const filteredOrders = computed(() => {
+  const filteredByState = stateValue.value === "" ? orders.value : orders.value.filter(order => order.state === stateValue.value);
+  const filteredByQuery = formData.value.orderNumber === "" ? filteredByState : filteredByState.filter(order => order.productNumber.includes(formData.value.orderNumber));
+  return filteredByQuery;
+});
+
 
 const fetchStockInfo = async () => {
   try {
@@ -95,6 +109,15 @@ const enterItemState =(orderNumber) => {
   router.replace({ path: `/admin/orderItems/${orderNumber}` })
   alert.showSuccess()
 }
+
+// Event handlers for AdminSearchBar2 filter changes
+const handleStateChange = (value) => {
+  stateValue.value = value;
+};
+
+const handleOrderNumberChange = (value) => {
+  formData.value.orderNumber = value;
+};
 
 onMounted(() => {
   fetchStockInfo()
