@@ -39,7 +39,7 @@
         - [尺寸](#尺寸)
         - [支付方式](#支付方式)
         - [類別](#類別)
-  - [🚀 環境建置及安裝](#-環境建置及安裝)
+  - [🚀 執行本地專案](#-環境建置及安裝)
   - [💻 使用環境版本](#-使用環境版本)
     - [Core Technologies](#core-technologies)
     - [Packages](#packages)
@@ -120,9 +120,10 @@
 - 金流串接
 - 修改order訂單狀態（已出貨/未出貨）
 - 購物畫面優化
-- 管理者訂單刪除功能
+- 管理者訂單刪除功
+- 篩選優化
 
-## 🚀 Run Locally
+## 🚀 執行本地專案
 
 1. 複製此專案到本地端
 
@@ -144,15 +145,15 @@ $ npm run dev
 
 4. 複製運行網址並在瀏覽器上貼上: `http://localhost:5173/`
 
-5. Account for testing：
+5. 測試帳號：
 
 ```
 user account：buyer001
-seller account: 
-password：cool123
+seller account: seller001
+password：12345678
 ```
 
-6. Type the following command to stop the dev server
+6. 退出測試環境
 
 ```bash
 ctrl + c
@@ -162,74 +163,31 @@ ctrl + c
 
 ### Core Technologies
 
-- TypeScript 5.0.2
-- React 18 (Hooks) 18.2.0
-- React Router 6.11.1
-- React Redux 8.0.5
-- Redux toolkit / Redux toolkit query 1.9.5
-- Tailwind CSS 3.3.2
+- Vue 3
+- Element Plus 2.3.9
+- Vue Router 4.2.4
+- pinia 2.1.4
+- sweetalert2 11.6.4
+- vee-validate 4.11.1
 
-### Firebase v9.21.0
-
-- Authentication
-- Firestore
-- Storage
-- Hosting
 
 ### Packages
 
-- react-beautiful-dnd 13.1.1
-- react-firebase-hooks 5.1.1
-- react-paginate 8.2.0
-- react-responsive 9.0.2
-- react-icons 4.8.0
-- react-spinners 0.13.8
-- javascript-time-ago 2.5.9
-- react-time-ago 7.2.1
-- clsx 1.2.1
-- browser-image-compression 2.0.2
+詳見package.json file
 
 ### Development Tools
 
-- Vite 4.3.2
-- Eslint 8.38.0
-- Prettier 2.8.8
-- Vitest 0.32.2
-- @testing-library/jest-dom 5.16.5
-- @testing-library/react 14.0.0
-- @testing-library/user-event 14.4.3
-
-### 📦 File Structure
-
-```
--- public
--- src
-  |__ App.tsx
-  |__ assets
-  |__ components
-    |__ elements
-    |__ layouts
-  |__ hooks
-  |__ pages
-  |__ store
-    |__ apis
-  |__ utils
-```
-
-### 🤯 Development Process
-
-#### Design file
-
-![](public/screenshots/design-figma.jpg)
-![](public/screenshots/design-figma-2.jpg)
-
-#### User flow
-
-![](public/screenshots/user-flow.jpg)
-
-#### Functional map
-
-![](public/screenshots/howto_funtional_map.png)
+- "@rushstack/eslint-patch": "^1.3.2",
+-  "@vitejs/plugin-vue": "^4.2.3",
+-  "@vue/eslint-config-prettier": "^8.0.0",
+-  "babel-plugin-component": "^1.1.1",
+-  "eslint": "^8.45.0",
+-  "eslint-plugin-vue": "^9.15.1",
+-  "prettier": "^3.0.0",
+-  "sass": "^1.64.2",
+-  "unplugin-auto-import": "^0.16.6",
+-  "unplugin-vue-components": "^0.25.1",
+-  "vite": "^4.4.6"
 
 ## 🔒 License
 
