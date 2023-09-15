@@ -1,28 +1,21 @@
 <template>
   <div>
-    <!-- header,footer,nav -->
+  <!-- header,footer,nav -->
     <LayoutNav />
     <LayoutHeader />
-    <StocksNavPills />
-    </div>
+    <AdminSearchBar2
+      :categories="categories"
+      :items="items"
+      @state-change="handleStateChange"
+      @category-change="handleCategoryChange"
+      @keyWord-change="handleKeyWordChange"
+    />
     <div v-if="isLoading" class="spinner">
       <Spinner />
     </div>
-    <div class="container" v-else>
-      <AdminSearchBar2 :categories="categories" :items="items" />
-      <div class="parent">
-        <div class="div1">商品圖</div>
-        <div class="div2">商品名稱</div>
-        <div class="div3">狀態</div>
-        <div class="div4">類別</div>
-        <div class="div5">價格</div>
-        <div class="div6">管理</div>
-        <div class="div7">上架時間</div>
-      </div>
-      <div class="line"></div>
-      <div class="or1100000-parent-container">
-      </div>
-      <div class="parent-info" v-for="item in items" :key="item.id">
+    <!-- Display the filtered items -->
+    <div class="parent-info" v-for="item in filteredItems" :key="item.id">
+      <!-- Display filtered items here -->
       <img class="order-image" :src="item.image" alt="Product Image">
       <div class="div11">{{ item.name }}</div>
       <div class="div12">{{ item.state }}</div>
@@ -31,119 +24,118 @@
       <el-button class="div16" @click="toggleItemState(item)">
         {{ item.buttonText }}
       </el-button>
-    <div class="div17">{{ item.updatedAt }}</div>
+      <div class="div17">{{ item.updatedAt }}</div>
+    </div>
   </div>
-    </div> 
   <LayoutFooter />
 </template>
 
 <script setup>
-  import { ref, onMounted, watch } from 'vue'
-  import LayoutFooter from '@/components/LayoutFooter.vue'
-  import LayoutNav from '@/views/Admin/adminComponent/LayoutNav.vue'
-  import LayoutHeader from '@/views/Admin/adminComponent/LayoutHeader.vue'
-  import AdminSearchBar2 from '@/views/Admin/Stock/Layout/AdminSearchBar2.vue'
-  import StocksNavPills from '@/views/Admin/Stock/Layout/StocksNavPills.vue'
-  import Spinner from '@/components/Spinner.vue'
-  import { getItemsAPI, removeItemAPI, relistItemAPI } from '@/apis/admin/adminItem'
-  import { useRoute } from 'vue-router'
-  import { useAlertStore } from '@/stores/alert'
+import { ref, computed, onMounted } from 'vue';
+import { getItemsAPI, removeItemAPI, relistItemAPI } from '@/apis/admin/adminItem';
+import { useRoute } from 'vue-router';
+import { useAlertStore } from '@/stores/alert';
+import AdminSearchBar2 from '@/views/Admin/Stock/Layout/AdminSearchBar2.vue'; // Import the updated AdminSearchBar2 component
+import LayoutFooter from '@/components/LayoutFooter.vue'
+import LayoutNav from '@/views/Admin/adminComponent/LayoutNav.vue'
+import LayoutHeader from '@/views/Admin/adminComponent/LayoutHeader.vue'
+import Spinner from '@/components/Spinner.vue'
 
-  const alert = useAlertStore()
-  const items = ref([])
-  const categories = ref([])
-  const route = useRoute()
-  const isLoading = ref(true)
-  
-  const fetchStockInfo = async () => {
+const categories = ref([]);
+const items = ref([]);
+const isLoading = ref(true);
+const alert = useAlertStore();
+const route = useRoute();
+
+const stateValue = ref("");
+const categoryValue = ref(null);
+const formData = ref({ query: "" });
+
+// Define computed property to filter items based on search criteria
+const filteredItems = computed(() => {
+  const filteredByState = stateValue.value === "" ? items.value : items.value.filter(item => item.state === stateValue.value);
+  const filteredByCategory = categoryValue.value === null ? filteredByState : filteredByState.filter(item => item.Category.id === categoryValue.value);
+  const filteredByQuery = formData.value.query === "" ? filteredByCategory : filteredByCategory.filter(item => item.productNumber.includes(formData.value.query));
+  return filteredByQuery;
+});
+
+const fetchStockInfo = async () => {
   try {
-    const categoryIdValue = parseInt(route.query.CategoryId)
-    const stateParamValue = route.query.state
-    const res = await getItemsAPI(categoryIdValue, stateParamValue )
+    const categoryIdValue = parseInt(route.query.CategoryId);
+    const stateParamValue = route.query.state;
+    const res = await getItemsAPI(categoryIdValue, stateParamValue);
     if (res) {
-      items.value = res.itemsInfo
-      categories.value = res.categories
-      // 預設取得每個商品初始的state
+      items.value = res.itemsInfo;
+      categories.value = res.categories;
       items.value.forEach((item) => {
-        item.buttonText = item.state === 0 ? '產品上架' : '產品下架'
-      })
-      isLoading.value = false
+        item.buttonText = item.state === 0 ? '產品上架' : '產品下架';
+      });
+      isLoading.value = false;
     } else {
-      console.error('Invalid API response:', res)
-      isLoading.value = false
+      console.error('Invalid API response:', res);
+      isLoading.value = false;
     }
   } catch (error) {
-    console.error('Error fetching cart information:', error)
-    isLoading.value = false
+    console.error('Error fetching cart information:', error);
+    isLoading.value = false;
   }
-}
+};
 
 const fectchDelStock = async (id) => {
   try {
-    await removeItemAPI(id)
-    items.value = items.value.filter(item => item.id !== id)
+    await removeItemAPI(id);
+    items.value = items.value.filter(item => item.id !== id);
   } catch (error) {
-    console.error('Error deleting cart item:', error)
+    console.error('Error deleting cart item:', error);
   }
-}
+};
 
 const fectchRelistStock = async (id) => {
   try {
-    await relistItemAPI(id)
-    items.value = items.value.filter(item => item.id !== id)
+    await relistItemAPI(id);
+    items.value = items.value.filter(item => item.id !== id);
   } catch (error) {
-    console.error('Error deleting cart item:', error)
+    console.error('Error deleting cart item:', error);
   }
-}
-
-onMounted(() => {
-  // const categoryIdValue = parseInt(route.query.CategoryId) // 同樣，在初始化時將查詢參數轉換為數字
-  // const stateParamValue = route.query.state
-  // const productNumberValue = route.query.productNumber
-  // categoryId.value = isNaN(categoryIdValue) ? "" : categoryIdValue  //如果轉換失敗，保持空字符串
-  // state.value = isNaN(stateParamValue) ? "" : stateParamValue
-  // productNumber.value = isNaN(stateParamValue) ? "" : productNumberValue
-  fetchStockInfo()
-  fectchDelStock()
-  fectchRelistStock()
-})
-
-watch(() => {
-  // const categoryIdValue = parseInt(route.query.CategoryId) // 在監聽時將查詢參數轉換為數字
-  // const stateParamValue = route.query.state
-  // const productNumberValue = route.query.productNumber
-  // categoryId.value = isNaN(categoryIdValue) ? "" : categoryIdValue
-  // state.value = isNaN(stateParamValue) ? "" : stateParamValue
-  // productNumber.value = isNaN(stateParamValue) ? "" : productNumberValue
-  fetchStockInfo()
-  fectchDelStock()
-  fectchRelistStock()
-})
+};
 
 const toggleItemState = async (item) => {
   try {
     if (item.state === 0) {
-      await relistItemAPI(item.id)
-      item.state = 1
-      item.buttonText = '產品下架'
-      alert.showSuccess()
+      await relistItemAPI(item.id);
+      item.state = 1;
+      item.buttonText = '產品下架';
+      alert.showSuccess();
     } else {
-      await removeItemAPI(item.id)
-      item.state = 0
-      item.buttonText = '產品上架'
-      alert.showSuccess()
+      await removeItemAPI(item.id);
+      item.state = 0;
+      item.buttonText = '產品上架';
+      alert.showSuccess();
     }
   } catch (error) {
-    console.error('Error toggling item state:', error)
-    alert.showError()
+    console.error('Error toggling item state:', error);
+    alert.showError();
   }
-}
+};
 
+// Event handlers for AdminSearchBar2 filter changes
+const handleStateChange = (value) => {
+  stateValue.value = value;
+};
 
-items.value.forEach((item) => {
-  item.buttonText = item.state === 0 ? '產品上架' : '產品下架'
-})
+const handleCategoryChange = (value) => {
+  categoryValue.value = value;
+};
 
+const handleKeyWordChange = (value) => {
+  formData.value.name = value;
+};
+
+onMounted(() => {
+  fetchStockInfo();
+  fectchDelStock(); // You may want to pass an item ID here
+  fectchRelistStock(); // You may want to pass an item ID here
+});
 </script>
 
 <style scoped>

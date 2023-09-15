@@ -55,9 +55,9 @@ export const getUserFileAPI = () => {
   })
 }
 
-export const editUserFileAPI = ({
+export const editUserFileAPI = (
         updatedData
-      }) => {
+      ) => {
   return request({
     url:'/user/profile',
     method:'PUT',

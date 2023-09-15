@@ -76,73 +76,79 @@
 
 #### 全部商品頁
 
-![image](public/screenshots/allItems.gif)
+![image](public/screenshots/allItems.png)
 
 ### 會員功能
 
 #### 購物車頁面
 
-![]
+![image](public/screenshots/cart.png)
 
 #### 訂單頁面
 
-![]()
+![image](public/screenshots/orderPage.png)
 
 #### 個人資料
 
-![]()
+![image](public/screenshots/userPage.png)
 
 ### 管理者頁面
 
 #### 商品管理
 
-![]()
+![image](public/screenshots/adminItem.png)
+
+![image](public/screenshots/adminStock.png)
+
+![image](public/screenshots/adminAddItem.png)
+
+![image](public/screenshots/adminAddStock.png)
 
 #### 商家訂單管理
 
-![]()
+![image](public/screenshots/adminOrderInfo.png)
 
 #### 其他管理
 
-![]()
+![image](adminOtherAdd)
 
 
 
 
+#### 🤔 待完成功能
 
-#### 🤔 Future Features
-
-- Use existed how-to tutorials as starting template
-- Save creation to drafts, edit and publish later
-- Get notifications when following users post a new tutorial
-- Develop backend code to separate data logic from the UI logic
+- 金流串接
+- 修改order訂單狀態（已出貨/未出貨）
+- 購物畫面優化
+- 管理者訂單刪除功能
 
 ## 🚀 Run Locally
 
-1. Clone this project to your local environment
+1. 複製此專案到本地端
 
 ```bash
-$ git clone "https://github.com/KellyCHI22/HowTo.git"
+$ git clone "https://github.com/WeiWayne1030/hsfront.git"
 ```
 
-2. Open the project and type the following command in your terminal
+2. 將下載下來的專案利用npm install安裝套件
 
 ```bash
 $ npm install
 ```
 
-3. Continue with this command after finishing installing all the packages
+3. 利用npm run dev 運行專案環境
 
 ```bash
 $ npm run dev
 ```
 
-4. Open your browser and navigate to the following path: `http://localhost:5173/`
+4. 複製運行網址並在瀏覽器上貼上: `http://localhost:5173/`
 
 5. Account for testing：
 
 ```
-email：cool123@example.com
+user account：buyer001
+seller account: 
 password：cool123
 ```
 

@@ -117,6 +117,7 @@ const handleFileChange = (e) => {
   else {
     const file = files[0]
     product.value.image = file
+    console.log(product.value.image)
     const imageURL = URL.createObjectURL(file)
     product.value.displayImage = imageURL
     alert.showSuccess()
@@ -145,7 +146,7 @@ const addProduct = async () => {
       const res = await addItemAPI(formData)
       console.log(res)
       alert.showSuccess()
-      router.replace('/admin/items')
+      // router.replace('/admin/items')
     } catch (error) {
       alert.showError()
     }
