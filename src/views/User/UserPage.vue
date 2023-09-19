@@ -10,7 +10,7 @@
         <!-- 用戶圖片放左邊 -->
         <img
           v-if="editUserData.avatar"
-          :src="editUserData.displayAvatar"
+          :src="editUserData.avatar"
           alt="User Avatar"
           class="user-avatar"
         />
@@ -75,7 +75,7 @@
           </el-form-item>
           <el-form-item label="更換頭像">
             <img
-              v-if="editUserData.avatar"
+              v-if="editUserData.displayAvatar"
               :src="editUserData.displayAvatar"
               class="d-block img-thumbnail mb-3"
               width="50"
@@ -108,11 +108,13 @@ import LayoutHeader from '@/components/LayoutHeader.vue'
 import { getUserFileAPI, editUserFileAPI } from '@/apis/user'
 import Spinner from '@/components/Spinner.vue'
 import { useAlertStore } from '@/stores/alert'
+import { useRouter } from 'vue-router'
 
 const alert = useAlertStore()
 const isLoading = ref(true)
 const userData = ref({})
 const isEditingUser = ref(false)
+const router = useRouter()
 
 const formatDateTime = (dateTime) => {
   const options = { year: 'numeric', month: 'long', day: 'numeric'}
@@ -175,8 +177,8 @@ const handleFileChange = (e) => {
   if (files.length > 0) {
     const file = files[0]
     const imageURL = URL.createObjectURL(file)
-    editUserData.avatar = file
-    editUserData.value.displayAvatar = imageURL
+    editUserData.displayAvatarFile = file
+    editUserData.displayAvatar = imageURL
   }
   alert.showSuccess()
 }
@@ -185,8 +187,7 @@ const handleFileChange = (e) => {
 
 const updateUserData = async () => {
   try {
-    // 准备要发送到 API 的数据
-    console.log(editUserData.avatar)
+    // 發送API數據
     const updatedData = new FormData()
       updatedData.append('name', editUserData.name),
        updatedData.append('email', editUserData.email),
@@ -194,7 +195,7 @@ const updateUserData = async () => {
        updatedData.append('sex', editUserData.sex),
        updatedData.append('telNumber', editUserData.telNumber),
        updatedData.append('introduction', editUserData.introduction),
-       updatedData.append('avatar', editUserData.avatar)
+       updatedData.append('avatar', editUserData.displayAvatarFile)
        updatedData.append('password', editUserData.password)
        updatedData.append('checkPassword', editUserData.checkPassword)
     // 发送 PUT 请求以更新用户数据
@@ -206,6 +207,7 @@ const updateUserData = async () => {
     const res = await editUserFileAPI(updatedData)
     if (res) {
       isEditingUser.value = false // 成功後關閉對話框
+      router.replace('/admin/items')
       alert.showSuccess()
     } else {
       console.error('Invalid API response:', res)

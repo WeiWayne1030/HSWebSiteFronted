@@ -4,7 +4,7 @@ import axios from 'axios'
 
 const httpInstance = axios.create({
     baseURL: 'https://herstoryweb-b60819a85d94.herokuapp.com/api/',
-    timeout: 5000,
+    timeout: 10000,
 })
 
 

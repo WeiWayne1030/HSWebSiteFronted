@@ -61,9 +61,7 @@ export const editUserFileAPI = (
   return request({
     url:'/user/profile',
     method:'PUT',
-    data: {
-      updatedData
-    },
+    data: updatedData,
     headers: { Authorization: `Bearer ${getToken()}`,
   },
     
