@@ -146,7 +146,7 @@ const addProduct = async () => {
       const res = await addItemAPI(formData)
       console.log(res)
       alert.showSuccess()
-      // router.replace('/admin/items')
+      router.replace('/admin/items')
     } catch (error) {
       alert.showError()
     }

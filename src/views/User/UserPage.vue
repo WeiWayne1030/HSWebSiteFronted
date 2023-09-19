@@ -10,7 +10,7 @@
         <!-- 用戶圖片放左邊 -->
         <img
           v-if="editUserData.avatar"
-          :src="editUserData.avatar"
+          :src="editUserData.displayAvatar"
           alt="User Avatar"
           class="user-avatar"
         />
@@ -67,9 +67,15 @@
           <el-form-item label="個人簡介">
             <el-input v-model="editUserData.introduction" type="textarea" class="userIput"></el-input>
           </el-form-item>
+          <el-form-item label="修改密碼">
+            <el-input v-model="editUserData.password" type="password" class="userIput"></el-input>
+          </el-form-item>
+          <el-form-item label="確認修改密碼">
+            <el-input v-model="editUserData.checkPassword" type="password" class="userIput"></el-input>
+          </el-form-item>
           <el-form-item label="更換頭像">
             <img
-              v-if="editUserData.displayAvatar"
+              v-if="editUserData.avatar"
               :src="editUserData.displayAvatar"
               class="d-block img-thumbnail mb-3"
               width="50"
@@ -78,7 +84,7 @@
             <input
               id="image"
               type="file"
-              name="image"
+              name="avatar"
               accept="image/*"
               class="form-control-file"
               @change="handleFileChange"
@@ -137,6 +143,9 @@ const initialUserData = {
   sex: '',
   telNumber: '',
   introduction: '',
+  password:'',
+  checkPassword:'',
+  avatar:''
 }
 const editUserData = reactive({ ...initialUserData })
 const getUserData = async () => {
@@ -150,6 +159,7 @@ const getUserData = async () => {
       editUserData.sex = res.sex
       editUserData.telNumber = res.telNumber
       editUserData.introduction = res.introduction
+      editUserData.avatar = res.avatar
     } else {
       console.error('Invalid API response:', res)
       alert.showError()
@@ -185,6 +195,8 @@ const updateUserData = async () => {
        updatedData.append('telNumber', editUserData.telNumber),
        updatedData.append('introduction', editUserData.introduction),
        updatedData.append('avatar', editUserData.avatar)
+       updatedData.append('password', editUserData.password)
+       updatedData.append('checkPassword', editUserData.checkPassword)
     // 发送 PUT 请求以更新用户数据
     for (let [name, value] of updatedData.entries()) {
         console.log(name + ': ' + value)
