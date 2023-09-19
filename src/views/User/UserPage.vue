@@ -198,16 +198,16 @@ const updateUserData = async () => {
        updatedData.append('avatar', editUserData.displayAvatarFile)
        updatedData.append('password', editUserData.password)
        updatedData.append('checkPassword', editUserData.checkPassword)
-    // 发送 PUT 请求以更新用户数据
-    for (let [name, value] of updatedData.entries()) {
-        console.log(name + ': ' + value)
-      }
+    // // 发送 PUT 请求以更新用户数据
+    // for (let [name, value] of updatedData.entries()) {
+    //     console.log(name + ': ' + value)
+    //   }
     
     
     const res = await editUserFileAPI(updatedData)
     if (res) {
       isEditingUser.value = false // 成功後關閉對話框
-      router.replace('/admin/items')
+      router.replace('/user/profile')
       alert.showSuccess()
     } else {
       console.error('Invalid API response:', res)
