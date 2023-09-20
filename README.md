@@ -198,7 +198,7 @@ Copyright Notice and Statement: currently not offering any license. Permission o
 
 ## 開發者名單
 
-後端：
+後端連結：https://github.com/WeiWayne1030/herstoryWebsite
 
 - [Wayne Sun](https://github.com/WeiWayne1030)
 
