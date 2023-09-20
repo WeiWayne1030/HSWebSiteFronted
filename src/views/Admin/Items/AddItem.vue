@@ -70,7 +70,7 @@ const product = ref({
   price: null,
   file:'',
   image: ''
-});
+})
 
 const router = useRouter()
 
@@ -107,7 +107,7 @@ const formRef = ref(null)
     console.log('error', error)
     alert.showError()
   }
-};
+}
 
 const handleFileChange = (e) => {
   const files = e.target.files
@@ -126,7 +126,7 @@ const handleFileChange = (e) => {
 
 onMounted(async () => {
   fetchCategories()
-});
+})
 
 const addProduct = async () => {
   const valid = await formRef.value.validate()

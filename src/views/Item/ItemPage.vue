@@ -100,7 +100,7 @@ onMounted(async () => {
     isLoading.value = false
     alert.showError()
   }
-});
+})
 //處理畫面中選擇color後會出現的size選項
 const selectedColorStock = computed(() => {
   const color = selectedColor.value
@@ -157,7 +157,7 @@ const addToCart = async () => {
   } else {
     alert.showError()
     router.replace({ path: '/login' })
-    return;
+    return
   }
   
 }

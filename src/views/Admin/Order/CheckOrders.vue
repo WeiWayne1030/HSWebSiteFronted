@@ -112,12 +112,12 @@ const enterItemState =(orderNumber) => {
 
 // Event handlers for AdminSearchBar2 filter changes
 const handleStateChange = (value) => {
-  stateValue.value = value;
-};
+  stateValue.value = value
+}
 
 const handleOrderNumberChange = (value) => {
-  formData.value.orderNumber = value;
-};
+  formData.value.orderNumber = value
+}
 
 onMounted(() => {
   fetchStockInfo()

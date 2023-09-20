@@ -225,7 +225,7 @@ const getUserDataAndOpenDialog = () => {
 }
 getUserDataAndOpenDialog()
 const submitForm = () => {
-  updateUserData();
+  updateUserData()
 }
 const closeEditDialog = () => {
   isEditingUser.value = false

@@ -129,7 +129,7 @@
        editStockIndex.value = -1
        editedStockValue.value = ""
     }
-  };
+  }
 
   const cancelEditStock = () => {
     // 清除編輯狀態

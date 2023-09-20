@@ -23,57 +23,57 @@
 </template>
 
 <script setup>
-  import { ref, defineProps,watch } from 'vue';
+  import { ref, defineProps,watch } from 'vue'
 
 const emit = defineEmits(['state-change', 'orderNumber-change'])
 
-const stateValue = ref(null);
+const stateValue = ref(null)
 const formData = ref({
   orderNumber: '',
-});
+})
  
  const props = defineProps({
   orders: {
     type: Array,
     required: true,
   },
-});
+})
 
 // 使用 Set 数据结构来获取唯一的状态值
-const uniqueStates = ref([]);
+const uniqueStates = ref([])
 
 // 监视props.items的变化，以更新uniqueStates
 watch(() => props.orders, (newOrders) => {
-  uniqueStates.value = [...new Set(newOrders.map(item => item.state))];
-});
+  uniqueStates.value = [...new Set(newOrders.map(item => item.state))]
+})
 
 
 const handleStateChange = () => {
   if (stateValue.value === "全部") {
-    stateValue.value = null;
+    stateValue.value = null
   }
-  emit('state-change', stateValue.value);
-};
+  emit('state-change', stateValue.value)
+}
 
 // 用于存储筛选后的项目
-const filteredOrders = ref([]);
+const filteredOrders = ref([])
 
 
 
 const handleOrderNumberChange = () => {
-  const keyword = formData.value.orderNumber.trim().toLowerCase();
+  const keyword = formData.value.orderNumber.trim().toLowerCase()
   if (stateValue.value === 'all') {
     // 如果选择了 "全部"，加载所有状态值
-    filteredOrders.value = props.items.filter(order => order.orderNumber.toLowerCase().includes(keyword));
+    filteredOrders.value = props.items.filter(order => order.orderNumber.toLowerCase().includes(keyword))
   } else {
     // 否则，根据选定的状态筛选项目
     filteredOrders.value = props.orders.filter(order => {
-      const isMatchingKeyword = order.orderNumber.toLowerCase().includes(keyword);
-      const isMatchingState = stateValue.value === null || order.state === stateValue.value;
-      return isMatchingKeyword && isMatchingState;
-    });
+      const isMatchingKeyword = order.orderNumber.toLowerCase().includes(keyword)
+      const isMatchingState = stateValue.value === null || order.state === stateValue.value
+      return isMatchingKeyword && isMatchingState
+    })
   }
-};
+}
 </script>
 
 <style>

@@ -111,8 +111,8 @@ const handleSelectAll = () => {
 }
 
 const selectedCount = computed(() => {
-  return cartItems.value.filter(item => item.selected).length;
-});
+  return cartItems.value.filter(item => item.selected).length
+})
 
 const formatCurrency = value => {
   return `NT${value.toFixed(2)}`

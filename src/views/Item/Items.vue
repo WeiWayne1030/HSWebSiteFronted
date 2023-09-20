@@ -43,7 +43,7 @@ const fetchItems = async () => {
     console.log('error', error)
     alert.showError()
   }
-};
+}
 
 const filteredItems = computed(() => {
   return items.value.filter(item => item.state !== 0)

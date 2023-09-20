@@ -29,12 +29,12 @@
     path: '/admin/addStock',
     index: "4"
   }
-];
+]
 
-let currentTab = '/admin/stock';
+let currentTab = '/admin/stock'
 
   function setCurrentTab(path) {
-    currentTab = path;
+    currentTab = path
   }
 </script>
 

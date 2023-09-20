@@ -76,21 +76,21 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted } from 'vue'
 import LayoutFooter from '@/components/LayoutFooter.vue'
 import LayoutNav from '@/views/Admin/adminComponent/LayoutNav.vue'
 import LayoutHeader from '@/views/Admin/adminComponent/LayoutHeader.vue'
-import OthersNavPills from '@/views/Admin/adminComponent/OthersNavPills.vue';
+import OthersNavPills from '@/views/Admin/adminComponent/OthersNavPills.vue'
 import Spinner from '@/components/Spinner.vue'
 import { addCategoryAPI, getCategoriesAPI, removeCategoryAPI,relistCategoryAPI, delCategoryAPI} from '@/apis/admin/other/category'
 import { ElForm, ElInput, ElButton } from 'element-plus'
 import { useAlertStore } from '@/stores/alert'
 
 const alert = useAlertStore()
-const formData = ref({ name:'' });
-const isProcessing = ref(false);
-const categories = ref([]);
-const isLoading = ref(true);
+const formData = ref({ name:'' })
+const isProcessing = ref(false)
+const categories = ref([])
+const isLoading = ref(true)
 const formRef = ref(null)
 
 
@@ -98,17 +98,17 @@ const formRef = ref(null)
 
 const fetchCategory = async () => {
   try {
-    const res = await getCategoriesAPI();
+    const res = await getCategoriesAPI()
     if (res) {
-      categories.value = res;
-      isLoading.value = false;
+      categories.value = res
+      isLoading.value = false
     } else {
       alert.showError()
-      isLoading.value = false;
+      isLoading.value = false
     }
   } catch (error) {
     alert.showError()
-    isLoading.value = false;
+    isLoading.value = false
   }
 };
 
@@ -130,10 +130,10 @@ const createCategory = async () => {
 
 const removeCategory = async (categoryId) => {
   try {
-    const res = await removeCategoryAPI({id:categoryId});
+    const res = await removeCategoryAPI({id:categoryId})
     console.log(res)
     // refresh表單
-    fetchCategory();
+    fetchCategory()
     alert.showSuccess()
   } catch (error) {
     alert.showError()
@@ -142,8 +142,8 @@ const removeCategory = async (categoryId) => {
 
 const relistCategory = async (categoryId) => {
   try {
-    await relistCategoryAPI({id:categoryId});
-    fetchCategory();
+    await relistCategoryAPI({id:categoryId})
+    fetchCategory()
     alert.showSuccess()
   } catch (error) {
     alert.showError()
@@ -152,8 +152,8 @@ const relistCategory = async (categoryId) => {
 
 const deleteCategory = async (categoryId) => {
   try {
-    await delCategoryAPI({id:categoryId});
-    fetchCategory();
+    await delCategoryAPI({id:categoryId})
+    fetchCategory()
     alert.showSuccess()
   } catch (error) {
     alert.showError()
@@ -161,8 +161,8 @@ const deleteCategory = async (categoryId) => {
 };
 
 onMounted(() => {
-  fetchCategory();
-});
+  fetchCategory()
+})
 </script>
 <style>
 .action-button {

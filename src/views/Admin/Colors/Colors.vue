@@ -52,27 +52,27 @@ import { ElForm, ElInput, ElButton } from 'element-plus'
 import { useAlertStore } from '@/stores/alert'
 
 const alert = useAlertStore()
-const colors = ref([]);
-const isLoading = ref(true);
+const colors = ref([])
+const isLoading = ref(true)
 const formRef =ref(null)
 const formData = ref({ name: '' })
 
 const fetchColor = async () => {
   try {
-    const res = await getColorsAPI();
+    const res = await getColorsAPI()
     if (res) {
-      colors.value = res;
-      isLoading.value = false;
+      colors.value = res
+      isLoading.value = false
     } else {
-      console.error('Invalid API response:', res);
+      console.error('Invalid API response:', res)
       alert.showError()
-      isLoading.value = false;
+      isLoading.value = false
     }
   } catch (error) {
-    console.error('Error fetching colors:', error);
-    isLoading.value = false;
+    console.error('Error fetching colors:', error)
+    isLoading.value = false
   }
-};
+}
 
 const createColor = async () => {
   const valid = await formRef.value.validate()
@@ -93,10 +93,10 @@ const createColor = async () => {
 const delColor = async (colorData) => {
   try {
     //獲取選擇顏色的名稱
-    const selectedColor = colorData.color;
+    const selectedColor = colorData.color
     const res = await delColorAPI(selectedColor)
     console.log(res)
-    fetchColor();
+    fetchColor()
     alert.showSuccess()
   } catch (error) {
     alert.showError()

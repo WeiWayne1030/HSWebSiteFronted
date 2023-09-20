@@ -31,111 +31,111 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue';
-import { getItemsAPI, removeItemAPI, relistItemAPI } from '@/apis/admin/adminItem';
-import { useRoute } from 'vue-router';
-import { useAlertStore } from '@/stores/alert';
-import AdminSearchBar2 from '@/views/Admin/Stock/Layout/AdminSearchBar2.vue'; // Import the updated AdminSearchBar2 component
+import { ref, computed, onMounted } from 'vue'
+import { getItemsAPI, removeItemAPI, relistItemAPI } from '@/apis/admin/adminItem'
+import { useRoute } from 'vue-router'
+import { useAlertStore } from '@/stores/alert'
+import AdminSearchBar2 from '@/views/Admin/Stock/Layout/AdminSearchBar2.vue'
 import LayoutFooter from '@/components/LayoutFooter.vue'
 import LayoutNav from '@/views/Admin/adminComponent/LayoutNav.vue'
 import LayoutHeader from '@/views/Admin/adminComponent/LayoutHeader.vue'
 import Spinner from '@/components/Spinner.vue'
 
-const categories = ref([]);
-const items = ref([]);
-const isLoading = ref(true);
-const alert = useAlertStore();
-const route = useRoute();
+const categories = ref([])
+const items = ref([])
+const isLoading = ref(true)
+const alert = useAlertStore()
+const route = useRoute()
 
-const stateValue = ref("");
-const categoryValue = ref(null);
-const formData = ref({ name: "" });
+const stateValue = ref("")
+const categoryValue = ref(null)
+const formData = ref({ name: "" })
 
 // 定義computed以根據搜索條件過濾項目
 const filteredItems = computed(() => {
-  const filteredByState = stateValue.value === "" ? items.value : items.value.filter(item => item.state === stateValue.value);
-  const filteredByCategory = categoryValue.value === null ? filteredByState : filteredByState.filter(item => item.Category.id === categoryValue.value);
-  const filteredByQuery = formData.value.name === "" ? filteredByCategory : filteredByCategory.filter(item => item.productNumber.includes(formData.value.query));
-  return filteredByQuery;
-});
+  const filteredByState = stateValue.value === "" ? items.value : items.value.filter(item => item.state === stateValue.value)
+  const filteredByCategory = categoryValue.value === null ? filteredByState : filteredByState.filter(item => item.Category.id === categoryValue.value)
+  const filteredByQuery = formData.value.name === "" ? filteredByCategory : filteredByCategory.filter(item => item.productNumber.includes(formData.value.query))
+  return filteredByQuery
+})
 
 const fetchStockInfo = async () => {
   try {
-    const categoryIdValue = parseInt(route.query.CategoryId);
-    const stateParamValue = route.query.state;
-    const res = await getItemsAPI(categoryIdValue, stateParamValue);
+    const categoryIdValue = parseInt(route.query.CategoryId)
+    const stateParamValue = route.query.state
+    const res = await getItemsAPI(categoryIdValue, stateParamValue)
     if (res) {
-      items.value = res.itemsInfo;
-      categories.value = res.categories;
+      items.value = res.itemsInfo
+      categories.value = res.categories
       items.value.forEach((item) => {
-        item.buttonText = item.state === 0 ? '產品上架' : '產品下架';
-      });
-      isLoading.value = false;
+        item.buttonText = item.state === 0 ? '產品上架' : '產品下架'
+      })
+      isLoading.value = false
     } else {
-      console.error('Invalid API response:', res);
-      isLoading.value = false;
+      console.error('Invalid API response:', res)
+      isLoading.value = false
     }
   } catch (error) {
-    console.error('Error fetching cart information:', error);
-    isLoading.value = false;
+    console.error('Error fetching cart information:', error)
+    isLoading.value = false
   }
-};
+}
 
 const fectchDelStock = async (id) => {
   try {
-    await removeItemAPI(id);
-    items.value = items.value.filter(item => item.id !== id);
+    await removeItemAPI(id)
+    items.value = items.value.filter(item => item.id !== id)
   } catch (error) {
-    console.error('Error deleting cart item:', error);
+    console.error('Error deleting cart item:', error)
   }
-};
+}
 
 const fectchRelistStock = async (id) => {
   try {
-    await relistItemAPI(id);
-    items.value = items.value.filter(item => item.id !== id);
+    await relistItemAPI(id)
+    items.value = items.value.filter(item => item.id !== id)
   } catch (error) {
-    console.error('Error deleting cart item:', error);
+    console.error('Error deleting cart item:', error)
   }
-};
+}
 
 const toggleItemState = async (item) => {
   try {
     if (item.state === 0) {
-      await relistItemAPI(item.id);
-      item.state = 1;
-      item.buttonText = '產品下架';
-      alert.showSuccess();
+      await relistItemAPI(item.id)
+      item.state = 1
+      item.buttonText = '產品下架'
+      alert.showSuccess()
     } else {
-      await removeItemAPI(item.id);
-      item.state = 0;
-      item.buttonText = '產品上架';
-      alert.showSuccess();
+      await removeItemAPI(item.id)
+      item.state = 0
+      item.buttonText = '產品上架'
+      alert.showSuccess()
     }
   } catch (error) {
     console.error('Error toggling item state:', error);
-    alert.showError();
+    alert.showError()
   }
-};
+}
 
 // Event handlers for AdminSearchBar2 filter changes
 const handleStateChange = (value) => {
-  stateValue.value = value;
-};
+  stateValue.value = value
+}
 
 const handleCategoryChange = (value) => {
-  categoryValue.value = value;
-};
+  categoryValue.value = value
+}
 
 const handleKeyWordChange = (value) => {
-  formData.value.name = value;
-};
+  formData.value.name = value
+}
 
 onMounted(() => {
-  fetchStockInfo();
-  fectchDelStock(); // You may want to pass an item ID here
-  fectchRelistStock(); // You may want to pass an item ID here
-});
+  fetchStockInfo()
+  fectchDelStock()
+  fectchRelistStock()
+})
 </script>
 
 <style scoped>

@@ -76,21 +76,21 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted } from 'vue'
 import LayoutFooter from '@/components/LayoutFooter.vue'
 import LayoutNav from '@/views/Admin/adminComponent/LayoutNav.vue'
 import LayoutHeader from '@/views/Admin/adminComponent/LayoutHeader.vue'
-import OthersNavPills from '@/views/Admin/adminComponent/OthersNavPills.vue';
+import OthersNavPills from '@/views/Admin/adminComponent/OthersNavPills.vue'
 import Spinner from '@/components/Spinner.vue'
 import { addMethodAPI, getMethodsAPI, removeMethodAPI,relistMethodAPI, delMethodAPI} from '@/apis/admin/other/method'
 import { ElForm, ElInput, ElButton } from 'element-plus'
 import { useAlertStore } from '@/stores/alert'
 
 const alert = useAlertStore()
-const formData = ref({ name:'' });
-const isProcessing = ref(false);
-const methods = ref([]);
-const isLoading = ref(true);
+const formData = ref({ name:'' })
+const isProcessing = ref(false)
+const methods = ref([])
+const isLoading = ref(true)
 const formRef = ref(null)
 
 
@@ -98,17 +98,17 @@ const formRef = ref(null)
 
 const fetchMethod = async () => {
   try {
-    const res = await getMethodsAPI();
+    const res = await getMethodsAPI()
     if (res) {
-      methods.value = res;
-      isLoading.value = false;
+      methods.value = res
+      isLoading.value = false
     } else {
       alert.showSuccess()
-      isLoading.value = false;
+      isLoading.value = false
     }
   } catch (error) {
     alert.showError()
-    isLoading.value = false;
+    isLoading.value = false
   }
 };
 
@@ -126,11 +126,11 @@ const createMethod = async () => {
       alert.showError()
     }
   }
-};
+}
 
 const removeMethod = async (methodId) => {
   try {
-    const res = await removeMethodAPI({id:methodId});
+    const res = await removeMethodAPI({id:methodId})
     console.log(res)
     // refresh 表單
     fetchMethod();
@@ -138,12 +138,12 @@ const removeMethod = async (methodId) => {
   } catch (error) {
     alert.showError()
   }
-};
+}
 
 const relistMethod = async (methodId) => {
   try {
     await relistMethodAPI({id:methodId});
-    fetchMethod();
+    fetchMethod()
     alert.showSuccess()
   } catch (error) {
     alert.showError()
@@ -153,7 +153,7 @@ const relistMethod = async (methodId) => {
 const deleteMethod = async (methodId) => {
   try {
     await delMethodAPI({id:methodId});
-    fetchMethod();
+    fetchMethod()
     alert.showSuccess()
   } catch (error) {
     alert.showError()
@@ -161,8 +161,8 @@ const deleteMethod = async (methodId) => {
 };
 
 onMounted(() => {
-  fetchMethod();
-});
+  fetchMethod()
+})
 </script>
 <style>
 .action-button {
