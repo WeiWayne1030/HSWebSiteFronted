@@ -8,7 +8,10 @@
       <Spinner />
     </div>
     <div class="container" v-else>
-      <AdminSearchBar />
+      <AdminSearchBar 
+      :orders="orders"
+      @state-change="handleStateChange"
+      @orderNumber-change="handleOrderNumberChange"/>
       <div class="parent">
         <div class="div2">訂單編號</div>
         <div class="div3">買家名稱</div>
@@ -19,7 +22,7 @@
         <div class="div8">訂單狀態</div>
       </div>
       <div class="line" >
-        <div class="or1100000-parent" v-for="order in orders" :key="order.id" :order="order">
+        <div class="or1100000-parent" v-for="order in filteredOrders" :key="order.id" :order="order">
           <div class="or1100000">{{ order.orderNumber }}</div>
           <div class="div9">{{ order.shipName }}</div>
           <div class="div10">{{ order.address }}</div>
@@ -34,7 +37,7 @@
 </template>
 
 <script setup>
-  import { ref, onMounted } from 'vue'
+  import { ref, onMounted, computed } from 'vue'
   import LayoutFooter from '@/components/LayoutFooter.vue'
   import LayoutNav from '@/components/LayoutNav.vue'
   import LayoutHeader from '@/components/LayoutHeader.vue'
@@ -45,6 +48,8 @@
 
   const alert = useAlertStore()
   const orders = ref({})
+  const stateValue = ref("");
+  const formData = ref({ orderNumber: "" });
   const isLoading = ref(true)
   
   const fetchOrderInfo = async () => {
@@ -64,6 +69,22 @@
     alert.showError()
   }
 }
+
+// 定義computed以根據搜索條件過濾項目
+const filteredOrders = computed(() => {
+  const filteredByState = stateValue.value === "" ? orders.value : orders.value.filter(order => order.state === stateValue.value);
+  const filteredByQuery = formData.value.orderNumber === "" ? filteredByState : filteredByState.filter(order => order.productNumber.includes(formData.value.orderNumber));
+  return filteredByQuery;
+});
+
+const handleStateChange = (value) => {
+  stateValue.value = value
+}
+
+const handleOrderNumberChange = (value) => {
+  formData.value.orderNumber = value
+}
+
 
 onMounted(() => {
   fetchOrderInfo()

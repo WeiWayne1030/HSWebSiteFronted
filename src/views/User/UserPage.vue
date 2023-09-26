@@ -207,7 +207,7 @@ const updateUserData = async () => {
     const res = await editUserFileAPI(updatedData)
     if (res) {
       isEditingUser.value = false // 成功後關閉對話框
-      router.replace('/user/profile')
+      router.replace('/userInfo')
       alert.showSuccess()
     } else {
       console.error('Invalid API response:', res)
@@ -247,7 +247,6 @@ const closeEditDialog = () => {
   margin: 20px;
 }
 
-/* 用户头像样式 */
 .user-avatar {
   position: absolute;
   width: 400px;
@@ -256,7 +255,6 @@ const closeEditDialog = () => {
   background-color: black;
 }
 
-/* 用户信息样式 */
 .user-details {
   position: absolute;
   margin: 0px 37px 0px 27%;
