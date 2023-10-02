@@ -51,8 +51,7 @@ const emit = defineEmits(['search']);
 let searchQuery = ref('')
 
 const handleSearch = () => {
-    // Emit a custom event with the search query
-    // The parent component can listen for this event and filter items accordingly
+    //emit search到父 component
     emit("search", searchQuery.value);
   }
 
