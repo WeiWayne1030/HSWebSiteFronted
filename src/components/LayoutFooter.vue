@@ -55,15 +55,54 @@
 import FBIcon from '@/components/icons/FBIcon.vue';
 import IGIcon from '@/components/icons/IGIcon.vue';
 import LineIcon from '@/components/icons/LineIcon.vue';
+import { ref } from 'vue'
+
+// Add a ref to track whether to show the footer
+const showFooter = ref(false);
+
+// Function to toggle the footer based on scroll position
+const toggleFooter = () => {
+  const scrollY = window.scrollY || window.pageYOffset;
+  const windowHeight = window.innerHeight;
+  const documentHeight = Math.max(
+    document.body.scrollHeight,
+    document.documentElement.scrollHeight
+  );
+
+  // Set a threshold value (e.g., 100 pixels from the bottom)
+  const threshold = 100;
+
+  if (documentHeight - (scrollY + windowHeight) <= threshold) {
+    showFooter.value = true;
+  } else {
+    showFooter.value = false;
+  }
+};
+
+// Add a scroll event listener to toggle the footer
+window.addEventListener('scroll', toggleFooter);
+
+// Initial check to see if footer should be shown on page load
+toggleFooter();
+
 </script>
 
  <style>
 .fat-footer {
   background-color: #800000;
   display: flex;
-  flex-direction: column; /* 垂直方向的列布局 */
-  justify-content: space-between; /* 在列的两端分配额外的空间，将内容推到底部 */
-  align-items: center; /* 居中垂直对齐 */
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  bottom: 0; /* 将 footer 固定在底部 */
+  left: 0;
+  right: 0;
+}
+.container{
+  position: fixed;
+  max-width: 100vw;
+  max-width: 100vw;
 }
   .text {
   color: white;

@@ -4,7 +4,6 @@
     <LayoutNav />
     <Banner />
     <HomePanel />
-    <NewItems />
     <LayoutFooter />
   </div>
 </template>
@@ -14,7 +13,6 @@
   import LayoutNav from '@/components/LayoutNav.vue'
   import Banner from '@/views/Home/components/Banner.vue'
   import HomePanel from '@/views/Home/components/HomePanel.vue'
-  import NewItems from '@/views/Home/components/NewItems.vue'
   // const carouselItems = [
   //       { src: 'https://fakeimg.pl/300/', alt: '' },
   //       { src: 'https://i.imgur.com/jEdodad.jpg', alt: '' },

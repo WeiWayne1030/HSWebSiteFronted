@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div class="page">
     <LayoutNav />
-    <LayoutHeader />
+    <LayoutHeader @search="filterItems"/>
     <div v-if="isLoading" class="spinner">
       <Spinner />
     </div>
@@ -9,8 +9,8 @@
     <div class="row">
       <ItemCard v-for="item in filteredItems" :key="item.id" :item="item" />
     </div>
-    <LayoutFooter />
   </div>
+  <LayoutFooter />
 </template>
 
 <script setup>
@@ -31,6 +31,7 @@ const categories = ref([])
 const categoryId = ref("")
 const route = useRoute()
 const isLoading = ref(true)
+const searchQueryRef = ref('')
 const fetchItems = async () => {
   try {
     const categoryIdValue = parseInt(route.query.CategoryId) // 將查詢參數轉換為數字
@@ -46,8 +47,26 @@ const fetchItems = async () => {
 }
 
 const filteredItems = computed(() => {
-  return items.value.filter(item => item.state !== 0)
-})
+  if (!searchQueryRef.value) {
+    // 如果搜尋項目為空，顯示所有未下架的商品
+      return items.value.filter(item => item.state !== 0)
+    } else {
+      return items.value.filter((item) => {
+      return (
+        item.state !== 0 &&
+        item.name.toLowerCase().includes(searchQueryRef.value ? searchQueryRef.value.toLowerCase() : '')
+      );
+    });
+  }
+  
+});
+
+const filterItems = (searchQuery) => {
+  // 在符合條件後渲染頁面
+  searchQueryRef.value = searchQuery;
+};
+
+
 
 onMounted(() => {
   const categoryIdValue = parseInt(route.query.CategoryId) // 同樣，在初始化時將查詢參數轉換為數字
@@ -63,7 +82,8 @@ watch(() => route.query.CategoryId, (CategoryId) => {
 
 </script>
 
-
+<style>
+</style>
 
 
 

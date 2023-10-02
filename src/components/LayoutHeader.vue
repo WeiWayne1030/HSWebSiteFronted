@@ -6,13 +6,14 @@
           <router-link :to="tab.path">{{ tab.title }}</router-link>
         </el-menu-item>
       </el-menu>
-      <div class="search">
-          <SearchIcon class="icon" />
+      <div class="search">  
         <el-input
-          placeholder="搜一搜"
-          v-model="input"
-          clearable>
-        </el-input>
+        placeholder="搜一搜"
+        v-model="searchQuery"
+        clearable
+        @input="handleSearch"
+      ></el-input>
+      <SearchIcon class="icon" />
       </div>
     </div>
   </header>
@@ -20,6 +21,7 @@
 
 <script setup>
   import SearchIcon from '@/components/icons/SearchIcon.vue';
+  import { ref } from 'vue'
 
   const tabs = [
   {
@@ -43,6 +45,17 @@
     index: "4"
   }
 ];
+
+
+const emit = defineEmits(['search']);
+let searchQuery = ref('')
+
+const handleSearch = () => {
+    // Emit a custom event with the search query
+    // The parent component can listen for this event and filter items accordingly
+    emit("search", searchQuery.value);
+  }
+
 </script>
  
 <style scoped lang='scss'>
