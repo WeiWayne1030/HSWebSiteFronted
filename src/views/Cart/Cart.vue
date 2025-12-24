@@ -64,71 +64,65 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from 'vue'
-import { getCartsAPI,delCartAPI } from '@/apis/cart'
+import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import Spinner from '@/components/Spinner.vue'
 import TrashIcon from '@/components/icons/TrashIcon.vue'
+import { useCartStore } from '@/stores/cart'
 import { useAlertStore } from '@/stores/alert'
 
-const alert = useAlertStore()
 const router = useRouter()
+const cartStore = useCartStore()
+const alert = useAlertStore()
+
+// ===== state（畫面用）=====
 const selectAll = ref(false)
-const cartItems = ref([])
-const isLoading = ref(true)
-const pagination = ref('')
 
-onMounted(async () => {
-  try {
-    const res = await getCartsAPI(pagination)
-    if (res && res.rows) {
-      cartItems.value = res.rows
-      isLoading.value = false
-    } else {
-      console.error('Invalid API response:', res)
-      alert.showError()
-    }
-  } catch (error) {
-    console.error('Error fetching product:', error)
-    isLoading.value = false
-    alert.showError()
-  }
+// ===== 從 Pinia 取得資料 =====
+const cartItems = computed(() => cartStore.cartItems)
+const isLoading = computed(() => cartStore.isLoading)
+
+// ===== 初始化 =====
+onMounted(() => {
+  cartStore.getCartInfo({ page: 1, size: 20 })
 })
 
-const totalPrice = computed(() => {
-  return cartItems.value.reduce((total, item) => {
-    if (item.selected) {
-      total += item.amount
-    }
-    return total
-  }, 0)
-})
-
+// ===== 全選 =====
 const handleSelectAll = () => {
   cartItems.value.forEach(item => {
     item.selected = selectAll.value
   })
 }
 
+// ===== 已選數量 =====
 const selectedCount = computed(() => {
   return cartItems.value.filter(item => item.selected).length
 })
 
-const formatCurrency = value => {
-  return `NT${value.toFixed(2)}`
+// ===== 總金額 =====
+const totalPrice = computed(() => {
+  return cartItems.value.reduce((total, item) => {
+    return item.selected ? total + item.amount : total
+  }, 0)
+})
+
+// ===== 格式化金額 =====
+const formatCurrency = (value) => {
+  return value.toFixed(2)
 }
 
+// ===== 刪除商品 =====
 const delCart = async (id) => {
   try {
-    await delCartAPI(id)
-    cartItems.value = cartItems.value.filter(item => item.id !== id)
+    await cartStore.deleteCartItem(id)
     alert.showSuccess()
   } catch (error) {
-    console.error('Error deleting cart item:', error)
+    console.error(error)
     alert.showError()
   }
 }
 
+// ===== 結帳 =====
 const checkout = () => {
   router.replace({ path: '/order' })
   alert.showSuccess()

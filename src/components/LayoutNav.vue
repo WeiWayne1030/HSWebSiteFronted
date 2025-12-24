@@ -40,29 +40,34 @@
 import { ref, watch, onMounted, computed } from 'vue'
 import { useUserStore } from '@/stores/user'
 import { useCartStore } from '@/stores/cart'
+import { useRoute } from 'vue-router'
+
 import Person from '@/components/icons/Person.vue'
 import Cart from '@/components/icons/Cart.vue'
 import Order from '@/components/icons/Order.vue'
 import LogOutIcon from '@/components/icons/LogOutIcon.vue'
 import LogInIcon from '@/components/icons/LogInIcon.vue'
-import { useRoute } from 'vue-router'
 
+// ===== stores =====
 const userStore = useUserStore()
 const cartStore = useCartStore()
+
 const userInfo = userStore.userInfo
-const pagination = ref('')
+const pagination = ref({ page: 1, size: 20 })
+
+// ===== route 判斷 =====
 const route = useRoute()
-const isCartRoute = route.path === '/cart'
+const isCartRoute = computed(() => route.path === '/cart')
+
+// ===== badge 數量 =====
 const cartBadgeCount = computed(() => cartStore.cartCount)
 
-let loggedIn = Boolean(userInfo.name)
+// ===== 登入狀態 =====
+const loggedIn = computed(() => Boolean(userInfo.name))
 
-watch(() => userInfo.name, (newName) => {
-  loggedIn = Boolean(newName)
-})
-
-onMounted(async () => {
-    if (loggedIn.value) {
+// ===== 初始化抓購物車 =====
+onMounted(() => {
+  if (loggedIn.value) {
     cartStore.getCartInfo(pagination.value)
   }
 })
