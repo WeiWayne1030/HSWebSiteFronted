@@ -39,7 +39,7 @@
 <script setup>
 import { ref, watch, onMounted, computed } from 'vue'
 import { useUserStore } from '@/stores/user'
-import { getCartsAPI } from '@/apis/cart'
+import { useCartStore } from '@/stores/cart'
 import Person from '@/components/icons/Person.vue'
 import Cart from '@/components/icons/Cart.vue'
 import Order from '@/components/icons/Order.vue'
@@ -48,11 +48,12 @@ import LogInIcon from '@/components/icons/LogInIcon.vue'
 import { useRoute } from 'vue-router'
 
 const userStore = useUserStore()
+const cartStore = useCartStore()
 const userInfo = userStore.userInfo
 const pagination = ref('')
-const cartItems = ref([])
 const route = useRoute()
 const isCartRoute = route.path === '/cart'
+const cartBadgeCount = computed(() => cartStore.cartCount)
 
 let loggedIn = Boolean(userInfo.name)
 
@@ -61,19 +62,22 @@ watch(() => userInfo.name, (newName) => {
 })
 
 onMounted(async () => {
-  try {
-    const res = await getCartsAPI(pagination)
-    if (res && res.rows) {
-      cartItems.value = res.rows
-    } else {
-      console.error('Invalid API response:', res)
-    }
-  } catch (error) {
-    console.error('Error fetching product:', error)
+    if (loggedIn.value) {
+    cartStore.getCartInfo(pagination.value)
   }
 })
 
-const cartBadgeCount = computed(() => cartItems.value.length)
+// ===== 監聽登入狀態 =====
+watch(
+  () => userInfo.name,
+  (newName) => {
+    if (newName) {
+      cartStore.getCartInfo(pagination.value)
+    } else {
+      cartStore.clearCart()
+    }
+  }
+)
 
 </script>
  

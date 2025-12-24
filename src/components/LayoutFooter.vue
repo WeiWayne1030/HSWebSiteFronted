@@ -21,24 +21,18 @@
         <div class="text col-md-4">
           <h3>關注我們</h3>
           <div class="icon">
-            <div class="icon">
               <FBIcon />
-            </div>
-            <div class="icon">
               <IGIcon />
-            </div>
-            <div class="icon">
               <LineIcon />
-            </div>
           </div>
         </div>
 
         <!-- 聯絡資訊 -->
-        <div class="text col-md-4">
+        <div class="text">
           <h3>聯絡資訊</h3>
           <h4>服務時間：周一至周日 12:00-22:00</h4>
           <p>Email: contact@example.com</p>
-          <ul>
+          <ul class="link">
             <li>
               <el-link type="primary" href="#" target="_blank">即時服務</el-link>
             </li>

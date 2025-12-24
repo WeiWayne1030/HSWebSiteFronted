@@ -47,7 +47,7 @@ const handleButtonClick = () => {
   width: 300px;
   margin: 20px;
   padding: 20px;
-  transition: transform 0.3s, box-shadow 0.3s; /* 添加过渡效果 */
+  transition: transform 0.3s, box-shadow 0.3s; /* 過度效果 */
 
   &:hover {
     transform: translate3d(0, -3px, 0);
@@ -75,8 +75,8 @@ const handleButtonClick = () => {
 }
 .name {
   padding-top:10px;
-  width: 100%; /* 确保宽度占满父容器 */
-  white-space: normal; /* 允许文本换行 */
+  width: 100%; /* 確保寬度佔滿父容器 */
+  white-space: normal; /* 允許換行 */
 }
 
 .card-price {

@@ -54,7 +54,7 @@ const isActiveCategory = (categoryId) => {
   .category-link {
     position: relative;
     display: inline-block;
-    padding-bottom: 5px; /* 调整底线距离文字的间距 */
+    padding-bottom: 5px; /* 調整底線對於文字的間距 */
   }
   
   .category-underline {
