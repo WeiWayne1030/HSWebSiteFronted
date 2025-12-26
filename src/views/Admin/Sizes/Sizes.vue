@@ -117,8 +117,7 @@ const createSize = async () => {
   if (valid) {
     try {
       const { name } = formData.value
-      const res = await addSizeAPI({ name })
-      console.log(res)
+      await addSizeAPI({ name })
       alert.showSuccess()
       formData.value.name = ''
       fetchSize()
@@ -130,8 +129,7 @@ const createSize = async () => {
 
 const removeSize = async (sizeId) => {
   try {
-    const res = await removeSizeAPI({id:sizeId});
-    console.log(res)
+    await removeSizeAPI({id:sizeId});
     // refresh 表單
     fetchSize();
     alert.showSuccess()

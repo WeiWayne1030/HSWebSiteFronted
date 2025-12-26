@@ -197,12 +197,7 @@ const updateUserData = async () => {
        updatedData.append('introduction', editUserData.introduction),
        updatedData.append('avatar', editUserData.displayAvatarFile)
        updatedData.append('password', editUserData.password)
-       updatedData.append('checkPassword', editUserData.checkPassword)
-    // // 发送 PUT 请求以更新用户数据
-    // for (let [name, value] of updatedData.entries()) {
-    //     console.log(name + ': ' + value)
-    //   }
-    
+       updatedData.append('checkPassword', editUserData.checkPassword)   
     
     const res = await editUserFileAPI(updatedData)
     if (res) {

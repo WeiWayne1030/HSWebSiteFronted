@@ -113,8 +113,7 @@
 
   const saveStockNumber = async (stock, editedStockValue) => {
     try {
-      const res = await putStockNumberAPI({productNumber:stock.productNumber, itemStock:editedStockValue})
-      console.log(res)
+      await putStockNumberAPI({productNumber:stock.productNumber, itemStock:editedStockValue})
       // 更新成功後，將相應的 stock 的 itemStock 更新為新的值
       stock.itemStock = editedStockValue
       // 更新成功後，將表單重置

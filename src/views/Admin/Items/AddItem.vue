@@ -104,7 +104,6 @@ const formRef = ref(null)
     const res = await getItemsAPI(null)
   categories.value = res.categories
   } catch (error) {
-    console.log('error', error)
     alert.showError()
   }
 }
@@ -117,7 +116,6 @@ const handleFileChange = (e) => {
   else {
     const file = files[0]
     product.value.image = file
-    console.log(product.value.image)
     const imageURL = URL.createObjectURL(file)
     product.value.displayImage = imageURL
     alert.showSuccess()
@@ -131,7 +129,6 @@ onMounted(async () => {
 const addProduct = async () => {
   const valid = await formRef.value.validate()
   if (valid) {
-    console.log(product.value.image)
     try {
       const formData = new FormData()
       formData.append('name', product.value.name)
@@ -142,9 +139,8 @@ const addProduct = async () => {
       for (let [name, value] of formData.entries()) {
         console.log(name + ': ' + value)
       }
-      console.log(formData)
       const res = await addItemAPI(formData)
-      console.log(res)
+      (res)
       alert.showSuccess()
       router.replace('/admin/items')
     } catch (error) {

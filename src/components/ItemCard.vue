@@ -22,13 +22,12 @@
 import { ref, defineProps } from 'vue';
 import { useRouter } from 'vue-router';
 
-const props = defineProps({
+defineProps({
   item: {
     type: Object,
     required: true,
   },
 });
-console.log(props)
 
 const loading = ref(false);
 const router = useRouter();

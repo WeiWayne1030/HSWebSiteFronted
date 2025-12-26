@@ -105,9 +105,7 @@
   const submitForm = async () => {
     try {
       const { selectedColor, selectedItem, selectedSize, itemStock } = formData.value
-      console.log(selectedColor.name, selectedItem, selectedSize.id, itemStock)
-      const res = await addStockAPI({ colorName: selectedColor.name, ItemId: Number(selectedItem), SizeId: Number(selectedSize.id), itemStock:itemStock })
-      console.log(res)
+      await addStockAPI({ colorName: selectedColor.name, ItemId: Number(selectedItem), SizeId: Number(selectedSize.id), itemStock:itemStock })
       alert.showSuccess()
       //完成後清空表格
       formData.value = {

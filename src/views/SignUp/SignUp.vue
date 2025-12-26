@@ -87,8 +87,7 @@ const signup = async () => {
   if (valid) {
     try {
       const { name, account, password, email, checkPassword } = formData.value
-      const res = await signupAPI({ name, account, password, email, checkPassword })
-      console.log(res)
+      await signupAPI({ name, account, password, email, checkPassword })
       alert.showSuccess()
       router.replace('/login')
     } catch (error) {

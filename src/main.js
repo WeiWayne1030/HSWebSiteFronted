@@ -25,7 +25,7 @@ app.mount('#app')
 app.directive('img-lazy', {
   onMounted(el, binding) {
     // el：指令所綁定的元素，可以用來直接操作 DOM 。
-    // binding：一個對象，指愣的魚後面綁定的詞
+    // binding：一個對象，後面綁定的詞
     console.log(el, binding)
   }
 })

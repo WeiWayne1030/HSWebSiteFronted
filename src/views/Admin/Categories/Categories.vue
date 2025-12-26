@@ -117,8 +117,7 @@ const createCategory = async () => {
   if (valid) {
     try {
       const { name } = formData.value
-      const res = await addCategoryAPI({ name })
-      console.log(res)
+      await addCategoryAPI({ name })
       alert.showSuccess()
       formData.value.name = ''
       fetchCategory()
@@ -130,8 +129,7 @@ const createCategory = async () => {
 
 const removeCategory = async (categoryId) => {
   try {
-    const res = await removeCategoryAPI({id:categoryId})
-    console.log(res)
+    await removeCategoryAPI({id:categoryId})
     // refresh表單
     fetchCategory()
     alert.showSuccess()

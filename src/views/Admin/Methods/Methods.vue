@@ -117,8 +117,7 @@ const createMethod = async () => {
   if (valid) {
     try {
       const { name } = formData.value
-      const res = await addMethodAPI({ name })
-      console.log(res)
+      await addMethodAPI({ name })
       alert.showSuccess()
       formData.value.name = ''
       fetchMethod()
@@ -130,8 +129,7 @@ const createMethod = async () => {
 
 const removeMethod = async (methodId) => {
   try {
-    const res = await removeMethodAPI({id:methodId})
-    console.log(res)
+    await removeMethodAPI({id:methodId})
     // refresh 表單
     fetchMethod();
     alert.showSuccess()

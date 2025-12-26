@@ -79,8 +79,7 @@ const createColor = async () => {
   if (valid) {
     try {
       const { name } = formData.value
-      const res = await addColorAPI({ name })
-      console.log(res)
+      await addColorAPI({ name })
       alert.showSuccess()
       formData.value.name = ''
       fetchColor()
@@ -94,8 +93,7 @@ const delColor = async (colorData) => {
   try {
     //獲取選擇顏色的名稱
     const selectedColor = colorData.color
-    const res = await delColorAPI(selectedColor)
-    console.log(res)
+    await delColorAPI(selectedColor)
     fetchColor()
     alert.showSuccess()
   } catch (error) {
