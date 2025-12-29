@@ -1,8 +1,7 @@
 <template>
   <div>
     <!-- header,footer,nav -->
-    <LayoutNav />
-    <LayoutHeader />
+    
     <StocksNavPills />
   </div>
   <div v-if="isLoading" class="spinner">
@@ -47,14 +46,10 @@
       </el-form-item>
     </el-form>
   </div>
-  <LayoutFooter />
 </template>
 
 <script setup>
   import { ref, onMounted } from 'vue'
-  import LayoutFooter from '@/components/LayoutFooter.vue'
-  import LayoutNav from '@/views/Admin/adminComponent/LayoutNav.vue'
-  import LayoutHeader from '@/views/Admin/adminComponent/LayoutHeader.vue'
   import StocksNavPills from '@/views/Admin/Stock/Layout/StocksNavPills.vue'
   import Spinner from '@/components/Spinner.vue'
   import { getStocksAPI, addStockAPI } from '@/apis/admin/stock'

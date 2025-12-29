@@ -1,6 +1,5 @@
 <template>
-    <LayoutNav />
-    <LayoutHeader />
+    
     <div class="container">
       <h1 class="about-title">關於我們</h1>
       <div class="about-us">
@@ -14,13 +13,10 @@
         </div>
       </div>
     </div>
-    <LayoutFooter />
 </template>
 
 <script setup>
-  import LayoutFooter from '@/components/LayoutFooter.vue'
-  import LayoutNav from '@/components/LayoutNav.vue'
-  import LayoutHeader from '@/components/LayoutHeader.vue'
+  
 </script>
 
 <style scoped>

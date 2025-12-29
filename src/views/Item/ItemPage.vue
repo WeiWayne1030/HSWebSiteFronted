@@ -1,7 +1,6 @@
 <template>
   <div>
-    <LayoutNav />
-    <LayoutHeader />
+    
     <div v-if="isLoading" class="spinner">
       <Spinner />
     </div>
@@ -55,8 +54,6 @@
         <el-button type="primary" @click="addToCart">加入購物車</el-button>
       </div>
     </div>
-
-    <LayoutFooter />
   </div>
 </template>
 

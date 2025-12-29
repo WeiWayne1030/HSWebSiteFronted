@@ -1,7 +1,6 @@
 <template>
   <div class="page">
-    <LayoutNav />
-    <LayoutHeader @search="filterItems"/>
+    
     <div v-if="isLoading" class="spinner">
       <Spinner />
     </div>
@@ -10,15 +9,12 @@
       <ItemCard v-for="item in filteredItems" :key="item.id" :item="item" />
     </div>
   </div>
-  <LayoutFooter />
 </template>
 
 <script setup>
 import { ref, computed, onMounted, watch } from 'vue'
 import { getItemsAPI } from '@/apis/item'
-import LayoutFooter from '@/components/LayoutFooter.vue'
-import LayoutNav from '@/components/LayoutNav.vue'
-import LayoutHeader from '@/components/LayoutHeader.vue'
+import { useUiStore } from '@/stores/ui'
 import ItemsNavPills from '@/components/ItemsNavPills.vue'
 import ItemCard from '@/components/ItemCard.vue'
 import Spinner from '@/components/Spinner.vue'
@@ -32,6 +28,12 @@ const categoryId = ref("")
 const route = useRoute()
 const isLoading = ref(true)
 const searchQueryRef = ref('')
+const uiStore = useUiStore()
+
+// keep local search updated from header global search
+watch(() => uiStore.searchQuery, (val) => {
+  searchQueryRef.value = val
+})
 const fetchItems = async () => {
   try {
     const categoryIdValue = parseInt(route.query.CategoryId) // 將查詢參數轉換為數字
@@ -60,9 +62,9 @@ const filteredItems = computed(() => {
   
 });
 
+// legacy handler replaced by ui store; kept for compatibility
 const filterItems = (searchQuery) => {
-  // 在符合條件後渲染頁面
-  searchQueryRef.value = searchQuery;
+  searchQueryRef.value = searchQuery
 };
 
 

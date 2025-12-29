@@ -1,5 +1,4 @@
 <template>
-  <LayoutNav />
   <div class="login-container">
     <h1 class="title">使用者登入</h1>
     <div class="sigin-form">
@@ -18,7 +17,6 @@
       </el-form>
     </div>
   </div>
-  <LayoutFooter />
 </template>
 
 <script setup>

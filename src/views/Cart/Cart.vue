@@ -1,5 +1,5 @@
 <template>
-  <LayoutNav @updateBadgeCount="delCart" />
+  
   <div>
     <div class="header">
       <h1>購物車列表</h1>
@@ -41,7 +41,7 @@
             <td>{{ item.itemQuantity }}</td>
             <td>NT{{ formatCurrency(item.amount) }}</td>
             <td>
-              <a @click="() => delCart(item.id)">
+              <a @click="delCart(item.id)">
                 <TrashIcon />
               </a>
             </td>
@@ -60,7 +60,6 @@
       </div>
     </div>
   </div>
-  <LayoutFooter />
 </template>
 
 <script setup>

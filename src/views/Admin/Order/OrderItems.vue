@@ -1,8 +1,7 @@
 <template>
   <div>
     <!-- header,footer,nav -->
-    <LayoutNav />
-    <LayoutHeader />
+    
   </div>
   <div v-if="isLoading" class="spinner">
     <Spinner />
@@ -33,14 +32,10 @@
       <div class="div17">{{ item.updatedAt }}</div>
     </div>
   </div>
-  <LayoutFooter />
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import LayoutFooter from '@/components/LayoutFooter.vue'
-import LayoutNav from '@/views/Admin/adminComponent/LayoutNav.vue'
-import LayoutHeader from '@/views/Admin/adminComponent/LayoutHeader.vue'
 import Spinner from '@/components/Spinner.vue'
 import { getOrderItemsAPI } from '@/apis/admin/order'
 import { useRoute } from 'vue-router'

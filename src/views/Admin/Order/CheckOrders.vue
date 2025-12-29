@@ -1,8 +1,6 @@
 <template>
   <div>
   <!-- header,footer,nav -->
-  <LayoutNav />
-  <LayoutHeader />
   </div>
   <div v-if="isLoading" class="spinner">
     <Spinner />
@@ -41,14 +39,10 @@
     >
     </el-pagination>
   </div>
-  <LayoutFooter />
 </template>
 
 <script setup>
 import { ref, onMounted, watch,computed } from 'vue'
-import LayoutFooter from '@/components/LayoutFooter.vue'
-import LayoutNav from '@/views/Admin/adminComponent/LayoutNav.vue'
-import LayoutHeader from '@/views/Admin/adminComponent/LayoutHeader.vue'
 import AdminSearchBar from '@/views/Admin/Order/Layout/AdminSearchBar.vue'
 import Spinner from '@/components/Spinner.vue'
 import { getOrdersAPI } from '@/apis/admin/order'

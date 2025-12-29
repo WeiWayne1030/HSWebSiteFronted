@@ -1,7 +1,6 @@
 <template>
   <div>
-    <LayoutNav />
-    <LayoutHeader />
+    
     <div class="register-form">
       <el-form ref="formRef" :model="formData" :rules="rules" label-width="100px">
         <el-form-item label="姓名" prop="name">
@@ -25,7 +24,6 @@
         </el-form-item>
       </el-form>
     </div>
-    <LayoutFooter />
   </div>
 </template>
 

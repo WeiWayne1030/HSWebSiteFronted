@@ -1,7 +1,6 @@
 <template>
   <div>
-    <LayoutNav />
-    <LayoutHeader />
+    
     <div v-if="isLoading" class="spinner">
       <Spinner />
     </div>
@@ -37,7 +36,7 @@
         </div>
       </div>
     </el-card>
-    <LayoutFooter />
+    
     <!-- 編輯用戶頁面 -->
     <div v-if="isEditingUser" class="edit-user-modal">
       <div class="edit-user-modal-content">
@@ -102,9 +101,6 @@
 
 <script setup>
 import { ref, onMounted, reactive } from 'vue'
-import LayoutFooter from '@/components/LayoutFooter.vue'
-import LayoutNav from '@/components/LayoutNav.vue'
-import LayoutHeader from '@/components/LayoutHeader.vue'
 import { getUserFileAPI, editUserFileAPI } from '@/apis/user'
 import Spinner from '@/components/Spinner.vue'
 import { useAlertStore } from '@/stores/alert'

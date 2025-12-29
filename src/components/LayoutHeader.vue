@@ -22,7 +22,7 @@
 <script setup>
   import SearchIcon from '@/components/icons/SearchIcon.vue';
   import { ref } from 'vue'
-
+  import { useUiStore } from '@/stores/ui'
   const tabs = [
   {
     title: '首頁',
@@ -47,13 +47,12 @@
 ];
 
 
-const emit = defineEmits(['search']);
 let searchQuery = ref('')
+const uiStore = useUiStore()
 
 const handleSearch = () => {
-    //emit search到父 component
-    emit("search", searchQuery.value);
-  }
+  uiStore.setSearchQuery(searchQuery.value)
+}
 
 </script>
  

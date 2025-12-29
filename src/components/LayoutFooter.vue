@@ -93,9 +93,10 @@ const showMenu = ref(false);
   justify-content: space-between;
   align-items: center;
   position: relative;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  z-index: 1000;
+  min-height: 220px;
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 .container{
   position: relative;
@@ -185,7 +186,7 @@ const showMenu = ref(false);
   .footer-sections.open{ display: block; }
   .text{ width: 100%; padding: 12px 0; }
   .icon{ width: auto; justify-content: flex-start; gap: 12px; margin-right: 0; }
-  .fat-footer{ align-items: stretch; }
+  .fat-footer{ align-items: stretch; min-height: 360px; padding-top: 12px; padding-bottom: 24px; }
   .container{ padding: 8px 16px; }
   hr{ margin: 8px 0; border-color: rgba(255,255,255,0.15); }
 }

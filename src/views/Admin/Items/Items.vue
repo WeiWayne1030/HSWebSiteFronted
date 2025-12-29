@@ -1,8 +1,6 @@
 <template>
   <div>
   <!-- header,footer,nav -->
-    <LayoutNav />
-    <LayoutHeader />
     <AdminSearchBar2
       :categories="categories"
       :items="items"
@@ -27,7 +25,6 @@
       <div class="div17">{{ item.updatedAt }}</div>
     </div>
   </div>
-  <LayoutFooter />
 </template>
 
 <script setup>
@@ -36,9 +33,6 @@ import { getItemsAPI, removeItemAPI, relistItemAPI } from '@/apis/admin/adminIte
 import { useRoute } from 'vue-router'
 import { useAlertStore } from '@/stores/alert'
 import AdminSearchBar2 from '@/views/Admin/Stock/Layout/AdminSearchBar2.vue'
-import LayoutFooter from '@/components/LayoutFooter.vue'
-import LayoutNav from '@/views/Admin/adminComponent/LayoutNav.vue'
-import LayoutHeader from '@/views/Admin/adminComponent/LayoutHeader.vue'
 import Spinner from '@/components/Spinner.vue'
 
 const categories = ref([])

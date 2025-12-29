@@ -30,7 +30,8 @@ const router = createRouter({
   routes: [
     {
       path: '/login',
-      component: LogIn
+      component: LogIn,
+      meta: { hideHeader: true }
     },
     {
       path: '/',
@@ -50,7 +51,8 @@ const router = createRouter({
     },
     {
       path: '/signup',
-      component: SignUp
+      component: SignUp,
+      meta: { hideHeader: true }
     },
     {
       path: '/activity',
@@ -58,39 +60,48 @@ const router = createRouter({
     },
     {
       path: '/admin/orders',
-      component: CheckOrders
+      component: CheckOrders,
+      meta: { isAdmin: true }
     },
     {
       path:`/admin/orderItems/:orderNumber`,
-      component: OrderItems
+      component: OrderItems,
+      meta: { isAdmin: true }
     },
     {
       path: '/admin/item',
-      component: AddItem
+      component: AddItem,
+      meta: { isAdmin: true }
     },
     {
       path:'/admin/stock',
-      component: Stock
+      component: Stock,
+      meta: { isAdmin: true }
     },
     {
       path:'/admin/items',
-      component: AllItems
+      component: AllItems,
+      meta: { isAdmin: true }
     },
     {
       path:'/admin/colors',
-      component: Colors
+      component: Colors,
+      meta: { isAdmin: true }
     },
     {
       path:'/admin/sizes',
-      component: Sizes
+      component: Sizes,
+      meta: { isAdmin: true }
     },
     {
       path:'/admin/methods',
-      component: Methods
+      component: Methods,
+      meta: { isAdmin: true }
     },
         {
       path:'/admin/categories',
-      component: Categories
+      component: Categories,
+      meta: { isAdmin: true }
     },
     // {
     //   path:'/admin/:id/Stock/update',
@@ -114,7 +125,8 @@ const router = createRouter({
     },
     {
       path:'/admin/addStock',
-      component: AddStock
+      component: AddStock,
+      meta: { isAdmin: true }
     }
   ]
 })

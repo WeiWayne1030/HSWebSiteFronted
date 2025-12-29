@@ -1,8 +1,6 @@
 <template>
   <div>
     <!-- header,footer,nav -->
-    <LayoutNav />
-    <LayoutHeader />
     <StocksNavPills />
     <div class="add-product">
       <h2 class="addItem-title">新增商品</h2>
@@ -48,14 +46,12 @@
         </el-form-item>
       </el-form>
     </div>
-    <LayoutFooter />
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import LayoutNav from '@/views/Admin/adminComponent/LayoutNav.vue'
-import LayoutHeader from '@/views/Admin/adminComponent/LayoutHeader.vue'
+
 import StocksNavPills from '@/views/Admin/Stock/Layout/StocksNavPills.vue'
 import { addItemAPI } from '@/apis/admin/adminItem'
 import { useRouter } from 'vue-router'

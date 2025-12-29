@@ -1,7 +1,6 @@
 <template>
   <div>
-    <LayoutNav />
-    <LayoutHeader />
+    
     <div class="build-order">
       <h2>建立訂單</h2>
       <el-form :model="receiverForm" :rules="rules" label-width="100px" :ref="formRef">
@@ -32,7 +31,6 @@
         </el-form-item>
       </el-form>
     </div>
-    <LayoutFooter />
   </div>
 </template>
 

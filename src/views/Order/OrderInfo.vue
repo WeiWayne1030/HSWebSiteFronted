@@ -1,8 +1,6 @@
 <template>
   <div>
     <!-- header,footer,nav -->
-    <LayoutNav />
-    <LayoutHeader />
     </div>
     <div v-if="isLoading" class="spinner">
       <Spinner />
@@ -33,14 +31,10 @@
         </div>
       </div>
     </div>
-  <LayoutFooter />
 </template>
 
 <script setup>
   import { ref, onMounted, computed } from 'vue'
-  import LayoutFooter from '@/components/LayoutFooter.vue'
-  import LayoutNav from '@/components/LayoutNav.vue'
-  import LayoutHeader from '@/components/LayoutHeader.vue'
   import AdminSearchBar from '@/views/Admin/Order/Layout/AdminSearchBar.vue'
   import Spinner from '@/components/Spinner.vue'
   import { getOrdersAPI } from '@/apis/order'

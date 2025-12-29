@@ -1,9 +1,33 @@
 <template>
-  <!-- 一級路由 -->
-  <RouterView />
+  <div class="site-root">
+    <template v-if="isAdmin">
+      <AdminLayoutNav />
+      <AdminLayoutHeader />
+    </template>
+    <template v-else>
+      <LayoutNav />
+      <LayoutHeader v-if="!hideHeader" />
+    </template>
+    <main class="site-main">
+      <RouterView />
+    </main>
+    <LayoutFooter />
+  </div>
 </template>
 
 <script setup>
+import LayoutNav from '@/components/LayoutNav.vue'
+import LayoutHeader from '@/components/LayoutHeader.vue'
+import LayoutFooter from '@/components/LayoutFooter.vue'
+import AdminLayoutNav from '@/views/Admin/adminComponent/LayoutNav.vue'
+import AdminLayoutHeader from '@/views/Admin/adminComponent/LayoutHeader.vue'
+import { useRoute } from 'vue-router'
+import { computed } from 'vue'
+
+const route = useRoute()
+
+const hideHeader = computed(() => !!(route.meta && route.meta.hideHeader))
+const isAdmin = computed(() => !!(route.meta && route.meta.isAdmin) || route.path?.startsWith('/admin'))
 </script>
 
 <style scoped>

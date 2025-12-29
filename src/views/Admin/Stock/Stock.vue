@@ -2,8 +2,6 @@
 <div>
     <!-- header,footer,nav -->
     <div>
-      <LayoutNav />
-      <LayoutHeader />
       <StocksNavPills />
     </div>
     <div v-if="isLoading" class="spinner">
@@ -55,14 +53,10 @@
       </div>
     </div>
   </div>
-  <LayoutFooter />
 </template>
 
 <script setup>
   import { ref, onMounted, watch } from 'vue'
-  import LayoutFooter from '@/components/LayoutFooter.vue'
-  import LayoutNav from '@/views/Admin/adminComponent/LayoutNav.vue'
-  import LayoutHeader from '@/views/Admin/adminComponent/LayoutHeader.vue'
   import AdminSearchBar2 from '@/views/Admin/Stock/Layout/AdminSearchBar2.vue'
   import StocksNavPills from '@/views/Admin/Stock/Layout/StocksNavPills.vue'
   import Spinner from '@/components/Spinner.vue'

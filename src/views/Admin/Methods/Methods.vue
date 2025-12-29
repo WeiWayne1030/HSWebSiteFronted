@@ -1,8 +1,6 @@
 <template>
   <div>
   <!-- header,footer,nav -->
-  <LayoutNav />
-  <LayoutHeader />
   <OthersNavPills />
   </div>
   <div v-if="isLoading" class="spinner">
@@ -72,14 +70,10 @@
       </el-main>
     </el-container>
   </div>
-  <LayoutFooter />
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import LayoutFooter from '@/components/LayoutFooter.vue'
-import LayoutNav from '@/views/Admin/adminComponent/LayoutNav.vue'
-import LayoutHeader from '@/views/Admin/adminComponent/LayoutHeader.vue'
 import OthersNavPills from '@/views/Admin/adminComponent/OthersNavPills.vue'
 import Spinner from '@/components/Spinner.vue'
 import { addMethodAPI, getMethodsAPI, removeMethodAPI,relistMethodAPI, delMethodAPI} from '@/apis/admin/other/method'
