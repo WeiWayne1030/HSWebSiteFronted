@@ -1,59 +1,47 @@
 import { fileURLToPath, URL } from 'node:url'
-import { defineConfig } from 'vite'
+import { defineConfig } from 'vitest/config'
 import vue from '@vitejs/plugin-vue'
-
-//引入elementPlus按需導入
 import AutoImport from 'unplugin-auto-import/vite'
-import  Component  from 'unplugin-vue-components/vite'
+import Component from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 
-// eslint-disable-next-line no-control-regex
-const INVALID_CHAR_REGEX = /[\x00-\x1F\x7F<>*#"{}|^[\]`;?:&=+$,]/g;
-const DRIVE_LETTER_REGEX = /^[a-z]:/i;
-
-// https://vitejs.dev/config/
 export default defineConfig({
-  base:'./',
+  base: './',
   plugins: [
     vue(),
-    //...
     AutoImport({
       resolvers: [ElementPlusResolver()],
     }),
     Component({
-      resolvers: [ElementPlusResolver({ importStyle: "sass"})],
+      // ⚠️ 不 import CSS，避免 Vitest 報錯
+      resolvers: [ElementPlusResolver({ importStyle: false })],
     }),
   ],
   resolve: {
     alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url))
-    }
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
+      // 將 CSS / SCSS mock 成空物件
+      '\\.css$': fileURLToPath(new URL('./tests/__mocks__/styleMock.js', import.meta.url)),
+      '\\.scss$': fileURLToPath(new URL('./tests/__mocks__/styleMock.js', import.meta.url)),
+    },
   },
   css: {
     preprocessorOptions: {
       scss: {
         additionalData: `
-        @use "@/styles/element/index.scss" as *;
-        @use "@/styles/var.scss" as *;
-        `
-      }
-    }
-  },
-  build: {
-    rollupOptions: {
-      output: {
-        // https://github.com/rollup/rollup/blob/master/src/utils/sanitizeFileName.ts
-        sanitizeFileName(name) {
-          const match = DRIVE_LETTER_REGEX.exec(name);
-          const driveLetter = match ? match[0] : '';
-          // substr 是被淘汰語法，因此要改 slice
-          return (
-            driveLetter +
-            name.slice(driveLetter.length).replace(INVALID_CHAR_REGEX, "")
-          );
-        },
+          @use "@/styles/element/index.scss" as *;
+          @use "@/styles/var.scss" as *;
+        `,
       },
     },
   },
+  test: {
+    environment: 'jsdom',
+    globals: true,
+    setupFiles: ['./tests/setup.js'],
+    css: false, // Vitest 不解析 CSS
+    deps: {
+      inline: [/element-plus/], // 將 Element Plus module 內聯，避免 import CSS
+    },
+  },
 })
-
