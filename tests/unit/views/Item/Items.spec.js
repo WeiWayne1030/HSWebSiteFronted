@@ -1,37 +1,72 @@
 import { shallowMount } from '@vue/test-utils'
 import { describe, it, expect, vi } from 'vitest'
+import flushPromises from 'flush-promises'
 import Items from '../../../../src/views/Item/Items.vue'
 
-// mock API
+/**
+ * mock vue-router
+ * 因為 Items.vue 使用 useRoute()
+ */
+vi.mock('vue-router', () => ({
+  useRoute: () => ({
+    query: {
+      CategoryId: '1'
+    }
+  })
+}))
+
+/**
+ * mock API
+ */
 vi.mock('../../../../src/apis/item', () => ({
-  getItemsAPI: vi.fn(() => Promise.resolve({
-    items: [
-      { id: 1, name: 'Dummy Item 1', state: 1 },
-      { id: 2, name: 'Dummy Item 2', state: 1 }
-    ],
-    categories: [{ id: 1, name: 'Category 1' }]
-  }))
+  getItemsAPI: vi.fn(() =>
+    Promise.resolve({
+      items: [
+        {
+          id: 1,
+          name: 'Dummy Item A',
+          price: 100,
+          state: 1,
+          image: '/public/screenshots/暫無圖片.jpg',
+          Category: { id: 1, name: 'Shirts' }
+        },
+        {
+          id: 2,
+          name: 'Dummy Item B',
+          price: 200,
+          state: 1,
+          image: '/public/screenshots/暫無圖片.jpg',
+          Category: { id: 2, name: 'Plants' }
+        }
+      ],
+      categories: [{ id: 1, name: 'All' }]
+    })
+  )
 }))
 
 describe('Items view', () => {
-  it('mounts and renders items', async () => {
+  it('renders ItemCard components with correct props', async () => {
+    // Arrange
     const wrapper = shallowMount(Items, {
       global: {
-        mocks: {
-          $route: { query: { CategoryId: '1' } } // 直接 mock $route
-        },
-        stubs: ['ItemCard', 'ItemsNavPills', 'Spinner']
+        stubs: {
+          ItemCard: true,
+          ItemsNavPills: true,
+          Spinner: true
+        }
       }
     })
 
-    // 等待 onMounted 裡的 async API 完成
-    await vi.runAllTicks()
+    // 等待 onMounted 裡的 API Promise
+    await flushPromises()
 
+    // Assert
     expect(wrapper.exists()).toBe(true)
 
-    // 檢查 items 是否正確渲染
-    const text = wrapper.text()
-    expect(text).toContain('Dummy Item 1')
-    expect(text).toContain('Dummy Item 2')
+    const itemCards = wrapper.findAllComponents({ name: 'ItemCard' })
+    expect(itemCards).toHaveLength(2)
+
+    expect(itemCards[0].props('item').name).toBe('Dummy Item A')
+    expect(itemCards[1].props('item').name).toBe('Dummy Item B')
   })
 })
