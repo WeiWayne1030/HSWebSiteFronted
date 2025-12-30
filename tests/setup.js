@@ -1,14 +1,9 @@
 // tests/setup.js
 import { expect } from 'vitest'
-import * as matchers from '@testing-library/jest-dom/matchers'
 import { config } from '@vue/test-utils'
 import ElementPlus from 'element-plus'
 import { createPinia, setActivePinia } from 'pinia'
 
-// ==============================
-// 1️⃣ 擴充 jest-dom matchers 給 Vitest
-// ==============================
-expect.extend(matchers)
 
 // ==============================
 // 2️⃣ 建立全域 Pinia
